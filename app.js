@@ -14,9 +14,17 @@ const app=new Koa();
 const pub=new Router();
 app.keys=['your-secret'];
 render(app,{root:'views', development: true})
-
 pub.get('/', async ctx=>{
 ctx.body=await ctx.render('main',{});	
+})
+pub.get('/api', async ctx=>{
+	console.log("ctx.params: ", ctx.params);
+ctx.body=await ctx.render('main',{});	
+})
+pub.get('/api/:vid', async ctx=>{
+	let a=ctx.params.vid;
+	console.log("ctx.params.vid: ", a);
+ctx.body=ctx.params;	
 });
 app.use(pub.routes()).use(pub.allowedMethods());
 app.on('error',(err, ctx)=>{
