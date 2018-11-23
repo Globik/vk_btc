@@ -2,11 +2,11 @@ const main=n=>{
 return `<html><head><title>vk app</title>
 <style>
 body{background:red;}
-#out{display:block;border:5px solid green;position:relative;width:normaln;padding:0;margin:0;
+#out{display:block;border:5px solid green;position:relative;width:normal;padding:0;margin:0;
 white-space:pre-wrap;
 word-break:break-word;
 overflow-wrap: break-word;
-height:500px;
+/*height:500px;*/
 overflow: scroll;
 
 }
@@ -19,18 +19,28 @@ window.onload=(function(){
 out=document.getElementById("out");
 VK.init(function(){
 //alert('success '+document.location.search);	
+//alert(window.location.search);
  var parts=document.location.search.substr(1).split("&");
  var flashvars={},curr;
 for(var i=0;i<parts.length;i++){
 curr=parts[i].split('=');
 flashvars[curr[0]]=curr[1];	
-out.innerHTML+="<b>"+curr[0]+"</b><br>"+"<span>"+curr[1]+"</span><br>"; 
+var lk=(curr[0]=="api_result"? decodeURIComponent(curr[1]) : "");
+//api_result{"response":[{"uid":160441250,"first_name":"Сергей","last_name":"Шаболов"}]}
+out.innerHTML+="<b>"+curr[0]+"</b>"+lk+"<br>"+"<span>"+curr[1]+"</span><br>"; 
 }
 try{
 //out.textContent=JSON.stringify(flashvars);
 
 //out.style
 }catch(e){alert(e);}
+VK.addCallback('onGroupSettingsChanged',function(e, token){
+	alert("group change "+e+" "+token);
+	// e=64, token=  token for rights=>  e2efc1dca2bf0c52d0636c270c9c8c8069b6aca2d7b8c49cb3658f9573ce046d4f3cbc10856575ff4ac19
+	
+	out.innerHTML+="<br>"+"e: "+e+"<br>"+"token: "+token;
+	});
+VK.callMethod("showGroupSettingsBox", 64);
 },function(){
 //alert('fails');	
 out.innerHTML="fails";
@@ -70,4 +80,7 @@ https://my_app_local.ru:8000/api?
 * &referrer=unknown
 * &lc_name=3553232a&sign=28d4************************201009a2b512e893b800267fc6a5985b2da6abacdaf77
 * &hash=
+* sign: 07e082a6d33d34bcbfca66caf36e09ac1cf9c6ac066c432f49e7118c6dfeed1a
+* $secret = secret key app
+* $sig=$secret ? hash_hmac('sha256', $sign, $secret):"";
 */
