@@ -15,15 +15,23 @@ const pub=new Router();
 app.keys=['your-secret'];
 render(app,{root:'views', development: true})
 pub.get('/', async ctx=>{
-ctx.body=await ctx.render('main',{});	
+ctx.body={info:"main"};//await ctx.render('main',{});	
 })
 pub.get('/api', async ctx=>{
 	console.log("ctx.params: ", ctx.params);
+	//console.log("ctx.url: ", ctx.url);// ok, just like there, on frontend, all stuff in url, hashtag etc
+	console.log("ctx.path: ", ctx.path);
+	//console.log("req ",ctx.cookies);
 ctx.body=await ctx.render('main',{});	
 })
+pub.get('/page', async ctx=>{
+ctx.body=await ctx.render('page',{});	
+});
 pub.get('/api/:vid', async ctx=>{
 	let a=ctx.params.vid;
 	console.log("ctx.params.vid: ", a);
+	console.log("ctx.url: ", ctx.url);
+	console.log("ctx.path: ", ctx.path);
 ctx.body=ctx.params;	
 });
 app.use(pub.routes()).use(pub.allowedMethods());
