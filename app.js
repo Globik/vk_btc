@@ -5,6 +5,7 @@ const koaBody=require('koa-body');
 const render=require('koa-rend');
 const serve=require('koa-static');
 const Router=require('koa-router');
+const urli=require('url');
 
 const MY_PORT=8000;
 const MY_HOSTNAME='my_app_local.ru';
@@ -19,12 +20,33 @@ ctx.body={info:"main"};//await ctx.render('main',{});
 })
 pub.get('/api', async ctx=>{
 	console.log("ctx.params: ", ctx.params);
-	//console.log("ctx.url: ", ctx.url);// ok, just like there, on frontend, all stuff in url, hashtag etc
+	console.log("ctx.url: ", ctx.url);// ok, just like there, on frontend, all stuff in url, hashtag etc
 	console.log("ctx.path: ", ctx.path);
+	console.log("ctx.href: ", ctx.href);
+	console.log("ctx.query: ", ctx.query);//perfect! genau richtig what I need, there is a parsed object for you
+	// though if there is a custom "hash" key one need extract extra key value paires
+	console.log("ctx.querystring: ", ctx.querystring);
+	console.log("ctx.origin: ", ctx.origin);
 	//console.log("req ",ctx.cookies);
+	let hash_query_str=ctx.query.hash;
+	console.log('hash_str: ', hash_query_str);// if no such a key it's undefined otherwise as is
+	if(hash_query_str){
+	let param=new urli.URLSearchParams(hash_query_str);
+//pipka mishka
+let pipka=param.get('pipka');
+let mishka=param.get('mishka');
+let fake=param.get('fake');
+console.log('pipka: ', pipka);//suka
+console.log('mishka: ', mishka);//dura
+console.log('fake: ', fake);//null	
+let is_fake=param.has('fake');
+console.log("is_fake: ", is_fake);// true or false
+	}
 ctx.body=await ctx.render('main',{});	
 })
 pub.get('/page', async ctx=>{
+console.log("/page ctx.query: ", ctx.query);//if no query, so simply {}
+console.log("/page ctx.href: ", ctx.href);
 ctx.body=await ctx.render('page',{});	
 });
 pub.get('/api/:vid', async ctx=>{
