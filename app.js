@@ -6,6 +6,7 @@ const render=require('koa-rend');
 const serve=require('koa-static');
 const Router=require('koa-router');
 const urli=require('url');
+const session=require('koa-session');
 
 const MY_PORT=8000;
 const MY_HOSTNAME='my_app_local.ru';
@@ -14,9 +15,14 @@ const dcert='/home/globik/alikon/data/mycert.pem';
 const app=new Koa();
 const pub=new Router();
 app.keys=['your-secret'];
+app.use(session({httpOnly:false,signed: false,secure:false}, app));
 render(app,{root:'views', development: true})
 pub.get('/', async ctx=>{
-ctx.body={info:"main"};//await ctx.render('main',{});	
+let n=ctx.session.views || 0;
+ctx.session.views=++n;
+let b=ctx.cookies.get('koa:sess');
+ctx.cookies.set("mumi","fucky");
+ctx.body={info:"main", n: n, req: ctx.request, cook: b, sessions: ctx.session};//await ctx.render('main',{});	
 })
 pub.get('/api', async ctx=>{
 	console.log("ctx.params: ", ctx.params);
@@ -42,6 +48,8 @@ console.log('fake: ', fake);//null
 let is_fake=param.has('fake');
 console.log("is_fake: ", is_fake);// true or false
 	}
+	console.log("sessions: ", ctx.session);
+	console.log("request: ",ctx.request);
 ctx.body=await ctx.render('main',{});	
 })
 pub.get('/page', async ctx=>{
@@ -54,6 +62,10 @@ pub.get('/api/:vid', async ctx=>{
 	console.log("ctx.params.vid: ", a);
 	console.log("ctx.url: ", ctx.url);
 	console.log("ctx.path: ", ctx.path);
+	
+	console.log("sessions: ", ctx.session);
+	console.log("request: ",ctx.request);
+	
 ctx.body=ctx.params;	
 });
 app.use(pub.routes()).use(pub.allowedMethods());
