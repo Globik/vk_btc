@@ -5,6 +5,7 @@ const koaBody=require('koa-body');
 const render=require('koa-rend');
 const serve=require('koa-static');
 const Router=require('koa-router');
+const passport=require('koa-passport');
 const urli=require('url');
 const session=require('koa-session');
 
@@ -17,12 +18,27 @@ const pub=new Router();
 app.keys=['your-secret'];
 app.use(session({httpOnly:false,signed: false,secure:false}, app));
 render(app,{root:'views', development: true})
+app.use(koaBody())
+require('./auth/fake.js')('pool',passport)
+app.use(passport.initialize())
+app.use(passport.session())
+
+
+
 pub.get('/', async ctx=>{
 let n=ctx.session.views || 0;
 ctx.session.views=++n;
 let b=ctx.cookies.get('koa:sess');
 ctx.cookies.set("mumi","fucky");
-ctx.body={info:"main", n: n, req: ctx.request, cook: b, sessions: ctx.session};//await ctx.render('main',{});	
+console.log("UUUSSSEEERRR: ", ctx.state.user);
+let data={info:"main", n: n, req: ctx.request, cook: b, sessions: ctx.session, state: ctx.state.user};
+let data_json;
+try{
+data_json=JSON.stringify(data);	
+}catch(e){
+data_json=e;	
+}
+ctx.body=await ctx.render('main_page',{some_data: data_json});	
 })
 pub.get('/api', async ctx=>{
 	console.log("ctx.params: ", ctx.params);
@@ -68,6 +84,30 @@ pub.get('/api/:vid', async ctx=>{
 	
 ctx.body=ctx.params;	
 });
+
+pub.post('/login', async function(ctx,next){
+if(ctx.isAuthenticated()){console.log("already authenticated", ctx.state.user);
+	//return ctx.redirect("/");
+	}
+return  await passport.authenticate('local', async function(err,user,info,status){
+if(err){
+//ctx.session.bmessage={success:false,error:err.message}; 
+console.log("err in login: ", err.message, " ",info, " ", status);
+return ctx.redirect('/');
+}
+if(user===false){
+//ctx.session.bmessage={success:false, error:info.message};
+console.log("info: ", info.message);
+ctx.redirect('/')
+}else{
+console.log("it's ok, there is user found");
+console.log("err: ", err, "user: ", user, "info: ", info, "status: ", status);
+//ctx.redirect(ctx.session.dorthin || '/')
+return  await ctx.login(user)
+}
+})(ctx, next)
+})
+
 app.use(pub.routes()).use(pub.allowedMethods());
 app.on('error',(err, ctx)=>{
 console.log('app.on.error: ',err.message, ctx.request.url);

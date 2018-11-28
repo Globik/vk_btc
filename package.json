@@ -11,6 +11,7 @@
   "devDependencies": {},
   "license": "MIT",
   "dependencies": {
+    "koa-passport": "^4.1.0",
     "koa-session": "^5.10.0"
   },
   "engines": {
