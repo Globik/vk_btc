@@ -1,14 +1,15 @@
 const LocalStrategy=require('passport-local').Strategy;
 const find_target=(arr,id,m)=>new Promise((resolve, reject)=>resolve(arr.find(el=>el[id]==m)))
-module.exports=function(db,passport){
+module.exports=function(fake_db,passport){
 	
-var fake_user_list=[{uname:"Vadik",id:1, role:"admin", email:"fake@ya.ru", pwd:"pwd"}]
+var fake_user_list=fake_db;
+//[{uname:"Vadik", id:1, role:"admin", email:"fake@ya.ru", pwd:"pwd"}]
 
 //find_target(fake_user_list,"uname","Vadik").then(d=>{console.log("user: ", d)})
 
-passport.serializeUser(function pass_serialize(user,done){
-console.log('in serialize USERA: ',user);
-done(null,user)
+passport.serializeUser(function pass_serialize(luser,done){
+console.log('in serialize USERA: ',luser);
+done(null,luser.id)
 })
 
 passport.deserializeUser(async function pass_deserialize(id,done){
@@ -21,14 +22,14 @@ done(e)
 }
 })
 
-passport.use(new LocalStrategy({usernameField:'uname',passwordField:'password'},async function do_loc_strat(uname,password,done){
+passport.use(new LocalStrategy({usernameField:'uname', passwordField:'password'}, async function do_loc_strat(uname,password,done){
 console.log("loc strategy: ", uname, " ", password);
 try{
 let user=await find_target(fake_user_list, "uname", uname)
 console.log("user in loc strat: ", user);
-
+let bus=user;
 if(!user){return done(null,false,{message:'Wrong user email or password!'})}
-return done(null,user,{message:'Erfolgreich loged in!!!'})
+return done(null, bus,{message:'Erfolgreich loged in!!!'})
 }catch(err){return done(err)} 
 
 }))

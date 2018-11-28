@@ -72,6 +72,7 @@ window.onresize=on_window_resize;
 window.onorientationchange=on_window_resize;
 </script>
 </head><body id="sbody"><a href="/page">page</a><h1>vk app</h1>
+<h4>viewer_id: ${n.viewer_id}</h4>
 <div id="out"></div>
 </body></html>`;
 }
