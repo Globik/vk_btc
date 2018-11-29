@@ -77,9 +77,10 @@ console.log("is_fake: ", is_fake);// true or false
 ctx.body=await ctx.render('main',{viewer_id: fake_user_list[0].account});	
 })
 pub.get('/page', async ctx=>{
-console.log("/page ctx.query: ", ctx.query);//if no query, so simply {}
+console.log("/page ctx.query: ", ctx.query,"ctx.url", ctx.url);//if no query, so simply {}
 console.log("/page ctx.href: ", ctx.href);
 console.log("CTXUSER: ", ctx.state.user);
+console.log("sessions: ", ctx.session);
 fake_user_list[0].kind="vk_account";
 ctx.body=await ctx.render('page',{});	
 });
