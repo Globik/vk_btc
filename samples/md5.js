@@ -1,9 +1,11 @@
 const crypto=require('crypto');
 const data_str="some data string";
 const app_id=6753809;
-const priv_key="p***6";// защищенный ключ
-const priv_key2="aaaaaaaaaaaaa";//сервисный ключ доступа
-const viewer_id=100000000;
+const priv_key="pd06";// защищенный ключ
+const viewer_id=11441250;
+
+
+const fake_viewer_id=11441250;
 
 var mug=crypto.createHash('md5').update(data_str).digest('hex');
 const mug_eq="971924a330e64ad286842015e4ed3888";

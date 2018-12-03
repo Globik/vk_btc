@@ -12,7 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "koa-passport": "^4.1.0",
-    "koa-session": "^5.10.0"
+    "koa-session": "^5.10.0",
+    "passport-oauth2": "^1.4.0"
   },
   "engines": {
     "node": ">=7.6"
