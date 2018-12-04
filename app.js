@@ -45,7 +45,7 @@ data_json=e;
 ctx.body=await ctx.render('main_page', {some_data: data_json});	
 })
 
-pub.get('/api', doo, async ctx=>{
+pub.get('/api', /* doo,*/ async ctx=>{
 console.log("ctx.params: ", ctx.params);
 console.log("ctx.url: ", ctx.url);// ok, just like there, on frontend, all stuff in url, hashtag etc
 console.log("ctx.path: ", ctx.path);
@@ -75,6 +75,7 @@ console.log("is_fake: ", is_fake);// true or false
 console.log("sessions: ", ctx.session);
 console.log("request: ",ctx.request.header.cookie);
 console.log("USER: ", ctx.state.user);
+console.log("ctx.state: ", ctx.state.account);
 
 ctx.body=await ctx.render('main', {viewer_id: fake_user_list[0].account});	
 })
@@ -99,7 +100,7 @@ pub.get('/api/:vid', async ctx=>{
 	
 ctx.body=ctx.params;	
 });
-//pub.get('/api',
+
 async  function doo(ctx, next){
 console.log('in dow SESSIONS:', ctx.session);
 console.log('in dow ctx.user: ', ctx.state.user);
@@ -115,13 +116,15 @@ console.log("err: ", err, "user: ", user, "info: ", info);
 //console.log("url:", ctx.url);
 //return next();
 }
-//);
+
+pub.get('/lapi',passport.authenticate('fake',{successRedirect:'/api'}));
+pub.get('/lapi',passport.authorize('fake',{successRedirect:'/api'}));
 
 pub.post('/login', async function(ctx,next){
 if(ctx.isAuthenticated()){console.log("already authenticated", ctx.state.user);
-	return ctx.redirect("/");
+	//return ctx.redirect("/");
 	}
-return  await passport.authenticate('local', async function(err,user,info,status){
+return  await passport.authorize('local', async function(err,user,info,status){
 if(err){
 //ctx.session.bmessage={success:false,error:err.message}; 
 console.log("err in login: ", err.message, " ",info, " ", status);
@@ -139,7 +142,7 @@ return  await ctx.login(user)
 }
 })(ctx, next)
 })
-
+//pub.get('/login',passport.authorize('local',{successRedirect: '/'}));
 pub.get('/logout', ctx=>{ctx.logout();ctx.redirect('/');});
 
 app.use(pub.routes()).use(pub.allowedMethods());

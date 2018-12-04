@@ -40,7 +40,7 @@ function Strateg(options, verify){
 
 fakeStrategy.prototype.authenticate=function(req, options) {
 console.log("lool");
-//console.log("REQ=> ", req);//ok for req
+console.log("REQ=> ", req.user);//ok for req
 options = options || {};
 var self=this;
 
@@ -54,8 +54,7 @@ var state="some_state verif";
 if(state){info.state=state;}
 self.success(user, info);
 }
-
-
+console.log("REDIRECT: ", options.successRedirect);
 var ad=new urli.URL(this.fake_url_str);
 console.log('ad: ', ad.searchParams);
 let auth_key=ad.searchParams.get('auth_key');
@@ -70,10 +69,10 @@ var fake_user_list=fake_db;
 
 //find_target(fake_user_list,"uname","Vadik").then(d=>{console.log("user: ", d)})
 
-passport.use(new fakeStrategy({vkapp_protected_key: fake_vkapp_protected_key, url:"https://my_local_app.ru:8000/api",
+passport.use(new fakeStrategy({passReqToCallback:true,vkapp_protected_key: fake_vkapp_protected_key, url:"https://my_local_app.ru:8000/api",
 fake_url_str: fake_url_str},
  function(req, auth_key, done){
-//console.log('***req: ***', req);//req must be, aha ok
+console.log('***req: ***', req);//req must be, aha ok
 console.log("auth_key: ", auth_key);
 var addis=`${fake_vk_app_id}_${fake_viewer_id}_${fake_vkapp_protected_key}`;
 console.log("addis: ", addis);
@@ -86,6 +85,7 @@ return done(null,{id: 2, vker:"Mer"}, {message:"info msg here"});
 
 passport.serializeUser(function pass_serialize(luser,done){
 console.log('in serialize USERA: ',luser);
+luser.fucker="sdddddd";
 done(null,luser.id)
 })
 
@@ -93,17 +93,23 @@ passport.deserializeUser(async function pass_deserialize(id,done){
 console.log("from within deserializeUser")
 try{
 let us=await find_target(fake_user_list, "id", id);
+us.account="pioooo";
 done(null, us)
 }catch(e){
 done(e)
 }
 })
 
-passport.use(new LocalStrategy({usernameField:'uname', passwordField:'password'}, async function do_loc_strat(uname,password,done){
+passport.use(new LocalStrategy({passReqToCallback:true,usernameField:'uname', passwordField:'password'}, 
+async function do_loc_strat(req,uname,password,done){
+	console.log("REQ+> ", req);
+	console.log("ACCOUNT: ",req.account);
+	req.account="suka";
 console.log("loc strategy: ", uname, " ", password);
 try{
 let user=await find_target(fake_user_list, "uname", uname)
 console.log("user in loc strat: ", user);
+user.account="duj";
 let bus=user;
 if(!user){return done(null,false,{message:'Wrong user email or password!'})}
 return done(null, bus,{message:'Erfolgreich loged in!!!'})
