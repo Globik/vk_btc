@@ -1,3 +1,12 @@
+//process environments
+// sudo leafpad /etc/environment
+//VK_BTC_TEST_APP_ID='6***9'
+//VK_BTC_TEST_SECRET_KEY='p***U6'
+// source /etc/environment
+// echo $VK_BTC_TEST_APP_ID
+
+
+
 const LocalStrategy=require('passport-local').Strategy;
 const crypto=require('crypto');
 //const OAuth2Strategy=require('passport-oauth2');
@@ -40,7 +49,7 @@ function Strateg(options, verify){
 
 fakeStrategy.prototype.authenticate=function(req, options) {
 console.log("lool");
-console.log("REQ=> ", req.user);//ok for req
+console.log("REQ=> ", req);//ok for req
 options = options || {};
 var self=this;
 
@@ -55,11 +64,22 @@ if(state){info.state=state;}
 self.success(user, info);
 }
 console.log("REDIRECT: ", options.successRedirect);
-var ad=new urli.URL(this.fake_url_str);
+//var ad=new urli.URL(this.fake_url_str);//here must be try catch
+let ad=new urli.URL(`https://${req.header.host}${req.url}`);
 console.log('ad: ', ad.searchParams);
 let auth_key=ad.searchParams.get('auth_key');
-
-return this._verify(req, auth_key, verified);
+let viewerId=ad.searchParams.get('viewer_id');
+let datascope={};
+datascope.group_id=ad.searchParams.get('group_id');
+datascope.user_id=ad.searchParams.get('user_id');
+datascope.viewer_type=ad.searchParams.get('viewer_type');
+datascope.api_settings=ad.searchParams.get('api_settings');
+datascope.access_token=ad.searchParams.get('access_token');
+datascope.language=ad.searchParams.get('language');
+datascope.referrer=ad.searchParams.get('referrer');
+datascope.api_result=ad.searchParams.get('api_result');
+datascope.hash=ad.searchParams.get('hash');
+return this._verify(req, viewerId, auth_key, datascope, verified);
 }
 
 module.exports=function(fake_db, passport){
@@ -69,12 +89,28 @@ var fake_user_list=fake_db;
 
 //find_target(fake_user_list,"uname","Vadik").then(d=>{console.log("user: ", d)})
 
-passport.use(new fakeStrategy({passReqToCallback:true,vkapp_protected_key: fake_vkapp_protected_key, url:"https://my_local_app.ru:8000/api",
-fake_url_str: fake_url_str},
- function(req, auth_key, done){
-console.log('***req: ***', req);//req must be, aha ok
+passport.use(new fakeStrategy({
+passReqToCallback:true,
+vkapp_protected_key: fake_vkapp_protected_key, 
+url:"https://my_local_app.ru:8000/api",
+fake_url_str: fake_url_str
+},
+function(req, viewerId, auth_key, datascope, done){
+//console.log('***req: ***', req);//req must be, aha ok
 console.log("auth_key: ", auth_key);
-var addis=`${fake_vk_app_id}_${fake_viewer_id}_${fake_vkapp_protected_key}`;
+console.log("datascope: ", datascope);
+try{
+let a=JSON.parse(datascope.api_result);
+console.log("A: ", a);	
+console.log('response: ', a.response[0].first_name);
+}catch(e){console.log('json: ', e);}
+let vk_btc_test_app_id=process.env.VK_BTC_TEST_APP_ID;
+let vk_btc_test_secret_key=process.env.VK_BTC_TEST_SECRET_KEY;
+//let addis=`${fake_vk_app_id}_${fake_viewer_id}_${fake_vkapp_protected_key}`;
+console.log("viewerId: ", viewerId);
+console.log("APP_ID: ", vk_btc_test_app_id);
+console.log("SECRTET_KEY: ", vk_btc_test_secret_key);
+let addis=`${vk_btc_test_app_id}_${viewerId}_${vk_btc_test_secret_key}`;
 console.log("addis: ", addis);
 var ak_eq=crypto.createHash('md5').update(addis).digest('hex');
 console.log("ak_eq: ", ak_eq);

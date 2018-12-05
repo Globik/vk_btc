@@ -77,6 +77,7 @@ setInterval(function(){
 //window.postMessage("suka","https://my_app_local.ru:8000");
 window.top.postMessage("suka","https://vk.com");
 }, 5000);*/
+//alert('init');
 }
 
 function vk_init_fails(){
