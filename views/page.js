@@ -9,7 +9,7 @@ return `<html><head><title>vk app page</title>
 
 function dowas(){
 if(VK){
-	try{
+try{
 //alert("VK.suka: "+JSON.stringify(VK));
 VK.callMethod("setLocation","fucker");
 }catch(e){alert(e);}

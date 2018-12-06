@@ -1,6 +1,6 @@
 const main_page=n=>{
 return `<html><head><title>main page</title></head><body>
-<a href="/logout">logout</a>&nbsp;|&nbsp;<a href="/page">page</a>
+<a href="/logout">logout</a>&nbsp;|&nbsp;<a href="/page">page</a>&nbsp;|&nbsp;<a href="/lapi">vk app</a>
 <h1>main page</h1>
 <h3>user: ${n.user ? JSON.stringify(n.user) : n.user}</h3>
 <h3>login</h3>

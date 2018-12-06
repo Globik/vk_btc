@@ -15,7 +15,7 @@ const dkey='/home/globik/alikon/data/mykey.pem';
 const dcert='/home/globik/alikon/data/mycert.pem';
 
 var fake_user_list=[{uname:"Vadik", id:1, role:"admin", email:"fake@ya.ru", pwd:"pwd"},
-{uname:"Bob",id:2,role:"user",email:"what@rambler.ru",pwd:"pwd"}];
+{uname:"Bob",id:160441250,role:"user",email:"what@rambler.ru",pwd:"pwd"}];
 
 const app=new Koa();
 const pub=new Router();
@@ -33,9 +33,12 @@ pub.get('/', async ctx=>{
 let n=ctx.session.views || 0;
 ctx.session.views=++n;
 let b=ctx.cookies.get('koa:sess');
-ctx.cookies.set("mumi","fucky");
+//ctx.cookies.set("mumi","fucky");
 console.log("UUUSSSEEERRR: ", ctx.state.user);
-let data={info:"main", n: n, req: ctx.request, cook: b, sessions: ctx.session, state: ctx.state.user, authenticated: ctx.isAuthenticated()};
+let data={views: n,cook: b, sessions: ctx.session, 
+state: ctx.state.user, 
+authenticated: ctx.isAuthenticated()
+};
 let data_json;
 try{
 data_json=JSON.stringify(data);	
@@ -89,36 +92,21 @@ fake_user_list[0].kind="vk_account";
 ctx.body=await ctx.render('page',{});	
 });
 
-pub.get('/api/:vid', async ctx=>{
-	let a=ctx.params.vid;
-	console.log("ctx.params.vid: ", a);
-	console.log("ctx.url: ", ctx.url);
-	console.log("ctx.path: ", ctx.path);
-	
-	console.log("sessions: ", ctx.session);
-	console.log("request: ",ctx.request);
-	
-ctx.body=ctx.params;	
-});
 
 async  function doo(ctx, next){
 console.log('in dow SESSIONS:', ctx.session);
 console.log('in dow ctx.user: ', ctx.state.user);
-console.log(passport.authenticate);
+
 return await passport.authenticate('fake', async function(err,user,info, status){
 console.log("err: ", err, "user: ", user, "info: ", info);
-//ctx.redirect('/apis');
-//return
- await ctx.login(user);
- return next();
+await ctx.login(user);
+return next();
 }
 )(ctx,next);
-//console.log("url:", ctx.url);
-//return next();
 }
 
 pub.get('/lapi',passport.authenticate('fake',{successRedirect:'/api'}));
-pub.get('/lapi',passport.authorize('fake',{successRedirect:'/api'}));
+//pub.get('/lapi',passport.authorize('fake',{successRedirect:'/api'}));
 
 pub.post('/login', async function(ctx,next){
 if(ctx.isAuthenticated()){console.log("already authenticated", ctx.state.user);

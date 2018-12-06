@@ -9,11 +9,16 @@
 
 const LocalStrategy=require('passport-local').Strategy;
 const crypto=require('crypto');
-//const OAuth2Strategy=require('passport-oauth2');
 const p=require('passport-strategy');
 const util=require('util');
 const urli=require('url');
 
+const green = "\x1b[32m";
+const yellow ="\x1b[33m";
+const red ="\x1b[31m";
+const rst ="\x1b[0m";
+
+console.log(green, "start",rst);
 const find_target=(arr, id, m)=>new Promise((resolve, reject)=>resolve(arr.find(el=>el[id]==m)));
 const fake_vk_app_id=6753809;
 const fake_vkapp_protected_key="pd06";
@@ -32,6 +37,12 @@ options = undefined;
 options = options || {};
 console.log('opt url: ', options.url); 
 p.Strategy.call(this);
+this.fake_secret_key=options.fake_secret_key; 
+this.fake_app_id= options.fake_app_id; 
+
+this.vk_btc_test_app_id= options.vk_btc_test_app_id;
+this.vk_btc_test_secret_key= options.vk_btc_test_secret_key;
+
 this.name='fake';
 this.fake_url_str = options.fake_url_str;
 this._verify = verify;
@@ -39,20 +50,13 @@ this._passReqToCallback = options.passReqToCallback;
 }
 util.inherits(fakeStrategy, p.Strategy);
 
-function Strateg(options, verify){
-//unused
-//OAuth2Strategy.call(this, options,verif(options,verify));	
-//verif(this,verify);
-}
-
-
 
 fakeStrategy.prototype.authenticate=function(req, options) {
 console.log("lool");
 console.log("REQ=> ", req);//ok for req
 options = options || {};
 var self=this;
-
+//return this.fail("eeeeeeeeeeeeeeeeee", 403);//fine
 
 function verified(err, user, info) {
 console.log("verified");
@@ -63,23 +67,63 @@ var state="some_state verif";
 if(state){info.state=state;}
 self.success(user, info);
 }
+
 console.log("REDIRECT: ", options.successRedirect);
-//var ad=new urli.URL(this.fake_url_str);//here must be try catch
-let ad=new urli.URL(`https://${req.header.host}${req.url}`);
+let ad=new urli.URL(this.fake_url_str);//here must be try catch
+//let ad=new urli.URL(`https://${req.header.host}${req.url}`);
 console.log('ad: ', ad.searchParams);
 let auth_key=ad.searchParams.get('auth_key');
 let viewerId=ad.searchParams.get('viewer_id');
+
+const addis=`${this.fake_app_id}_${viewerId}_${this.fake_secret_key}`;
+
+//const addis=`${this.vk_btc_test_app_id}_${viewerId}_${this.vk_btc_test_secret_key}`;
+console.log("addis: ", addis);
+const ak_eq=crypto.createHash('md5').update(addis).digest('hex');
+console.log("AK_EQ: ", ak_eq);
+console.log("IS AUTH_KEY EQUAL: ", (auth_key==ak_eq));//true false, by
+console.log("AUTH_KEY: ", auth_key);
+if(auth_key===auth_key){console.log("TT true");}else{console.log("NOT TRUE");return this.fail("eee", 403);}
+
+console.log("AFTER EQUAL");
 let datascope={};
-datascope.group_id=ad.searchParams.get('group_id');
-datascope.user_id=ad.searchParams.get('user_id');
-datascope.viewer_type=ad.searchParams.get('viewer_type');
-datascope.api_settings=ad.searchParams.get('api_settings');
+try{
+datascope.group_id=Number(ad.searchParams.get('group_id'));
+datascope.user_id=Number(ad.searchParams.get('user_id'));
+datascope.viewer_type=Number(ad.searchParams.get('viewer_type'));
+datascope.api_settings=Number(ad.searchParams.get('api_settings'));
+datascope.is_app_user=Number(ad.searchParams.get('is_app_user'));
 datascope.access_token=ad.searchParams.get('access_token');
-datascope.language=ad.searchParams.get('language');
+datascope.language=Number(ad.searchParams.get('language'));
 datascope.referrer=ad.searchParams.get('referrer');
-datascope.api_result=ad.searchParams.get('api_result');
-datascope.hash=ad.searchParams.get('hash');
-return this._verify(req, viewerId, auth_key, datascope, verified);
+//datascope.api_result=ad.searchParams.get('api_result');
+let ajson;
+try{
+let forjson=ad.searchParams.get('api_result');
+ajson=JSON.parse(forjson);
+if(ajson.response && Array.isArray(ajson.response) && (ajson.response.length==1)){
+datascope.api_result=ajson.response[0];
+}
+}catch(e){
+console.log("json e: ", red, e, rst);
+}
+
+let my_hash=ad.searchParams.get('hash');
+datascope.datahash={};
+if(my_hash){
+let params=new urli.URLSearchParams(my_hash);
+//pipka mishka
+let pipka=params.get('pipka');
+let mishka=params.get('mishka');
+//datascope.datahash={};
+for(let i of params){
+console.log("i: ", i[0]," params: ", params, "i[1]: ", i[1]);	
+datascope.datahash[i[0]]=i[1];
+}
+	
+}
+}catch(e){console.log(red,e,rst);return this.fail("uuuuhuhu", 403);}
+return this._verify(req,  datascope, verified);
 }
 
 module.exports=function(fake_db, passport){
@@ -91,37 +135,29 @@ var fake_user_list=fake_db;
 
 passport.use(new fakeStrategy({
 passReqToCallback:true,
-vkapp_protected_key: fake_vkapp_protected_key, 
+fake_secret_key: fake_vkapp_protected_key, 
+fake_app_id: fake_vk_app_id,
 url:"https://my_local_app.ru:8000/api",
-fake_url_str: fake_url_str
+fake_url_str: fake_url_str,
+vk_btc_test_app_id: process.env.VK_BTC_TEST_APP_ID,
+vk_btc_test_secret_key: process.env.VK_BTC_TEST_SECRET_KEY
 },
-function(req, viewerId, auth_key, datascope, done){
+function fake_strategy(req, datascope, done){
 //console.log('***req: ***', req);//req must be, aha ok
-console.log("auth_key: ", auth_key);
-console.log("datascope: ", datascope);
-try{
-let a=JSON.parse(datascope.api_result);
-console.log("A: ", a);	
-console.log('response: ', a.response[0].first_name);
-}catch(e){console.log('json: ', e);}
-let vk_btc_test_app_id=process.env.VK_BTC_TEST_APP_ID;
-let vk_btc_test_secret_key=process.env.VK_BTC_TEST_SECRET_KEY;
-//let addis=`${fake_vk_app_id}_${fake_viewer_id}_${fake_vkapp_protected_key}`;
-console.log("viewerId: ", viewerId);
-console.log("APP_ID: ", vk_btc_test_app_id);
-console.log("SECRTET_KEY: ", vk_btc_test_secret_key);
-let addis=`${vk_btc_test_app_id}_${viewerId}_${vk_btc_test_secret_key}`;
-console.log("addis: ", addis);
-var ak_eq=crypto.createHash('md5').update(addis).digest('hex');
-console.log("ak_eq: ", ak_eq);
-console.log("is auth_key equal: ", (auth_key==ak_eq));//true false, by
 
-return done(null,{id: 2, vker:"Mer"}, {message:"info msg here"});
+console.log("datascope: ", green, datascope, rst);
+console.log("session: ", yellow, req.ctx.session, rst);
+//req.ctx.session.passport.account={vkid: datascope.api_result.uid};//?
+if(req.ctx.state.user){
+console.log("req.ctx.state.user: ", red, req.ctx.state.user, rst);	
+}else{console.log(red, "no req.ctx.state.user", rst)}
+
+return done(null,{id: datascope.api_result.uid}, {message:"info msg here"});
 }))
 
 passport.serializeUser(function pass_serialize(luser,done){
 console.log('in serialize USERA: ',luser);
-luser.fucker="sdddddd";
+//luser.fucker="sdddddd";
 done(null,luser.id)
 })
 
@@ -129,7 +165,7 @@ passport.deserializeUser(async function pass_deserialize(id,done){
 console.log("from within deserializeUser")
 try{
 let us=await find_target(fake_user_list, "id", id);
-us.account="pioooo";
+//us.account="pioooo";
 done(null, us)
 }catch(e){
 done(e)
