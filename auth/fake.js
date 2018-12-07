@@ -69,27 +69,28 @@ self.success(user, info);
 }
 
 console.log("REDIRECT: ", options.successRedirect);
-let ad=new urli.URL(this.fake_url_str);//here must be try catch
-//let ad=new urli.URL(`https://${req.header.host}${req.url}`);
+//let ad=new urli.URL(this.fake_url_str);//here must be try catch
+let ad=new urli.URL(`https://${req.header.host}${req.url}`);
 console.log('ad: ', ad.searchParams);
 let auth_key=ad.searchParams.get('auth_key');
 let viewerId=ad.searchParams.get('viewer_id');
 
-const addis=`${this.fake_app_id}_${viewerId}_${this.fake_secret_key}`;
+//const addis=`${this.fake_app_id}_${viewerId}_${this.fake_secret_key}`;
 
-//const addis=`${this.vk_btc_test_app_id}_${viewerId}_${this.vk_btc_test_secret_key}`;
+const addis=`${this.vk_btc_test_app_id}_${viewerId}_${this.vk_btc_test_secret_key}`;
 console.log("addis: ", addis);
 const ak_eq=crypto.createHash('md5').update(addis).digest('hex');
 console.log("AK_EQ: ", ak_eq);
 console.log("IS AUTH_KEY EQUAL: ", (auth_key==ak_eq));//true false, by
 console.log("AUTH_KEY: ", auth_key);
-if(auth_key===auth_key){console.log("TT true");}else{console.log("NOT TRUE");return this.fail("eee", 403);}
+if(auth_key===ak_eq){console.log("TT true");}else{console.log("NOT TRUE");return this.fail("eee", 403);}
 
 console.log("AFTER EQUAL");
 let datascope={};
 try{
 datascope.group_id=Number(ad.searchParams.get('group_id'));
 datascope.user_id=Number(ad.searchParams.get('user_id'));
+datascope.viewer_id=Number(ad.searchParams.get('viewer_id'));
 datascope.viewer_type=Number(ad.searchParams.get('viewer_type'));
 datascope.api_settings=Number(ad.searchParams.get('api_settings'));
 datascope.is_app_user=Number(ad.searchParams.get('is_app_user'));
@@ -142,7 +143,7 @@ fake_url_str: fake_url_str,
 vk_btc_test_app_id: process.env.VK_BTC_TEST_APP_ID,
 vk_btc_test_secret_key: process.env.VK_BTC_TEST_SECRET_KEY
 },
-function fake_strategy(req, datascope, done){
+async function fake_strategy(req, datascope, done){
 //console.log('***req: ***', req);//req must be, aha ok
 
 console.log("datascope: ", green, datascope, rst);
@@ -150,9 +151,52 @@ console.log("session: ", yellow, req.ctx.session, rst);
 //req.ctx.session.passport.account={vkid: datascope.api_result.uid};//?
 if(req.ctx.state.user){
 console.log("req.ctx.state.user: ", red, req.ctx.state.user, rst);	
-}else{console.log(red, "no req.ctx.state.user", rst)}
 
-return done(null,{id: datascope.api_result.uid}, {message:"info msg here"});
+return done(null,false,{message:"already authenticated!"});
+
+}else{
+console.log(red, "no req.ctx.state.user", rst);
+try{
+let buser=await find_target(fake_user_list, "id", datascope.viewer_id);
+if(!buser){
+console.log(red, "no buser found", rst);
+//return done(null,false,{"message":"no user found"});
+let in_data={};
+in_data.uname=get_prop(datascope, "first_name");
+in_data.ufa=get_prop(datascope, "last_name");
+in_data.id=datascope.viewer_id;
+in_data.email=null;
+in_data.pwd=null;
+in_data.role="vk";
+fake_user_list.push(in_data);
+let if_hash=(datascope.datahash ? true:false);
+if(if_hash){
+//todo check expected defined properties if any
+req.ctx.session.extra=datascope.datahash;
+}
+/*
+viewer_type: 4, => vt
+api_settings: 1, =>as
+is_app_user: 1,=>iau
+access_token: 'fc5b1467275'=>at
+group_id ??
+*/ 
+req.ctx.session.vt=datascope.viewer_type;
+req.ctx.session.as=datascope.api_settings;
+req.ctx.session.iau=datascope.is_app_user;//?? at very beginning to check?
+req.ctx.session.at=datascope.access_token;
+return done(null, in_data, {message:"new user created"});
+}
+return done(null, buser,{message:"buser found"})
+}catch(e){
+console.log(red, e, rst);
+return done(e, false,{message: e});
+}
+}
+
+
+
+//return done(null,{id: datascope.api_result.uid,suka: "bliadi"}, {message:"info msg here"});
 }))
 
 passport.serializeUser(function pass_serialize(luser,done){
@@ -162,7 +206,7 @@ done(null,luser.id)
 })
 
 passport.deserializeUser(async function pass_deserialize(id,done){
-console.log("from within deserializeUser")
+console.log(red, "from within deserializeUser, ID: ", id, rst);
 try{
 let us=await find_target(fake_user_list, "id", id);
 //us.account="pioooo";
@@ -191,4 +235,8 @@ return done(null, bus,{message:'Erfolgreich loged in!!!'})
 
 //var VK=Strategy;
 
+}
+
+function get_prop(obj, prop){
+return (obj.api_result && obj.api_result[prop] ? obj.api_result[prop] : "no");	
 }

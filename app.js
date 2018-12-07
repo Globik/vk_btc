@@ -14,8 +14,8 @@ const MY_HOSTNAME='my_app_local.ru';
 const dkey='/home/globik/alikon/data/mykey.pem';
 const dcert='/home/globik/alikon/data/mycert.pem';
 
-var fake_user_list=[{uname:"Vadik", id:1, role:"admin", email:"fake@ya.ru", pwd:"pwd"},
-{uname:"Bob",id:160441250,role:"user",email:"what@rambler.ru",pwd:"pwd"}];
+var fake_user_list=[{uname:"Vadik",ufa:"Popov", id:1, role:"admin", email:"fake@ya.ru", pwd:"pwd"}
+/*{uname:"Bob",id:160441250,role:"user",email:"what@rambler.ru",pwd:"pwd"}*/];
 
 const app=new Koa();
 const pub=new Router();
@@ -30,12 +30,12 @@ app.use(passport.session())
 
 
 pub.get('/', async ctx=>{
-let n=ctx.session.views || 0;
-ctx.session.views=++n;
+//let n=ctx.session.views || 0;
+//ctx.session.views=++n;
 let b=ctx.cookies.get('koa:sess');
 //ctx.cookies.set("mumi","fucky");
 console.log("UUUSSSEEERRR: ", ctx.state.user);
-let data={views: n,cook: b, sessions: ctx.session, 
+let data={views: "n",cook: b, sessions: ctx.session, 
 state: ctx.state.user, 
 authenticated: ctx.isAuthenticated()
 };
@@ -49,38 +49,9 @@ ctx.body=await ctx.render('main_page', {some_data: data_json});
 })
 
 pub.get('/api', /* doo,*/ async ctx=>{
-console.log("ctx.params: ", ctx.params);
-console.log("ctx.url: ", ctx.url);// ok, just like there, on frontend, all stuff in url, hashtag etc
-console.log("ctx.path: ", ctx.path);
-console.log("ctx.href: ", ctx.href);
-console.log("ctx.query: ", ctx.query);//perfect! genau richtig what I need, there is a parsed object for you
-// though if there is a custom "hash" key one need extract extra key value paires
-console.log("ctx.querystring: ", ctx.querystring);
-console.log("ctx.origin: ", ctx.origin);
-	//console.log("req ",ctx.cookies);
-let hash_query_str=ctx.query.hash;
-console.log('hash_str: ', hash_query_str);// if no such a key it's undefined otherwise as is
-if(ctx.query.viewer_id){
-fake_user_list[0].account=ctx.query.viewer_id	
-}
-if(hash_query_str){
-let param=new urli.URLSearchParams(hash_query_str);
-//pipka mishka
-let pipka=param.get('pipka');
-let mishka=param.get('mishka');
-let fake=param.get('fake');
-console.log('pipka: ', pipka);//suka
-console.log('mishka: ', mishka);//dura
-console.log('fake: ', fake);//null	
-let is_fake=param.has('fake');
-console.log("is_fake: ", is_fake);// true or false
-}
-console.log("sessions: ", ctx.session);
-console.log("request: ",ctx.request.header.cookie);
-console.log("USER: ", ctx.state.user);
-console.log("ctx.state: ", ctx.state.account);
-
-ctx.body=await ctx.render('main', {viewer_id: fake_user_list[0].account});	
+//console.log("ctx.url: ", ctx.url);// ok, just like there, on frontend, all stuff in url, hashtag etc
+//console.log("ctx.query: ", ctx.query);//perfect! genau richtig what I need, there is a parsed object for you
+ctx.body=await ctx.render('main', {session:JSON.stringify(ctx.session)});	
 })
 
 pub.get('/page', async ctx=>{
@@ -88,24 +59,32 @@ console.log("/page ctx.query: ", ctx.query,"ctx.url", ctx.url);//if no query, so
 console.log("/page ctx.href: ", ctx.href);
 console.log("CTXUSER: ", ctx.state.user);
 console.log("sessions: ", ctx.session);
-fake_user_list[0].kind="vk_account";
 ctx.body=await ctx.render('page',{});	
 });
 
 
-async  function doo(ctx, next){
+//async  function doo(ctx, next){
+pub.get('/lapi', async function(ctx, next){	
 console.log('in dow SESSIONS:', ctx.session);
 console.log('in dow ctx.user: ', ctx.state.user);
-
+if(ctx.isAuthenticated()){return ctx.redirect("/api");}
 return await passport.authenticate('fake', async function(err,user,info, status){
-console.log("err: ", err, "user: ", user, "info: ", info);
-await ctx.login(user);
-return next();
+console.log("err: ", err, "user: ", user, "info: ", info, "status: ", status);
+if(err){console.log(err);return ctx.redirect('/api');}
+//return
+if(!user){
+console.log('not a user');return ctx.redirect("/api");	
+}else{
+ctx.redirect('/api');
+return await ctx.login(user);
+//return next();
+}
 }
 )(ctx,next);
 }
+)
 
-pub.get('/lapi',passport.authenticate('fake',{successRedirect:'/api'}));
+//pub.get('/lapi',passport.authenticate('fake',{successRedirect:'/api'}));
 //pub.get('/lapi',passport.authorize('fake',{successRedirect:'/api'}));
 
 pub.post('/login', async function(ctx,next){
@@ -131,7 +110,17 @@ return  await ctx.login(user)
 })(ctx, next)
 })
 //pub.get('/login',passport.authorize('local',{successRedirect: '/'}));
-pub.get('/logout', ctx=>{ctx.logout();ctx.redirect('/');});
+pub.get('/logout', ctx=>{
+	console.log("*** LOGOUT! ***");
+if(ctx.session.extra) delete ctx.session.extra;
+//if(ctx.session"vt":4,"as":1,"iau":1,"at
+delete ctx.session.vt;
+delete ctx.session.as;
+delete ctx.session.iau;
+delete ctx.session.at;
+delete ctx.session.fake_fucker;
+ctx.logout();ctx.redirect('/');
+});
 
 app.use(pub.routes()).use(pub.allowedMethods());
 app.on('error',(err, ctx)=>{

@@ -96,10 +96,11 @@ out.innerHTML+="<br>"+"flag: "+flag+"<br>"+"token: "+token;
 window.onresize=on_window_resize;
 window.onorientationchange=on_window_resize;
 </script>
-</head><body id="sbody"><main id="vkMain">
+</head><body  id="sbody"><main id="vkMain">
 
 <a href="/page#fucker=mother">page</a><h1>vk app</h1>
-<h4>viewer_id: ${n.viewer_id}</h4>
+<h4>${n.user?n.user.id:"no"}&nbsp;${n.user? n.user.uname : ""}&nbsp;${n.user? n.user.ufa:""}</h4>
+<div>${n.session?n.session:""}</div>
 <a href="#popa" onclick="on_popa(this);">popa</a>&nbsp;<button onclick="resize_was();">test resize</button>
 <div id="out"></div>
 <div id="popa">popa</div>
