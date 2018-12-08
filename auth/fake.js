@@ -4,6 +4,8 @@
 //VK_BTC_TEST_SECRET_KEY='p***U6'
 // source /etc/environment
 // echo $VK_BTC_TEST_APP_ID
+//TODO make .bashrc available for user environment variables, 
+//find solution for security storing, updates and reloading on the fly without os reboot
 
 
 
@@ -64,27 +66,26 @@ if(err){console.log('verif.err: ', err);return self.error(err);}
 if(!user){console.log('!user');return self.fail(info);}
 info = info || {};
 var state="some_state verif";
-if(state){info.state=state;}
+if(state){info.state=state;}//??? 
 self.success(user, info);
 }
-
-console.log("REDIRECT: ", options.successRedirect);
-//let ad=new urli.URL(this.fake_url_str);//here must be try catch
-let ad=new urli.URL(`https://${req.header.host}${req.url}`);
+//TODO check url length , throw err
+console.log("REDIRECT: ", options.successRedirect);//if  any,in  custom behavour it's undefined
+//const ad=new urli.URL(this.fake_url_str);//here must be try catch //fake
+const ad=new urli.URL(`https://${req.header.host}${req.url}`); //for a localhost test with internet connection
 console.log('ad: ', ad.searchParams);
 let auth_key=ad.searchParams.get('auth_key');
 let viewerId=ad.searchParams.get('viewer_id');
 
-//const addis=`${this.fake_app_id}_${viewerId}_${this.fake_secret_key}`;
+//const addis=`${this.fake_app_id}_${viewerId}_${this.fake_secret_key}`;//for a fake scenario without internet connection
 
-const addis=`${this.vk_btc_test_app_id}_${viewerId}_${this.vk_btc_test_secret_key}`;
+const addis=`${this.vk_btc_test_app_id}_${viewerId}_${this.vk_btc_test_secret_key}`;//for test scenario
 console.log("addis: ", addis);
 const ak_eq=crypto.createHash('md5').update(addis).digest('hex');
 console.log("AK_EQ: ", ak_eq);
-console.log("IS AUTH_KEY EQUAL: ", (auth_key==ak_eq));//true false, by
+console.log("IS AUTH_KEY EQUAL: ", (auth_key==ak_eq));//true false
 console.log("AUTH_KEY: ", auth_key);
-if(auth_key===ak_eq){console.log("TT true");}else{console.log("NOT TRUE");return this.fail("eee", 403);}
-
+if(auth_key===ak_eq){console.log("TT true");}else{console.log("NOT TRUE");return this.fail("not equal", 403);}
 console.log("AFTER EQUAL");
 let datascope={};
 try{
@@ -209,9 +210,11 @@ passport.deserializeUser(async function pass_deserialize(id,done){
 console.log(red, "from within deserializeUser, ID: ", id, rst);
 try{
 let us=await find_target(fake_user_list, "id", id);
-//us.account="pioooo";
+console.log(green, us, rst);
+if(!us){return done(null, false);};
 done(null, us)
 }catch(e){
+	console.log(red, e, rst);
 done(e)
 }
 })
@@ -224,8 +227,7 @@ async function do_loc_strat(req,uname,password,done){
 console.log("loc strategy: ", uname, " ", password);
 try{
 let user=await find_target(fake_user_list, "uname", uname)
-console.log("user in loc strat: ", user);
-user.account="duj";
+//console.log("user in loc strat: ", user);
 let bus=user;
 if(!user){return done(null,false,{message:'Wrong user email or password!'})}
 return done(null, bus,{message:'Erfolgreich loged in!!!'})
@@ -233,10 +235,22 @@ return done(null, bus,{message:'Erfolgreich loged in!!!'})
 
 }))
 
-//var VK=Strategy;
-
 }
 
 function get_prop(obj, prop){
 return (obj.api_result && obj.api_result[prop] ? obj.api_result[prop] : "no");	
 }
+/*
+ * if from wall and you are not a member of this group
+ { group_id: 174003077,
+  user_id: 0,
+  viewer_id: 98506638,
+  viewer_type: 0,
+  api_settings: 0,
+  is_app_user: 0,
+  access_token: '0b7849d****daafa6a4c4c5176d426***d37af5ff8c65432776860772b',
+  language: 0,
+  referrer: 'unknown',
+  api_result: { uid: 98506638, first_name: 'А***к', last_name: 'Г***ов' },
+  datahash: { bitcoin: '6' } } 
+  */ 

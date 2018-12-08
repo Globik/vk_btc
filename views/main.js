@@ -34,27 +34,15 @@ alert(w+' '+h);
 })
 function vk_init_success(){
 //	alert(document.cookie);
-	VK.suka="pipka";
+
 		//alert(this.location.search);
 //alert('success '+document.location.search);	
 //alert(window.location.search);
- var parts=document.location.search.substr(1).split("&");
- //console.error("parts: ", parts);
- var flashvars={},curr;
-for(var i=0;i<parts.length;i++){
-	
-curr=parts[i].split('=');
-flashvars[curr[0]]=curr[1];	
-var lk=(curr[0]=="api_result"? decodeURIComponent(curr[1]) : "");
-var hashish=(curr[0]=="hash" ? decodeURIComponent(curr[1]) : "");
-//api_result{"response":[{"uid":160441250,"first_name":"Сергей","last_name":"Шаболов"}]}
-out.innerHTML+="<b>"+curr[0]+"</b>"+lk+"<br>"+"<span>"+curr[1]+"</span>"+hashish+"<br>"; 
-}
-if(curr[1]==undefined){buka=false;}
+ 
 out.innerHTML+="<b>w width:</b>"+window.innerWidth+' '+document.documentElement.clientWidth+' '+window.pageXOffset;
 out.innerHTML+=' '+document.documentElement.offsetLeft;
 out.innerHTML+=' '+out.offsetLeft+' '+document.documentElement.offsetWidth+' '+out.offsetWidth+"";
-out.innerHTML+='<b>body:</b>'+sbody.offsetWidth+''+sbody.clientWidth+' '+sbody.offsetLeft+' ';
+out.innerHTML+='<b>body:</b>'+sbody.offsetWidth+' '+sbody.clientWidth+' '+sbody.offsetLeft+' ';
 console.log("out: ", out);
 //VK.addCallback('onGroupSettingsChanged', on_group_settings_changed);
 //VK.callMethod("showGroupSettingsBox", 64);

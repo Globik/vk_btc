@@ -48,7 +48,7 @@ data_json=e;
 ctx.body=await ctx.render('main_page', {some_data: data_json});	
 })
 
-pub.get('/api', /* doo,*/ async ctx=>{
+pub.get('/lapi',doo,async ctx=>{
 //console.log("ctx.url: ", ctx.url);// ok, just like there, on frontend, all stuff in url, hashtag etc
 //console.log("ctx.query: ", ctx.query);//perfect! genau richtig what I need, there is a parsed object for you
 ctx.body=await ctx.render('main', {session:JSON.stringify(ctx.session)});	
@@ -64,6 +64,44 @@ ctx.body=await ctx.render('page',{});
 
 
 //async  function doo(ctx, next){
+async function doo(ctx, next){	
+console.log('in doo SESSIONS:', ctx.session);
+console.log('in doo ctx.user: ', ctx.state.user);
+if(ctx.isAuthenticated()){
+//return ctx.redirect("/api");
+console.log("It's authenticated!");
+return next();
+}
+
+return await passport.authenticate('fake', async function(err,user,info, status){
+console.log("err: ", err, "user: ", user, "info: ", info, "status: ", status);
+if(err){console.log(err);
+//return ctx.redirect('/api');
+}
+//return
+if(!user){
+console.log('not a user');
+//return ctx.redirect("/api");	
+}else{
+//ctx.redirect('/api');
+await ctx.login(user);
+//return next();
+}
+return next();
+}
+)(ctx,next);
+}
+
+
+
+
+
+
+
+
+
+
+/*
 pub.get('/lapi', async function(ctx, next){	
 console.log('in dow SESSIONS:', ctx.session);
 console.log('in dow ctx.user: ', ctx.state.user);
@@ -83,6 +121,7 @@ return await ctx.login(user);
 )(ctx,next);
 }
 )
+*/ 
 
 //pub.get('/lapi',passport.authenticate('fake',{successRedirect:'/api'}));
 //pub.get('/lapi',passport.authorize('fake',{successRedirect:'/api'}));
@@ -124,7 +163,22 @@ ctx.logout();ctx.redirect('/');
 
 app.use(pub.routes()).use(pub.allowedMethods());
 app.on('error',(err, ctx)=>{
-console.log('app.on.error: ',err.message, ctx.request.url);
+	console.log('sess: ',ctx.session);
+	/*extra: { pipka: 'suka', mishka: 'dura' },
+  vt: 4,
+  as: 1,
+  iau: 1,
+  at: 'c90d05003c73acd8a4471e11a8f8c8776588ef28482dba38de711c41e6ca2d01110142c989ce8d4708f02' }
+  */ 
+	delete ctx.session.passport;
+	delete ctx.session.extra;
+	delete ctx.session.vt;
+	delete ctx.session.as;
+	delete ctx.session.iau;
+	delete ctx.session.at;
+	console.log('sess2: ', ctx.session);
+console.log('app.on.errorsssssssssssss: ',err.message, ctx.request.url);
+ctx.logout();ctx.redirect('/');
 });
 
 const ssl_options={

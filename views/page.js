@@ -2,7 +2,7 @@ const page=n=>{
 return `<html><head><title>vk app page</title>
 <script src="https://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
 </head><body>
-<a href="/api">api</a>&nbsp;|&nbsp;<a href="/">home</a>
+<a href="/lapi">api</a>&nbsp;|&nbsp;<a href="/">home</a>
 <h1>It's a page</h1></body>
 <button onclick="dowas();">click me</button>
 <script>
