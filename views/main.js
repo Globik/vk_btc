@@ -33,12 +33,6 @@ VK.addCallback('onWindowResized', function(w,h){
 alert(w+' '+h);
 })
 function vk_init_success(){
-//	alert(document.cookie);
-
-		//alert(this.location.search);
-//alert('success '+document.location.search);	
-//alert(window.location.search);
- 
 out.innerHTML+="<b>w width:</b>"+window.innerWidth+' '+document.documentElement.clientWidth+' '+window.pageXOffset;
 out.innerHTML+=' '+document.documentElement.offsetLeft;
 out.innerHTML+=' '+out.offsetLeft+' '+document.documentElement.offsetWidth+' '+out.offsetWidth+"";
@@ -46,63 +40,41 @@ out.innerHTML+='<b>body:</b>'+sbody.offsetWidth+' '+sbody.clientWidth+' '+sbody.
 console.log("out: ", out);
 //VK.addCallback('onGroupSettingsChanged', on_group_settings_changed);
 //VK.callMethod("showGroupSettingsBox", 64);
-//window.onresize=on_window_resize;
-//2010
-//alert(document.cookie);
-var body=document.getElementById('sbody');
-//alert('witdh333: ', body.style.width);
 //VK.callMethod('resizeWindow',1000, 1000);
 /*
 VK.addCallback("onLocationChanged", function f(location){
 alert("location :"+location);	
-});
-
-*/ 
-//alert('success!');
-//alert(document.documentElement.iframes);
-/*
-setInterval(function(){
-//window.postMessage("suka","https://my_app_local.ru:8000");
-window.top.postMessage("suka","https://vk.com");
-}, 5000);*/
-//alert('init');
+});*/ 
 }
 
 function vk_init_fails(){
-out.innerHTML="vk_init failed.";
+//out.innerHTML="vk_init failed.";
+alert("vk init failed!");
 }
 
 function on_group_settings_changed(flag, token){
 alert("group change "+flag+" "+token);
-// flag=64, token=  token for rights=>  each time diffrent
+//flag=64, token=  token for rights=>  each time diffrent
 out.innerHTML+="<br>"+"flag: "+flag+"<br>"+"token: "+token;
 }
 
-	function on_window_resize(event){
-		//alert('resize: ',JSON.stringify(event));
-		}
-window.onresize=on_window_resize;
-window.onorientationchange=on_window_resize;
+
+//window.onorientationchange=on_window_resize;//window top???
 </script>
 </head><body  id="sbody"><main id="vkMain">
 
 <a href="/page#fucker=mother">page</a><h1>vk app</h1>
 <h4>${n.user?n.user.id:"no"}&nbsp;${n.user? n.user.uname : ""}&nbsp;${n.user? n.user.ufa:""}</h4>
 <div>${n.session?n.session:""}</div>
-<a href="#popa" onclick="on_popa(this);">popa</a>&nbsp;<button onclick="resize_was();">test resize</button>
+<a href="#popa">popa</a>&nbsp;<button onclick="resize_was();">test resize</button>&nbsp;
+<button onclick="get_prev_widget();">test widget</button>&nbsp;
 <div id="out"></div>
 <div id="popa">popa</div>
 </main>
 <script>
 function on_loc(el){console.log("on location changed");}
 VK.addCallback("onLocationChanged", on_loc);
-function on_popa(el){
 
-//try{
-	//VK.callMethod("setLocation", "new_location");
-//VK.callMethod("scrollWindow", 900,200);
-//}catch(e){alert(e);}
-}
 function resize_was(){
 	var out_el=document.getElementById("out");
 	var c_out_el=window.getComputedStyle(out_el);
@@ -147,13 +119,34 @@ console.log('main h: ',vl.clientHeight);
 VK.callMethod('resizeWindow',1000, vl.clientHeight);//ideal
 }
 }
-/*
-window.addEventListener('message',function(event){
-console.log('message came');
-console.log(event.data,' ',event);
-//event.source.postMessage("fuck", event.origin);	
-}, false);
-*/ 
+function get_prev_widget(){
+VK.addCallback('onAppWidgetPreviewFail', on_prev_widget_fail);
+VK.addCallback('onAppWidgetPreviewCancel', on_prev_widget_cancel);
+VK.addCallback('onAppWidgetPreviewSuccess', on_prev_widget_success);
+VK.callMethod('showAppWidgetPreviewBox','text','return {"title":"buy","text":"hello, text! <b>bold text</b>"};');	
+}
+function on_prev_widget_fail(d){
+alert(d);	
+remove_prev_widget();
+}
+function on_prev_widget_cancel(d){
+alert(d);	//undefined
+remove_prev_widget();
+}
+function on_prev_widget_success(d){
+alert(d);	//undefined
+remove_prev_widget();
+}
+function remove_vk_event(arr, cb){
+for(var i=0;i<arr.length;i++){
+console.log('remove: ', arr[i], ' ', cb[i]);	
+VK.removeCallback(arr[i], cb[i]);
+}	
+}
+function remove_prev_widget(){
+remove_vk_event(['onAppWidgetPreviewFail','onAppWidgetPreviewCancel','onAppWidgetPreviewSuccess'], 
+[on_prev_widget_fail, on_prev_widget_cancel, on_prev_widget_success]);	
+}
 </script>
 
 </body></html>`;
