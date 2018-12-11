@@ -120,21 +120,32 @@ VK.callMethod('resizeWindow',1000, vl.clientHeight);//ideal
 }
 }
 function get_prev_widget(){
+var a={};
+a.title="buy";
+a.text="hallo text rrrrrr";
+
+try{var b=JSON.stringify(a);}catch(e){console.log(e);
+return;	
+}
+
 VK.addCallback('onAppWidgetPreviewFail', on_prev_widget_fail);
 VK.addCallback('onAppWidgetPreviewCancel', on_prev_widget_cancel);
 VK.addCallback('onAppWidgetPreviewSuccess', on_prev_widget_success);
-VK.callMethod('showAppWidgetPreviewBox','text','return {"title":"buy","text":"hello, text! <b>bold text</b>"};');	
+//VK.callMethod('showAppWidgetPreviewBox','text','return {"title":"buy","text":"hello, text! ==bold text=="};');	
+
+VK.callMethod('showAppWidgetPreviewBox','text','return '+b+';');	
 }
-function on_prev_widget_fail(d){
-alert(d);	
+function on_prev_widget_fail(d,d2){
+alert(d,d2);	
 remove_prev_widget();
 }
-function on_prev_widget_cancel(d){
-alert(d);	//undefined
+function on_prev_widget_cancel(){
+alert(this._inited);
+console.log("this ", this);
 remove_prev_widget();
 }
-function on_prev_widget_success(d){
-alert(d);	//undefined
+function on_prev_widget_success(){
+alert(this);
 remove_prev_widget();
 }
 function remove_vk_event(arr, cb){
