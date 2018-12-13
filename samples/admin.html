@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>admin</title>
+<style>
+*{box-sizing:border-box;}
+form{width:30%;}
+input{height:2.9rem;}
+input[type=text]{font-weight:500;font-size:initial;width:100%;}
+input[type=submit], input[type=reset]{font-weight:bold;font-size:initial;}
+input[type=submit]{width:50%;}
+input[type=reset]{width:50%;}
+
+label{line-height:1.8;font-weight:bolder;}
+/*#lbtc::after{content:"fuck";}*/
+
+input[type=text].wait{animation-name: ex;animation-duration: 1s;animation-iteration-count:infinite;
+	animation-direction:alternate-reverse;
+	background-color:inherit;}
+@keyframes ex{
+from{background-color:inherit;}
+to{background-color:rgba(255,127,80,0.9);}	
+}
+
+@media screen and (max-width:690px){
+body{/*background:green;*/}
+form{width:60%;}
+}
+</style>
+</head>
+<body>
+
+<form action="/me" name="an" method="GET" enctype="multipart/form-data" onreset="dot(this);">
+<h3>App admin</h3>
+<p>
+<label id="lbtc" for="fuck">Your btc address:</label><br><!-- addr.length 34 1HCviLYNqHAyeZxGTj9Mtgvj1NJgQuSo91 -->
+<input id="fuck"  type="text" name="btcad" maxlength="34" spellcheck="false" placeholder="your btc address"
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid="" data-von="0"/>
+</p>
+<p style="">
+<input type="reset"/><input name="submit" type="submit" value="Save"/>
+</p>
+</form>
+</body>
+<script>
+function dot(el){
+var f2=el.btcad;
+if(!f2)return;
+var sp1=document.createElement("span");
+
+f2.className=="wait"?f2.className="":f2.className="wait";
+el.submit.disabled ? el.submit.disabled=false:el.submit.disabled=true;
+if(f2.className==""){
+sp1.textContent=" suka";
+insert_after(sp1, lbtc,"span");
+}else{del_after(lbtc,"span");}
+}
+
+function insert_after(newnode, refnode,tagname){
+del_after(refnode, tagname);
+refnode.parentNode.insertBefore(newnode,refnode.nextSibling);
+}
+function del_after(refnode, tagname){
+if(refnode.nextSibling.tagName==tagname.toUpperCase())refnode.parentNode.removeChild(refnode.nextSibling);	
+}
+</script>
+</html>

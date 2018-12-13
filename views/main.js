@@ -70,6 +70,8 @@ out.innerHTML+="<br>"+"flag: "+flag+"<br>"+"token: "+token;
 <button onclick="get_prev_widget();">test widget</button>&nbsp;
 <div id="out"></div>
 <div id="popa">popa</div>
+
+
 </main>
 <script>
 function on_loc(el){console.log("on location changed");}

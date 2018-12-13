@@ -1,0 +1,37 @@
+<html><head><title>insert</title></head><body>
+	<button onclick="create();">create element</button>
+	<button onclick="deleteEl();">delete element</button>
+	<button onclick="info();">info</button>
+	<div id="firstDiv">first div</div>
+	<script>
+		var i=0;
+	function create(){
+		var el=document.createElement("div");
+		i++;
+		//el.textContent="second div "+i;
+		var t=document.createTextNode("suka "+i);
+		el.appendChild(t);
+		//firstDiv.parentNode.insertBefore(el,firstDiv);//before parent
+		//firstDiv.parentNode.insertBefore(el, firstDiv.nextSibling);//after parent
+		
+		insert_after(el,firstDiv);
+		
+	}
+	function deleteEl(){
+	del_after(firstDiv);
+	}
+	function insert_after(newnode, refnode){
+	if(refnode.nextSibling.tagName=="DIV"){del_after(refnode);}
+	refnode.parentNode.insertBefore(newnode,refnode.nextSibling);
+	}
+	function del_after(refnode){
+	if(refnode.nextSibling.tagName=="DIV")refnode.parentNode.removeChild(refnode.nextSibling);	
+	}
+	function info(){
+	var b=firstDiv.nextSibling;
+	console.log(b);	
+	var a=b.nodeType;
+	console.log(b.tagName=="DIV");
+	}
+	</script>
+</body></html>
