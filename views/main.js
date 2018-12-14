@@ -63,7 +63,7 @@ out.innerHTML+="<br>"+"flag: "+flag+"<br>"+"token: "+token;
 </script>
 </head><body  id="sbody"><main id="vkMain">
 
-<a href="/page#fucker=mother">page</a><h1>vk app</h1>
+<a href="/page#fucker=mother">page</a>&nbsp;|&nbsp;<a href="/testAdmin">testAdmin</a>&nbsp;<h1>vk app</h1>
 <h4>${n.user?n.user.id:"no"}&nbsp;${n.user? n.user.uname : ""}&nbsp;${n.user? n.user.ufa:""}</h4>
 <div>${n.session?n.session:""}</div>
 <a href="#popa">popa</a>&nbsp;<button onclick="resize_was();">test resize</button>&nbsp;

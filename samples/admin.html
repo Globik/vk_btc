@@ -31,7 +31,7 @@ form{width:60%;}
 </head>
 <body>
 
-<form action="/me" name="an" method="GET" enctype="multipart/form-data" onreset="dot(this);">
+<form action="/savebtcaddress" name="btcForm" method="GET" enctype="multipart/form-data" onreset="dot(this);">
 <h3>App admin</h3>
 <p>
 <label id="lbtc" for="fuck">Your btc address:</label><br><!-- addr.length 34 1HCviLYNqHAyeZxGTj9Mtgvj1NJgQuSo91 -->
@@ -63,6 +63,23 @@ refnode.parentNode.insertBefore(newnode,refnode.nextSibling);
 }
 function del_after(refnode, tagname){
 if(refnode.nextSibling.tagName==tagname.toUpperCase())refnode.parentNode.removeChild(refnode.nextSibling);	
+}
+var btcForm=document.forms.btcForm;
+if(btcForm){
+btcForm.addEventListener('submit',on_btc_submit_form, false);	
+}
+function on_btc_submit_form(ev){
+console.log(ev.defaultPrevented);
+//ev.preventDefault();
+console.log("OK default");
+//ev.defaultPrevented=true;
+var v="sa";
+try{
+//var b=JSON.parse(v);
+}catch(e){console.log(e);
+return;
+}	
+ev.preventDefault();
 }
 </script>
 </html>

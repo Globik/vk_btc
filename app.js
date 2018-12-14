@@ -8,6 +8,8 @@ const Router=require('koa-router');
 const passport=require('koa-passport');
 const urli=require('url');
 const session=require('koa-session');
+const pubrouter=require('./route/pub.js');
+
 
 const MY_PORT=8000;
 const MY_HOSTNAME='my_app_local.ru';
@@ -20,13 +22,21 @@ var fake_user_list=[{uname:"Vadik",ufa:"Popov", id:1, role:"admin", email:"fake@
 const app=new Koa();
 const pub=new Router();
 app.keys=['your-secret'];
+app.use(serve(__dirname+'/public'));
 app.use(session({httpOnly:false,signed: false,secure:false}, app));
 render(app,{root:'views', development: true})
-app.use(koaBody())
+app.use(koaBody({multipart:true,formidable:{}}))
 require('./auth/fake.js')(fake_user_list, passport)
 app.use(passport.initialize())
 app.use(passport.session())
-
+function xhr(){
+return async function xhr(ctx, next){
+ctx.state.xhr=(ctx.request.get('X-Requested-With')==='XMLHttpRequest');
+//console.log('middle xhr: ',ctx.state.xhr);
+await next();	
+}	
+}
+app.use(xhr());
 
 
 pub.get('/', async ctx=>{
@@ -162,8 +172,9 @@ ctx.logout();ctx.redirect('/');
 });
 
 app.use(pub.routes()).use(pub.allowedMethods());
+app.use(pubrouter.routes()).use(pubrouter.allowedMethods());
 app.on('error',(err, ctx)=>{
-	console.log('sess: ',ctx.session);
+console.log('sess: ',ctx.session);
 	/*extra: { pipka: 'suka', mishka: 'dura' },
   vt: 4,
   as: 1,
