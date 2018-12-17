@@ -1,26 +1,180 @@
 <!DOCTYPE html>
-<html><head><title>two param</title></head><body>
+<html><head><title>two param</title>
+<style>
+fieldset{}
+input{height:20px;
+input[type=radio][value=crowd]:checked {background:red;background-color:green;color:red;}
+</style>
+</head><body>
 <p>1. Crowdfund. 2. Single 3. Merchant.</p>
 <form name="twoparam" method="" action="/me" enctype="">
-<p><h3>check method</h3><label>single</label>
-<input type="radio" checked name="role" value="single"/><br>
-<label>crowd</label><br>
-<input type="radio" name="role" value="crowd"/><br>
-<label>merchant</label><br>
-<input type="radio" name="role" value="merchant"/>
+<!-- your legend -->
+<fieldset name="fuck"><legend><b>Choose your legend</b></legend>
+<p><h3>status: <span id="vidstatus"></span></h3><label>donat
+<input type="radio" checked name="rol" value="single" checked/></label>
+<label for="cr">partnership
+<input id="cr" type="radio" name="rol" value="crowd"/></label>
+<label>merchant</label>
+<input type="radio" name="rol" value="merchant"/>
 </p>
-<p><h3>btc addresses</h3>
+
+<p>
 <label>your btc address:</label><br>
-<input type="text" name="yourbtcadr" maxlength="34" spellcheck="false" placeholder="your btc address"
- value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/><br>
+<input type="text" name="yourbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></p>
+ <p><label>for what:</label><br>
+ <textarea name="gesamtziel" placeholder="for what?" required>for me</textarea></p>
+ <p><label>how much btc:</label><br>
+ <input type="number" name="goalbtc" min="1.000" max="300.000" value="1.00" step="0.05"/><!-- <input type="url" disabled value="http://vk.com"/> -->
+ </p>
+<p><label>how long</label><br>
+<select name="durmon">
+<option value="1">one month</option>
+<option value="3">3 months</option>
+<option value="6">6 months</option>
+<option value="12">one year</option>
+</select>
+ </p>
+ <p><label>when to moderate?</label><br>
+ <select name="curstatus">
+ <option value="0">initial</option>
+ <option value="1" >right now</option>
+ <option value="3" hidden selected>already running</option>
+ <option value="4" hidden>on moderate</option>
+ </select>
+ </p>
+ <p><input type="reset" name="firstreset"/><input type="submit" value="save"/></p>
+ </fieldset>
+ <!-- in partnership with -->
+ <fieldset name="crowd" disabled><legend><b>In Partnership with</b></legend>
+ <p>
  <label>procent for your btc adrress:</label><br>
- <input type="number"/><br>
- <label>companion's btc address:</label><br>
- <input type="text" name="hisbtcadr" maxlength="34" spellcheck="false" placeholder="your btc address"
- value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/><br>
- <label>procent for companion's btc adrress:</label><br>
- <input type="number"/>
+ <input id="part" type="number" name="yrpr" value="2" min="1" max="45" size="3"/>
+ <meter id="yormet" min="1"  high="19" low="9" value="1" max="100"</p>
+ <p><label>companion's btc address:</label><br>
+ <input type="text" name="hisbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></p>
+ <p><label>procent for companion's btc adrress:</label><br>
+ <input type="number" name="hspr" value="93" min="1" max="45" size="3" readonly/>
+ <meter id="hismet" min="1" value="99" max="100">%</meter>
 </p>
-<p><input type="reset"/><input type="submit" value="save"/></p>
+
+<p><label>name of comp:</label><br><input type="text" name="pname" value="boris"/></p>
+<p><input type="reset" name="crowdreset"/><input type="submit" value="save"/></p>
+</fieldset>
 </form>
-</body></html>
+</body>
+<script>
+var my_proz=5;
+var global_status=0;
+var l=document.forms.twoparam.fuck;
+var vl=document.forms.twoparam;
+l.addEventListener('change',boo,false);
+//var vl3=document.forms.twoparam.crowdreset;
+//alert(vl3.name);
+vl.addEventListener('reset',on_reset,false);
+if(global_status==0){
+vidstatus.textContent="initial";	
+}else{
+vidstatus.textContent="running";	
+vl.goalbtc.disabled=true;
+
+vl.goalbtc.value="12";
+//vl.goalbtc.readonly=true;
+vl.durmon.disabled=true;
+vl.durmon.value="6";
+vl.curstatus.disabled=true;
+vl.curstatus.value="3";
+vl.yrpr.disabled=true;
+vl.hspr.disabled=true;
+vl.pname.disabled=true;
+}
+function boo(ev){
+var a=ev.target.value;
+console.log('in boo: ',a);
+//var vl=document.forms.twoparam;
+if(a=="crowd"){
+console.log(vl[a].disabled);
+if(vl.crowd.disabled){
+vl[a].disabled=false;
+stimmt_proc(vl);
+}
+if(vl.goalbtc.disabled)vl.goalbtc.disabled=false;
+if(vl.crowd.disabled)vl.crowd.disabled=false;
+if(vl.durmon.disabled)vl.durmon.disabled=false;
+if(vl.curstatus.disabled)vl.curstatus.disabled=false;
+}else if(a=="single"){
+if(!vl.crowd.disabled)vl.crowd.disabled=true;
+
+if(vl.crowd.disabled)vl.crowd.disabled=false;
+if(vl.durmon.disabled)vl.durmon.disabled=false;
+if(vl.curstatus.disabled)vl.curstatus.disabled=false;
+if(vl.goalbtc.disabled)vl.goalbtc.disabled=false;
+
+}else if(a=="merchant"){
+if(!vl.crowd.disabled)vl.crowd.disabled=true;
+if(!vl.durmon.disabled)vl.durmon.disabled=true;
+if(!vl.curstatus.disabled)vl.curstatus.disabled=true;
+if(!vl.goalbtc.disabled)vl.goalbtc.disabled=true;
+}else{
+return;
+console.warn("todo disable crowd?");
+vl.crowd.disabled=true;
+unstimmt_proc(vl);
+}
+}
+function stimmt_proc(es){
+var yorpr=es.yrpr;
+var hispr=es.hspr;
+if(!yorpr || !hispr)return;
+
+yorpr.addEventListener('input',on_yrinput,false);
+hispr.addEventListener('input',on_hsinput,false);
+}
+
+function unstimmt_proc(es){
+var yorpr=es.yrpr;
+var hispr=es.hspr;
+if(!yorpr || !hispr)return;
+console.log(hispr.value);
+yorpr.removeEventListener('input',on_yrinput);
+hispr.removeEventListener('input',on_hsinput);
+}
+
+function on_yrinput(ev){
+console.log('you: ',ev.target.value);
+var hispr=vl.hspr;
+var yorpr=vl.yrpr;
+var suka=5 + Number(ev.target.value);
+console.log('suka: ',suka);
+hispr.value= 100 - suka;//(ev.target.value);
+console.log('after: ', hispr.value);
+
+yormet.value=yorpr.value;
+hismet.value=hispr.value;
+}
+function on_hsinput(ev){
+	/*
+var yorpr=vl.yrpr;
+var hispr=vl.hspr;
+yorpr.value=100 - (ev.target.value) ;	
+hismet.value=hispr.value;
+yormet.value=yorpr.value;
+*/
+}
+function on_reset(ev){
+//alert('reset '+ev.target.name+' ');
+hismet.value=ev.target.hspr.value;
+yormet.value=ev.target.yrpr.value;
+
+vl.crowd.disabled=true;
+
+var yorpr=ev.target.yrpr;
+var hispr=ev.target.hspr;
+console.log(hispr.value, yorpr.value);
+yorpr.removeEventListener('input',on_yrinput);
+hispr.removeEventListener('input',on_hsinput);
+}
+
+</script>
+</html>
