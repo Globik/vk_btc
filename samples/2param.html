@@ -1,21 +1,137 @@
 <!DOCTYPE html>
 <html><head><title>two param</title>
 <style>
+*{box-sizing:border-box;-webkit-box-sizing:boreder-box;-moz-box-sizing:border-box;}
+bonndy{margin:0;padding:0;}
 fieldset{}
-input{height:20px;
-input[type=radio][value=crowd]:checked {background:red;background-color:green;color:red;}
+form{width:50%;background:initial;}
+input[type=text]{height:40px;width:50%;}
+textarea{width:50%;height:50px;}
+input[type=number]{width:50%;height:40px;}
+
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{
+	height:40px;width:40px;
+	border-radius:0;
+	padding:6px;
+	}
+meter{width:50%;height:40px;
+	/*-webkit-appearance:none;*/
+	border:1px solid green;}
+	meter::-webkit-meter-bar{border:1px solid red;}
+
+label{line-height:28px;padding-right:8px;}
+label>input[type=radio]{
+margin-top:-1px;vertical-align:middle;
+}
+
+select{width:50%;height:40px;font-weight:bold;}
+
+.cntlb{
+position:relative;
+padding-left:35px;
+margin-bottom:12px;
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;	
+font-size:22px;
+}
+.cntlb input{
+position:absolute;
+opacity:0;
+cursor:pointer;	
+height:0;
+width:0;
+}
+.mark{
+position:absolute;
+top:0;
+left:0;
+height:25px;
+width:25px;
+background-color:#eee;
+border-radius:50%;
+}
+.cntlb:hover input ~ .mark{background-color:#ccc;}
+.cntlb input:checked ~ .mark{background-color:#2196F3;}
+.mark:after{content:"";
+	position:absolute;display:none;}
+.cntlb input:checked ~ .mark:after{display:block;;
+	/*}
+.cntlb.mark:after{*/
+	top:9px;
+	left:9px;
+	width:8px;
+	height:8px;
+	border-radius:50%;
+	background:white;
+	}
+	
+	
+	
+	
+	
+.cntlb2{
+position:relative;
+padding-left:35px;
+margin-bottom:12px;
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+cursor:pointer;
+user-select:none;	
+font-size:22px;
+}
+.cntlb2 input{
+position:absolute;
+opacity:0;
+cursor:pointer;	
+height:0;
+width:0;
+}
+.mark2{
+position:absolute;
+top:0;
+left:0;
+height:25px;
+width:25px;
+background-color:#eee;
+/*border-radius:50%;*/
+}
+.cntlb2:hover input ~ .mark2{background-color:#ccc;}
+.cntlb2 input:checked ~ .mark2{background-color:#2196F3;}
+.mark2:after{content:"";
+	position:absolute;display:none;}
+.cntlb2 input:checked ~ .mark2:after{display:block;
+	/*}
+.cntlb.mark:after{*/
+	top:5px;
+	left:9px;
+	width:5px;
+	height:10px;
+	border:solid white;
+	border-width: 0 3px 3px 0;
+	-webkit-transform:rotate(45deg);
+	-ms-transform:rotate(45deg);
+	transform:rotate(45deg);
+	/*
+	border-radius:50%;
+	background:white;
+	*/
+	}
+@media screen and (max-width:690px){
+body{background:green;}
+form{width:100%;}
+}
 </style>
 </head><body>
-<p>1. Crowdfund. 2. Single 3. Merchant.</p>
 <form name="twoparam" method="" action="/me" enctype="">
 <!-- your legend -->
 <fieldset name="fuck"><legend><b>Choose your legend</b></legend>
-<p><h3>status: <span id="vidstatus"></span></h3><label>donat
-<input type="radio" checked name="rol" value="single" checked/></label>
-<label for="cr">partnership
-<input id="cr" type="radio" name="rol" value="crowd"/></label>
-<label>merchant</label>
-<input type="radio" name="rol" value="merchant"/>
+<p><h3>status: <span id="vidstatus"></span></h3>
+<label class="cntlb2">thing<input type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>
+<label class="cntlb">single<input type="radio" checked name="rol" value="single" checked/><span class="mark"></span></label>
+<label class= "cntlb" for="cr">partnership<input id="cr" type="radio" name="rol" value="crowd"/><span class="mark"></span></label>
 </p>
 
 <p>
@@ -24,9 +140,9 @@ input[type=radio][value=crowd]:checked {background:red;background-color:green;co
  value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></p>
  <p><label>for what:</label><br>
  <textarea name="gesamtziel" placeholder="for what?" required>for me</textarea></p>
- <p><label>how much btc:</label><br>
- <input type="number" name="goalbtc" min="1.000" max="300.000" value="1.00" step="0.05"/><!-- <input type="url" disabled value="http://vk.com"/> -->
- </p>
+ <p><label>how much btc:<br>
+ <input type="number" name="goalbtc" min="1.000" max="300.000" value="1.000" step="0.005" noinvalidate/>
+ </label></p>
 <p><label>how long</label><br>
 <select name="durmon">
 <option value="1">one month</option>
@@ -48,15 +164,16 @@ input[type=radio][value=crowd]:checked {background:red;background-color:green;co
  <!-- in partnership with -->
  <fieldset name="crowd" disabled><legend><b>In Partnership with</b></legend>
  <p>
- <label>procent for your btc adrress:</label><br>
- <input id="part" type="number" name="yrpr" value="2" min="1" max="45" size="3"/>
- <meter id="yormet" min="1"  high="19" low="9" value="1" max="100"</p>
+ <label>procent for your btc address:<br>
+ <input id="part" type="number" name="yrpr" value="2" min="1" max="45" size="3"/></label>
+ <meter id="yormet" min="1"  high="19" low="9" value="1" max="100">%</meter>
+ <input type="number" name="hspr" value="93" min="1" max="45" size="3" readonly/>
+ <meter id="hismet" min="1" value="99" max="100">%</meter>
+ </p>
  <p><label>companion's btc address:</label><br>
  <input type="text" name="hisbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
  value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></p>
- <p><label>procent for companion's btc adrress:</label><br>
- <input type="number" name="hspr" value="93" min="1" max="45" size="3" readonly/>
- <meter id="hismet" min="1" value="99" max="100">%</meter>
+ <p>
 </p>
 
 <p><label>name of comp:</label><br><input type="text" name="pname" value="boris"/></p>
@@ -69,7 +186,7 @@ var my_proz=5;
 var global_status=0;
 var l=document.forms.twoparam.fuck;
 var vl=document.forms.twoparam;
-l.addEventListener('change',boo,false);
+l.addEventListener('change', on_tp_change,false);
 //var vl3=document.forms.twoparam.crowdreset;
 //alert(vl3.name);
 vl.addEventListener('reset',on_reset,false);
@@ -89,10 +206,9 @@ vl.yrpr.disabled=true;
 vl.hspr.disabled=true;
 vl.pname.disabled=true;
 }
-function boo(ev){
+
+function on_tp_change(ev){
 var a=ev.target.value;
-console.log('in boo: ',a);
-//var vl=document.forms.twoparam;
 if(a=="crowd"){
 console.log(vl[a].disabled);
 if(vl.crowd.disabled){
@@ -105,40 +221,22 @@ if(vl.durmon.disabled)vl.durmon.disabled=false;
 if(vl.curstatus.disabled)vl.curstatus.disabled=false;
 }else if(a=="single"){
 if(!vl.crowd.disabled)vl.crowd.disabled=true;
-
-if(vl.crowd.disabled)vl.crowd.disabled=false;
 if(vl.durmon.disabled)vl.durmon.disabled=false;
 if(vl.curstatus.disabled)vl.curstatus.disabled=false;
 if(vl.goalbtc.disabled)vl.goalbtc.disabled=false;
 
-}else if(a=="merchant"){
-if(!vl.crowd.disabled)vl.crowd.disabled=true;
-if(!vl.durmon.disabled)vl.durmon.disabled=true;
-if(!vl.curstatus.disabled)vl.curstatus.disabled=true;
-if(!vl.goalbtc.disabled)vl.goalbtc.disabled=true;
-}else{
-return;
-console.warn("todo disable crowd?");
-vl.crowd.disabled=true;
-unstimmt_proc(vl);
-}
+}else{}
 }
 function stimmt_proc(es){
 var yorpr=es.yrpr;
-var hispr=es.hspr;
-if(!yorpr || !hispr)return;
-
+if(!yorpr)return;
 yorpr.addEventListener('input',on_yrinput,false);
-hispr.addEventListener('input',on_hsinput,false);
 }
 
 function unstimmt_proc(es){
 var yorpr=es.yrpr;
-var hispr=es.hspr;
-if(!yorpr || !hispr)return;
-console.log(hispr.value);
+if(!yorpr)return;
 yorpr.removeEventListener('input',on_yrinput);
-hispr.removeEventListener('input',on_hsinput);
 }
 
 function on_yrinput(ev){
@@ -153,15 +251,7 @@ console.log('after: ', hispr.value);
 yormet.value=yorpr.value;
 hismet.value=hispr.value;
 }
-function on_hsinput(ev){
-	/*
-var yorpr=vl.yrpr;
-var hispr=vl.hspr;
-yorpr.value=100 - (ev.target.value) ;	
-hismet.value=hispr.value;
-yormet.value=yorpr.value;
-*/
-}
+
 function on_reset(ev){
 //alert('reset '+ev.target.name+' ');
 hismet.value=ev.target.hspr.value;
@@ -170,10 +260,8 @@ yormet.value=ev.target.yrpr.value;
 vl.crowd.disabled=true;
 
 var yorpr=ev.target.yrpr;
-var hispr=ev.target.hspr;
-console.log(hispr.value, yorpr.value);
+
 yorpr.removeEventListener('input',on_yrinput);
-hispr.removeEventListener('input',on_hsinput);
 }
 
 </script>
