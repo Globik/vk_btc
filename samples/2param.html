@@ -3,10 +3,11 @@
 <style>
 *{box-sizing:border-box;-webkit-box-sizing:boreder-box;-moz-box-sizing:border-box;}
 bonndy{margin:0;padding:0;}
-fieldset{}
+fieldset{background:rgb(250,255,223);}
 form{width:50%;background:initial;}
 input[type=text]{height:40px;width:50%;}
-textarea{width:50%;height:50px;}
+input[type=text],input[type=number],textarea,select{margin-top:3px;}
+textarea{width:100%;height:50px;}
 input[type=number]{width:50%;height:40px;}
 
 input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{
@@ -14,17 +15,20 @@ input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-ou
 	border-radius:0;
 	padding:6px;
 	}
+	
+input[type=reset],input[type=submit]{width:30%;height:40px;font-weight:bold;}
 meter{width:50%;height:40px;
 	/*-webkit-appearance:none;*/
 	border:1px solid green;}
 	meter::-webkit-meter-bar{border:1px solid red;}
 
-label{line-height:28px;padding-right:8px;}
+label{line-height:18px;padding-right:8px;}
 label>input[type=radio]{
 margin-top:-1px;vertical-align:middle;
 }
 
-select{width:50%;height:40px;font-weight:bold;}
+select{width:50%;height:40px;font-weight:bold;/*-webkit-appearance:none;*/}
+select > option{font-size:22px;}
 
 .cntlb{
 position:relative;
@@ -123,43 +127,49 @@ background-color:#eee;
 body{background:green;}
 form{width:100%;}
 }
+label b{font-size:16px;font-family:courier;/*text-decoration: underline dashed;*/}
+small{font-size:13px;font-family:monospace;color:rgb(0,0,15);}
+legend{font-weight:bold;font-family:monospace;font-size:16px;}
+ins{font-weight:bold;letter-spacing:0.09em;color:rgb(0,0,0);}
 </style>
 </head><body>
 <form name="twoparam" method="" action="/me" enctype="">
 <!-- your legend -->
-<fieldset name="fuck"><legend><b>Choose your legend</b></legend>
-<p><h3>status: <span id="vidstatus"></span></h3>
-<label class="cntlb2">thing<input type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>
-<label class="cntlb">single<input type="radio" checked name="rol" value="single" checked/><span class="mark"></span></label>
-<label class= "cntlb" for="cr">partnership<input id="cr" type="radio" name="rol" value="crowd"/><span class="mark"></span></label>
-</p>
+<fieldset name="fuck"><legend>Черновик проекта</legend>
 
-<p>
-<label>your btc address:</label><br>
-<input type="text" name="yourbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
- value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></p>
- <p><label>for what:</label><br>
- <textarea name="gesamtziel" placeholder="for what?" required>for me</textarea></p>
- <p><label>how much btc:<br>
+ <p><label><b>Hазвание проекта</b></label><br>
+ <small style="">Должно быть простым, запоминающимся и отражать <ins>суть</ins> вашего проекта.</small>
+ <textarea name="gesamtziel" placeholder="for what?" required>Учебник русскага языка для иносранцев "Новый Сувенир 3"</textarea>
+ </p>
+ 
+<p><label><b>Продолжительность проекта</b></label><br>
+<small><ins>Бессрочно</ins> - проект будет закончен как только вы привлекете 100% от суммы.</small>
+<select name="durmon">
+<option value="1" title="tit">1 месяц</span></option>
+<option value="3">3 месяца</option>
+<option value="6">6 месяцев</option>
+<option value="7">Бессрочно</option>
+</select>
+</p>
+<p><label><b>Необходимая сумма</b><br>
+ <small>Укажите минимальную сумму в <ins>биткоинах</ins>(<abbr>BTC</abbr>), необходимую на реализацию проекта.</small>
  <input type="number" name="goalbtc" min="1.000" max="300.000" value="1.000" step="0.005" noinvalidate/>
  </label></p>
-<p><label>how long</label><br>
-<select name="durmon">
-<option value="1">one month</option>
-<option value="3">3 months</option>
-<option value="6">6 months</option>
-<option value="12">one year</option>
-</select>
- </p>
- <p><label>when to moderate?</label><br>
+ <p>
+<label><b>Ваш Биткоин адрес</b><br>
+<small>Адрес, куды перечислять биткоины апосля подтверждения платежа сетью. Это может быть <ins>личный кошелек</ins>, <ins>хранилище</ins> 
+или <ins>адрес биржи</ins> для последующего обмена в физическую валюту. <ins>Вы имеете право изменить свой адрес в любой момент</ins>.</small><br>
+<input type="text" name="yourbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></label></p>
+ <!-- <p><label>when to moderate?</label><br>
  <select name="curstatus">
  <option value="0">initial</option>
  <option value="1" >right now</option>
  <option value="3" hidden selected>already running</option>
  <option value="4" hidden>on moderate</option>
  </select>
- </p>
- <p><input type="reset" name="firstreset"/><input type="submit" value="save"/></p>
+ </p> -->
+ <p><input type="reset" name="firstreset" value="Сбросить"/><input type="submit" value="Сохранить"/></p>
  </fieldset>
  <!-- in partnership with -->
  <fieldset name="crowd" disabled><legend><b>In Partnership with</b></legend>
@@ -178,6 +188,11 @@ form{width:100%;}
 
 <p><label>name of comp:</label><br><input type="text" name="pname" value="boris"/></p>
 <p><input type="reset" name="crowdreset"/><input type="submit" value="save"/></p>
+<p>
+<label class="cntlb2">thing<input type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>
+<label class="cntlb">single<input type="radio" checked name="rol" value="single" checked/><span class="mark"></span></label>
+<label class= "cntlb" for="cr">partnership<input id="cr" type="radio" name="rol" value="crowd"/><span class="mark"></span></label>
+</p>
 </fieldset>
 </form>
 </body>
