@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">	
+<title>type number</title>
+<style>
+*{box-sizing:border-box;}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{
+-webkit-appearance:none;
+height:40px;
+width:7px;
+border-radius:0;
+padding:6px;
+-moz-appearance:textfield;
+}
+input[type=number]{-moz-appearance:textfield;}
+input[type=number]:valid{outline-color:lightgreen;}
+input[type=number]:invalid{outline-color:red;}
+input[type=number]:valid + span:after{
+content:"ok";
+padding-left:5px;	
+}
+.bminus,.bplus{cursor:pointer;border:1px solid green;}
+
+</style>
+</head>
+<body>
+	onmousedown="starti(this);"
+<h1>input type number</h1>
+<form name="suka" action="/me">
+<button class="bminus" onclick="bminus(this);return false;">-</button>
+<input name="suka" id="fucker" type="number" min="0.0006" max="300" step="0.0001" placeholder="1.0000" oninvalid="invali(this);"/>
+<span class="bplus"  onclick="fig(this);" onmousedown="starti(this);" onmouseup="stopi(this);" ><b>+</b></span>
+<p><input type="submit"/></p>
+</form>
+</body>
+<script>
+var ert="Please enter the number(by hand)";
+var t;//=false;
+var t_is_on=0;
+var click=true;
+
+function bminus(el){
+try{
+el.nextElementSibling.stepDown();
+}catch(e){
+console.log(e);
+
+//numerr.textContent=ert;
+}		
+}
+function bplus(el){
+try{
+el.previousElementSibling.stepUp();
+}catch(e){
+console.log(e);
+//numerr.textContent=ert;
+}	
+}
+
+function starti(el){
+console.log("down ");
+if(!click)return;
+//el.target.preventDefault();
+if(!t_is_on){
+t_is_on=1;
+set_plus(el);
+}
+}
+function fig(el){
+console.log("click");
+click=true;	
+}
+function set_plus(el){
+	//el.preventDefault();
+try{
+//el.previousElementSibling.stepUp();
+fucker.stepUp();
+}catch(e){
+console.log(e);
+//numerr.textContent=ert;
+stopi(el);
+}	
+t=setTimeout(set_plus,10);
+	
+}
+function stopi(ev){
+click=false;
+	try{
+	//ev.preventDefault();
+	console.log("stopi");
+if(t)clearTimeout(t);	
+t_is_on=0;
+}catch(e){alert(e);}
+}
+function stopid(ev){
+//ev.preventDefault();
+console.log("stopi");	
+}
+
+function invali(el){
+//	el.value="1.00000";
+}
+</script>
+</html>

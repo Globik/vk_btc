@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html><head><title>two param</title>
+<html><head>
+<meta charset="UTF-8">	
+<title>two param</title>
 <style>
 *{box-sizing:border-box;-webkit-box-sizing:boreder-box;-moz-box-sizing:border-box;}
 bonndy{margin:0;padding:0;}
@@ -11,10 +13,13 @@ textarea{width:100%;height:50px;}
 input[type=number]{width:50%;height:40px;}
 
 input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{
+	-webkit-appearance:none;
 	height:40px;width:40px;
 	border-radius:0;
 	padding:6px;
+	-moz-appearance:textfield;
 	}
+	input[type=number]{-moz-appearance:textfield;}
 	
 input[type=reset],input[type=submit]{width:30%;height:40px;font-weight:bold;}
 meter{width:50%;height:40px;
@@ -22,10 +27,7 @@ meter{width:50%;height:40px;
 	border:1px solid green;}
 	meter::-webkit-meter-bar{border:1px solid red;}
 
-label{line-height:18px;padding-right:8px;}
-label>input[type=radio]{
-margin-top:-1px;vertical-align:middle;
-}
+
 
 select{width:50%;height:40px;font-weight:bold;/*-webkit-appearance:none;*/}
 select > option{font-size:22px;}
@@ -33,13 +35,18 @@ select > option{font-size:22px;}
 .cntlb{
 position:relative;
 padding-left:35px;
-margin-bottom:12px;
+
+padding-top:3px;
 -webkit-user-select:none;
 -moz-user-select:none;
 -ms-user-select:none;
 user-select:none;	
-font-size:22px;
+font-size:18px;
+
+line-height:0;
+background:pink;
 }
+p.cntlb{vertical-align:middle;}
 .cntlb input{
 position:absolute;
 opacity:0;
@@ -53,7 +60,7 @@ top:0;
 left:0;
 height:25px;
 width:25px;
-background-color:#eee;
+background-color:red /*#eee*/;
 border-radius:50%;
 }
 .cntlb:hover input ~ .mark{background-color:#ccc;}
@@ -127,7 +134,7 @@ background-color:#eee;
 body{background:green;}
 form{width:100%;}
 }
-label b{font-size:16px;font-family:courier;/*text-decoration: underline dashed;*/}
+abel + b{font-size:16px;font-family:courier;/*text-decoration: underline dashed;*/}
 small{font-size:13px;font-family:monospace;color:rgb(0,0,15);}
 legend{font-weight:bold;font-family:monospace;font-size:16px;}
 ins{font-weight:bold;letter-spacing:0.09em;color:rgb(0,0,0);}
@@ -136,12 +143,11 @@ ins{font-weight:bold;letter-spacing:0.09em;color:rgb(0,0,0);}
 <form name="twoparam" method="" action="/me" enctype="">
 <!-- your legend -->
 <fieldset name="fuck"><legend>Черновик проекта</legend>
-
- <p><label><b>Hазвание проекта</b></label><br>
- <small style="">Должно быть простым, запоминающимся и отражать <ins>суть</ins> вашего проекта.</small>
- <textarea name="gesamtziel" placeholder="for what?" required>Учебник русскага языка для иносранцев "Новый Сувенир 3"</textarea>
- </p>
- 
+<p><h3>Hазвание проекта</h3>
+<small style="">Должно быть простым, запоминающимся и отражать <ins>суть</ins> вашего проекта.</small>
+<textarea name="gesamtziel" placeholder="for what?" required>Учебник русскага языка для иносранцев "Новый Сувенир 3"</textarea>
+</p>
+ <!--
 <p><label><b>Продолжительность проекта</b></label><br>
 <small><ins>Бессрочно</ins> - проект будет закончен как только вы привлекете 100% от суммы.</small>
 <select name="durmon">
@@ -150,11 +156,23 @@ ins{font-weight:bold;letter-spacing:0.09em;color:rgb(0,0,0);}
 <option value="6">6 месяцев</option>
 <option value="7">Бессрочно</option>
 </select>
-</p>
+</p> -->
+
+
+<p><h3>Продолжительность проекта</h3></p>
+<p><label class="cntlb">3 месяца<input type="radio" checked name="dauern" value="1"/><span class="mark"></span></label></p>
+<p><label class= "cntlb">6 месяцев<input type="radio" name="dauern" value="2"/><span class="mark"></span></label></p>
+<p><label class="cntlb">Бессрочно<input type="radio" name="dauern" value="3"/><span class="mark"></span></label></p>
+
+
+
+
+
+
 <p><label><b>Необходимая сумма</b><br>
- <small>Укажите минимальную сумму в <ins>биткоинах</ins>(<abbr>BTC</abbr>), необходимую на реализацию проекта.</small>
- <input type="number" name="goalbtc" min="1.000" max="300.000" value="1.000" step="0.005" noinvalidate/>
- </label></p>
+ <small>Укажите минимальную сумму в <ins>биткоинах</ins>(<abbr>BTC</abbr>), необходимую на реализацию проекта.</small><br>
+ <input type="number" name="goalbtc" min="" max="" placeholder="0.0055" step="0.0006"/><span onclick="dup(this);">+</span>
+ <span id="numerr"></span></label></p>
  <p>
 <label><b>Ваш Биткоин адрес</b><br>
 <small>Адрес, куды перечислять биткоины апосля подтверждения платежа сетью. Это может быть <ins>личный кошелек</ins>, <ins>хранилище</ins> 
@@ -206,7 +224,7 @@ l.addEventListener('change', on_tp_change,false);
 //alert(vl3.name);
 vl.addEventListener('reset',on_reset,false);
 if(global_status==0){
-vidstatus.textContent="initial";	
+//vidstatus.textContent="initial";	
 }else{
 vidstatus.textContent="running";	
 vl.goalbtc.disabled=true;
@@ -221,7 +239,16 @@ vl.yrpr.disabled=true;
 vl.hspr.disabled=true;
 vl.pname.disabled=true;
 }
-
+function dup(el){
+	try{
+el.previousElementSibling.stepUp();
+}catch(e){
+console.log(e);
+var ert="Please enter the number(by hand)";
+numerr.textContent=ert;
+}	
+//el.previousElementSibling.value=el.previousElementSibling.value+0.6555;
+}
 function on_tp_change(ev){
 var a=ev.target.value;
 if(a=="crowd"){
