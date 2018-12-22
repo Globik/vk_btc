@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">	
+<title>checked btc input</title>
+<style>
+*{box-sizing:border-box;}
+body{}
+
+		
+#dropBtc{position:absolute;background:silver;display:none;
+height:auto;width:50%;	
+}
+#dropcheck:checked ~ #dropBtc{display:none;}
+
+label.bla{color:red;border:0.1em solid black;
+display:inline-block;
+width:50px;height:50px;	
+text-align:center;
+margin-top:1px;
+margin-bottom:1px;
+padding-top:13px;
+font-size:20px;
+}
+#dropBtc::selection,.bla::selection,#spanout::selection,label[for=dropcheck]::selection, button::selection{background:none;}
+/*label.bla::-webkit-selection, label.bla::-moz-selection{background:none;}*/
+/*.bla span{backgrund:green;}*/
+
+
+table{border:1px solid green;max-height:30px;}
+td{
+	border:1px solid black;
+	width:30px;
+	max-width:30px;
+	min-height:30px;
+	overflow:hidden;
+	height:30px;
+	font-size:21px;
+	text-align:center;
+	font-weight:bold;
+	poistion:static;
+	}
+hr{height:6px;background:black;}
+
+td div.fi{
+	display:block;
+	background:lightblue;
+width:28px;height:28px;
+color:gray;
+transform:translateY(0px);	
+
+}
+</style>
+</head>
+<body>
+<label for="dropcheck">menu</label><input id="dropcheck" type="checkbox" value="7"/><span id="spanout">u</span>
+<div id="dropBtc">
+
+<label class="bla" onclick="show_z(this);">0</label>
+<label class="bla" onclick="show_z(this);">1</label>
+<label class="bla" onclick="show_z(this);">2</label>
+<label class="bla" onclick="show_z(this);">3</label>
+<label class="bla" onclick="show_z(this);">4</label>
+<label class="bla" onclick="show_z(this);">5</label>
+<label class="bla" onclick="show_z(this);">6</label>
+<label class="bla" onclick="show_z(this);">7</label>
+<label class="bla" onclick="show_z(this);">8</label>
+<label class="bla" onclick="show_z(this);">9</label>
+<label class="bla" onclick="show_z(this);">.</label>
+<label class="bla" onclick="show_b(this);">ba</label>
+<label class="bla" onclick="show_reset(this);">reset</label>
+
+<button onclick="check();">is number?</button>
+</div>
+<div>noch div</div>
+<table><td><div>1</div></td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></table>
+<button onclick="gimme();">gimme</button>
+<button onclick="putme();">putme</button>
+<button onclick="clearme();">clearme</button>
+<hr>
+<button onclick="A(this);" value="a">a</button>
+<button onclick="A(this);" value="ab">ab</button>
+<button onclick="A(this);" value="abc">abc</button>
+<button onclick="A(this);" value="abcd">abcd</button>
+<script>
+var pt;
+var tdis=document.getElementsByTagName("td");
+function gimme(){
+var s="";
+//var tdis=document.getElementsByTagName("td");	
+for(var i=0;i<tdis.length;i++){
+var td=tdis[i];
+pt=td;
+s+=td.textContent;	
+}
+console.log(s);
+}
+var stri="198.79561";
+function putme(){
+for(var i=0;i<stri.length;i++){
+if(tdis[i])tdis[i].textContent=stri[i];	
+}
+}
+function clearme(){
+for(var i=0;i<tdis.length;i++){
+if(tdis[i])tdis[i].textContent="";	
+}	
+}
+function A(el){
+for(var i=0;i<el.value.length;i++){
+if(tdis[i])tdis[i].textContent=el.value[i];
+}
+}
+
+
+
+
+
+
+
+
+spanout.textContent="";
+var t=0;
+function show_z(el){
+
+if(el.textContent=="."){
+t+=1;
+//if(t>=2)return;
+}
+
+
+
+
+
+spanout.textContent+=el.textContent;
+if(spanout.textContent.length>0){
+console.log("aha, len is not null");
+var num=fetch_number(spanout.textContent);
+console.log('num: ',num);
+if(isNaN(num)){
+spanout.textContent="";
+t=0;
+return;	
+}
+}
+}
+function show_b(el){
+var a=spanout.textContent;
+var b=a.slice(0,-1);
+spanout.textContent=b;
+}
+function show_reset(el){
+spanout.textContent="";	
+t=false;
+}
+function foo(){console.error('err');}
+function check(){
+console.log(Number(spanout.textContent))	
+}
+function fetch_number(str){
+return Number(str);	
+}
+</script>
+</body>
+</html>
