@@ -7,10 +7,10 @@
 body{}
 
 		
-#dropBtc{position:absolute;background:silver;display:none;
+#dropBtc{position:absolute;background:silver;display:block;z-index:1;
 height:auto;width:50%;	
 }
-#dropcheck:checked ~ #dropBtc{display:none;}
+#dropcheck:checked ~ #dropBtc{display:block;z-index:1;}
 
 label.bla{color:red;border:0.1em solid black;
 display:inline-block;
@@ -37,18 +37,65 @@ td{
 	font-size:21px;
 	text-align:center;
 	font-weight:bold;
-	poistion:static;
+	poistion:relative;isplay:inline-block;
 	}
 hr{height:6px;background:black;}
 
-td div.fi{
+td div{
 	display:block;
-	background:lightblue;
+	/*background:lightblue;*/
 width:28px;height:28px;
-color:gray;
-transform:translateY(0px);	
-
+olor:gray;
+/*transform:translateY(13px)	rotate(45deg) scale(2,1.1);*/
+transform:translateY(29px);
+transition:translate 4s;
 }
+td div.boo{
+/*transform:translateY(0);*/
+
+
+animation-name:example;
+animation-duration:0.4s;
+animation-duration-count:1;
+animation-fill-mode:both;	
+}
+
+@keyframes example{
+	/*
+from{transform:translateY(29px);}
+to{transform:translateY(1px);}	
+*/
+0%{transform:translateY(29px);}
+25%{transform:translateY(-20px);}
+50%{transform:translateY(20px);}
+75%{transform:translateY(-5px);}
+100%{transform:translateY(1px);}
+}
+
+
+@keyframes example2{
+/*
+from{transform:translateY(1px);}
+to{transform:translateY(-12px);}	
+*/
+
+0%{transform:translateY(1px);}
+25%{transform:translateY(-4px);}
+50%{transform:translateY(8px);}
+75%{transform:translateY(6px);}
+100%{transform:translateY(-29px);}
+}
+
+td div.boo.pissoff{
+color:red;
+
+
+animation-name:example2;
+animation-duration:0.2s;
+animation-duration-count:1;
+animation-fill-mode:backwards;
+}
+
 </style>
 </head>
 <body>
@@ -68,11 +115,16 @@ transform:translateY(0px);
 <label class="bla" onclick="show_z(this);">.</label>
 <label class="bla" onclick="show_b(this);">ba</label>
 <label class="bla" onclick="show_reset(this);">reset</label>
+<table><td><div data-id="suka" class="">1</div></td><td><div>2</div></td><td><div>3</div></td><td><div>4</div></td><td><div>5</div></td><td><div>6</div></td><td><div>7</div></td><td><div>8</div></td></table>
 
-<button onclick="check();">is number?</button>
+<button onclick="check();">is number?</button><button onclick="boo();">boo</button>
+<button onclick="booreset();">boo reset</button>
 </div>
 <div>noch div</div>
-<table><td><div>1</div></td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></table>
+<!-- <table><td><div data-id="suka">1</div></td><td><div>2</div>
+</td><td><div>3</div></td><td><div>4</div></td><td><div>5</div></td><td>
+<div>6</div></td><td><div>7</div></td><td><div>8</div></td></table> -->
+
 <button onclick="gimme();">gimme</button>
 <button onclick="putme();">putme</button>
 <button onclick="clearme();">clearme</button>
@@ -81,9 +133,31 @@ transform:translateY(0px);
 <button onclick="A(this);" value="ab">ab</button>
 <button onclick="A(this);" value="abc">abc</button>
 <button onclick="A(this);" value="abcd">abcd</button>
+<button onclick="boo();">boo</button>
+<button onclick="booreset();">boo reset</button>
+<style>
+#conti{border:1px solid green;display:block;position:relative;height:auto;margin-top:5px;}
+.cziff{display:inline-block;border:1px solid red;position:relative;height:30px;width:30px;margin:2px;
+	text-align:center;
+	vertical-align:bottom;
+	overflow:hidden;
+	}
+.ziff{
+display:block;border:1px solid blue;position:absolute;top:0px;left:-1px;width:30px;
+
+font-weight:600;font-size:23px;
+}
+.ziff span{vertical-align:middle;}
+</style>
+<div id="conti"><div class="cziff">
+<div class="ziff">0</div></div><div class="cziff"><div class="ziff">1</div></div>
+</div>
 <script>
 var pt;
 var tdis=document.getElementsByTagName("td");
+for(var i=0;i<tdis.length;i++){
+tdis[i].addEventListener('animationend',goo,false);
+}
 function gimme(){
 var s="";
 //var tdis=document.getElementsByTagName("td");	
@@ -111,12 +185,66 @@ if(tdis[i])tdis[i].textContent=el.value[i];
 }
 }
 
+function boo(){
+var me=document.getElementsByTagName("td");
+for(var i=0;i<me.length;i++){
+if(me[i] && me[i].firstChild){
+//me[i].firstChild.className="boo";
+me[i].firstChild.classList.add('boo');
+}
+}
+}
+function goo(ev){
+	//console.warn('animation end',ev);
+	if(ev.animationName=="example2"){
+	//alert(ev.target.className);
+	//alert(ev.animationName);
+	ev.target.textContent="";
+	ev.target.classList.remove("pissoff");
+	ev.target.classList.remove("boo");	
+	//alert(ev.target.className);
+	}
+}
+function booreset(){
+var m1=eltag('td');
+for(var i=0;i<m1.length;i++){
+if(m1[i] && m1[i].firstChild){
+m1[i].firstChild.classList.add("pissoff");
+}
+}
+}
 
+function eltag(str){
+return document.getElementsByTagName(str);	
+}
 
+function ins_zif(s,i){
+var m1=eltag('td');
+//console.log("index: ", i);
+if(m1[i] && m1[i].firstChild){
+m1[i].firstChild.classList.add("boo");
+m1[i].firstChild.textContent=s;
+}
+}
 
+function del_all_zif(){
+var m1=eltag('td');
+for(var i=0;i<m1.length;i++){
+if(m1[i] && m1[i].firstChild){
+if(m1[i].firstChild.textContent)m1[i].firstChild.classList.add("pissoff");
+}	
+}	
+}
 
-
-
+function del_zif(index){
+var m1=eltag('td');
+if(m1[index] && m1[index].firstChild){
+//m1[index].firstChild.className="";
+m1[index].firstChild.classList.add('pissoff');
+//m1[index].firstChild.textContent="";	
+}
+	
+}
 
 spanout.textContent="";
 var t=0;
@@ -129,15 +257,17 @@ t+=1;
 
 
 
-
+console.log("length: ", spanout.textContent.length);
 
 spanout.textContent+=el.textContent;
+ins_zif(el.textContent,spanout.textContent.length-1);
 if(spanout.textContent.length>0){
 console.log("aha, len is not null");
 var num=fetch_number(spanout.textContent);
 console.log('num: ',num);
 if(isNaN(num)){
 spanout.textContent="";
+del_all_zif();
 t=0;
 return;	
 }
@@ -147,9 +277,12 @@ function show_b(el){
 var a=spanout.textContent;
 var b=a.slice(0,-1);
 spanout.textContent=b;
+del_zif(a.length-1);
 }
 function show_reset(el){
+if(!spanout.textContent){alert("Nothing to reset!");return;}
 spanout.textContent="";	
+del_all_zif();
 t=false;
 }
 function foo(){console.error('err');}
