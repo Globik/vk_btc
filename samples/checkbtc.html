@@ -10,7 +10,7 @@ body{}
 #dropBtc{
 position:absolute;
 background:silver;
-display:none;
+display:block;
 z-index:1;
 margin-top:3px;
 height:auto;width:50%;	
@@ -21,7 +21,8 @@ border:2px solid brown;
 .btclab{display:block;position:relative;border:2px solid black;margin-top:3px;text-align:center;}
 
 
-.bla{color:red;border:0.1em solid black;
+.bla{color:red;
+border:0.1em solid black;
 display:inline-block;
 width:52px;height:56px;	
 text-align:center;
@@ -32,32 +33,29 @@ vertical-align:middle;
 font-size:20px;
 cursor:pointer;
 }
-#dropBtc::selection,.bla::selection,#spanout::selection,label[for=dropcheck]::selection, button::selection{background:none;}
-/*label.bla::-webkit-selection, label.bla::-moz-selection{background:none;}*/
-/*.bla span{backgrund:green;}*/
-
-
-table{border:1px solid green;mx-height:30px;}
+#dropBtc::selection,.bla::selection,#spanout::selection,label[for=dropcheck]::selection, 
+.blaReset::selection, .blaBackspace::selection, .btclab::selection, button::selection{background:none;}
+table{
+border:1px solid green;
+}
 td{
-	border:1px solid black;
-	width:30px;
-	max-width:30px;
-	min-height:30px;
-	overflow:hidden;
-	height:30px;
-	font-size:21px;
-	text-align:center;
-	font-weight:bold;
-	oistion:relative;
-	isplay:inline-block;
-	}
+border:1px solid black;
+width:30px;
+max-width:30px;
+min-height:30px;
+overflow:hidden;
+height:30px;
+font-size:21px;
+text-align:center;
+font-weight:bold;
+}
+
 hr{height:6px;background:black;}
 
 td div{
-	display:block;
-	/*background:lightblue;*/
+display:block;
+/*background:lightblue;*/
 width:28px;height:28px;
-olor:gray;
 /*transform:translateY(13px)	rotate(45deg) scale(2,1.1);*/
 transform:translateY(29px);
 transition:translate 4s;
@@ -100,15 +98,13 @@ to{transform:translateY(-12px);}
 
 td div.boo.pissoff{
 color:red;
-
-
 animation-name:example2;
 animation-duration:0.2s;
 animation-duration-count:1;
 animation-fill-mode:backwards;
 }
 
-.me{display:inline-block;background:pink;border:2px solid yellow;width:50%;height:50px;}
+.me{display:inline-block;background:pink;border:2px solid yellow; width:50%;height:50px;}
 
 .treg{
 display:block;
@@ -215,7 +211,7 @@ font-weight:bold;
 </head>
 <body>
 <label for="dropcheck">menu</label><input id="dropcheck" type="checkbox" value="7"/>
-<table>
+<table id="tableBtcAmount">
 <caption style="background:pink;">cap</caption>
 <td><div data-zid="1"></div></td>
 <td><div data-zid="2"></div></td>
@@ -292,148 +288,149 @@ font-weight:600;font-size:23px;
 <div class="ziff">0</div></div><div class="cziff"><div class="ziff">1</div></div>
 </div>
 <script>
-var max_cells=12;
-var pt;
-var tdis=document.getElementsByTagName("td");
-for(var i=0;i<tdis.length;i++){
-tdis[i].addEventListener('animationend',goo,false);
-}
-function gimme(){
-var s="";
-//var tdis=document.getElementsByTagName("td");	
-for(var i=0;i<tdis.length;i++){
-var td=tdis[i];
-pt=td;
-s+=td.textContent;	
-}
-console.log(s);
-}
-var stri="198.79561";
-function putme(){
-for(var i=0;i<stri.length;i++){
-if(tdis[i])tdis[i].textContent=stri[i];	
-}
-}
-function clearme(){
-for(var i=0;i<tdis.length;i++){
-if(tdis[i])tdis[i].textContent="";	
-}	
-}
-function A(el){
-for(var i=0;i<el.value.length;i++){
-if(tdis[i])tdis[i].textContent=el.value[i];
-}
+var cl_del_zif = "pissoff";
+var cl_ins_zif = "boo";
+var max_cells = 11;
+var spanout=gid("spanout");
+var is_max = false;
+var fake_max = 300;
+var fake_num = 300.0001;
+var tdel = eltag("td");
+
+for(var i=0;i<tdel.length;i++){
+tdel[i].addEventListener('animationend', on_btc_ziffer, false);
 }
 
-function boo(){
-var me=document.getElementsByTagName("td");
-for(var i=0;i<me.length;i++){
-if(me[i] && me[i].firstChild){
-//me[i].firstChild.className="boo";
-me[i].firstChild.classList.add('boo');
+
+
+function on_btc_ziffer(ev){
+if(!ev.animationName){alert("ev.animationName [animationend] doesn't work in this browser?");return;}
+if(ev.animationName=="example2"){
+ev.target.textContent="";
+class_remove(ev.target, cl_del_zif);
+class_remove(ev.target, cl_ins_zif);
 }
-}
-}
-function goo(ev){
-	//console.warn('animation end',ev);
-	if(ev.animationName=="example2"){
-	//alert(ev.target.className);
-	//alert(ev.animationName);
-	ev.target.textContent="";
-	ev.target.classList.remove("pissoff");
-	ev.target.classList.remove("boo");	
-	//alert(ev.target.className);
-	}
 }
 function booreset(){
-var m1=eltag('td');
-for(var i=0;i<m1.length;i++){
-if(m1[i] && m1[i].firstChild){
-m1[i].firstChild.classList.add("pissoff");
+for(var i=0;i<tdel.length;i++){
+if(tdel[i] && tdel[i].firstChild){
+class_adi(tdel[i].firstChild, cl_del_zif);
 }
 }
 }
 
-function eltag(str){
-return document.getElementsByTagName(str);	
-}
 
 function ins_zif(s,i){
-var m1=eltag('td');
-//console.log("index: ", i);
-if(m1[i] && m1[i].firstChild){
-m1[i].firstChild.classList.add("boo");
-m1[i].firstChild.textContent=s;
+if(tdel[i] && tdel[i].firstChild){
+class_adi(tdel[i].firstChild, cl_ins_zif);
+tdel[i].firstChild.textContent=s;
 }
 }
 
 function del_all_zif(){
-var m1=eltag('td');
-for(var i=0;i<m1.length;i++){
-if(m1[i] && m1[i].firstChild){
-	console.log('i: ',i);
-	console.log('textContent: ',m1[i].firstChild.textContent);
-if(m1[i].firstChild.textContent)m1[i].firstChild.classList.add("pissoff");
-}	
-}	
+for(var i=0;i<tdel.length;i++){
+if(tdel[i] && tdel[i].firstChild){
+if(tdel[i].firstChild.textContent)class_adi(tdel[i].firstChild, cl_del_zif);
+}}	
 }
 
+
+
 function del_zif(index){
-var m1=eltag('td');
-if(m1[index] && m1[index].firstChild){
-//m1[index].firstChild.className="";
-m1[index].firstChild.classList.add('pissoff');
-//m1[index].firstChild.textContent="";	
-}
-	
+if(tdel[index] && tdel[index].firstChild){
+class_adi(tdel[index].firstChild, cl_del_zif);
+}	
 }
 
 spanout.textContent="";
 var t=0;
 function show_z(el){
-
 if(el.textContent=="."){
 t+=1;
 //if(t>=2)return;
+if(is_max)return;
 }
-
-
 var lenis=spanout.textContent.length;
+if(lenis >= max_cells){alert("kuda?");return;}
 
-console.log("length: ", lenis);
-if(lenis>=11){alert("kuda?");return;}
 spanout.textContent+=el.textContent;
-ins_zif(el.textContent,spanout.textContent.length-1);
-if(spanout.textContent.length>0){
-console.log("aha, len is not null");
+//ins_zif(el.textContent,spanout.textContent.length-1);
+//if(spanout.textContent.length>0){
+
 var num=fetch_number(spanout.textContent);
 console.log('num: ',num);
+
 if(isNaN(num)){
 spanout.textContent="";
 del_all_zif();
 t=0;
 return;	
 }
+if(num > fake_max){
+is_max=true;
+spanout.textContent=fake_max;
 }
+ins_zif(el.textContent,spanout.textContent.length-1);
+if(num>fake_max){
+var nh=fake_max.toString();
+for(var i=0;i<nh.length;i++){
+tdel[i].firstChild.textContent=nh[i];	
+}
+}
+
 }
 function show_b(el){
 var a=spanout.textContent;
 var b=a.slice(0,-1);
 spanout.textContent=b;
 del_zif(a.length-1);
+is_max=false;
 }
 function show_reset(el){
 if(!spanout.textContent){alert("Nothing to reset!");return;}
 spanout.textContent="";	
 del_all_zif();
 t=false;
+is_max=false;
 }
-function foo(){console.error('err');}
+
 function check(){
 console.log(Number(spanout.textContent))	
 }
 function fetch_number(str){
-return Number(str);	
+try{
+var anum_s=Number(str);	
+return anum_s;
+}catch(er){alert(er);return undefined;}
+}
+function gid(id){
+return document.getElementById(id);	
+}
+
+function eltag(td){
+return dom_tagi("tableBtcAmount", td);	
+}
+
+function eltagi(str){
+return document.getElementsByTagName(str);	
+}
+
+function dom_tagi(id,s){
+var el_n=gid(id);
+if(!el_n)return null;
+var el_nu=el_n.getElementsByTagName(s);
+if(!el_nu)return null;
+return el_nu;	
+}
+function class_adi(node,clas){
+if(!node){alert("wrong node el in class_adi()?");console.error("wrong node el?");return;}
+if(node.classList){node.classList.add(clas);}	
+}
+
+function class_remove(node,clas){
+if(!node){alert("wrong node el in class_remove()?");console.error("wrong node el?");return;}
+if(!node.classList){console.error("no classList in el?");return;}
+node.classList.remove(clas);
 }
 </script>
 </body>
