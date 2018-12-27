@@ -10,7 +10,7 @@ body{}
 #dropBtc{
 position:absolute;
 background:silver;
-display:block;
+display:none;
 z-index:1;
 margin-top:3px;
 height:auto;width:50%;	
@@ -210,7 +210,8 @@ font-weight:bold;
 </style>
 </head>
 <body>
-<label for="dropcheck">menu</label><input id="dropcheck" type="checkbox" value="7"/>
+	<button onclick="bibka();">bibka</button> | <button onclick="check_transform();">check transform</button><br><br>
+<label for="dropcheck">menu</label><input id="dropcheck" type="checkbox" value="7"  onchange="nu(this);"/>
 <table id="tableBtcAmount">
 <caption style="background:pink;">cap</caption>
 <td><div data-zid="1"></div></td>
@@ -270,6 +271,7 @@ font-weight:bold;
 <button onclick="A(this);" value="abcd">abcd</button>
 <button onclick="boo();">boo</button>
 <button onclick="booreset();">boo reset</button>
+
 <style>
 #conti{border:1px solid green;display:block;position:relative;height:auto;margin-top:5px;}
 .cziff{display:inline-block;border:1px solid red;position:relative;height:30px;width:30px;margin:2px;
@@ -287,11 +289,20 @@ font-weight:600;font-size:23px;
 <div id="conti"><div class="cziff">
 <div class="ziff">0</div></div><div class="cziff"><div class="ziff">1</div></div>
 </div>
+<output id="outi"></output>
+<button onclick="get_dialog();">dialog</button>
+<dialog id="figa" style="visibility:hidden;"><h1>dialog</h1>
+<button onclick="this.parentNode.close();">close</button>
+</dialog>
 <script>
+var is_transformly=false;
 var cl_del_zif = "pissoff";
 var cl_ins_zif = "boo";
 var max_cells = 11;
 var spanout=gid("spanout");
+var outi=gid("outi");
+var dropBtc=gid("dropBtc");
+var sik=gid("tableBtcAmount");
 var is_max = false;
 var fake_max = 300;
 var fake_num = 300.0001;
@@ -330,7 +341,16 @@ tdel[i].firstChild.textContent=s;
 function del_all_zif(){
 for(var i=0;i<tdel.length;i++){
 if(tdel[i] && tdel[i].firstChild){
-if(tdel[i].firstChild.textContent)class_adi(tdel[i].firstChild, cl_del_zif);
+
+if(tdel[i].firstChild.textContent){
+if(is_transform()){
+class_adi(tdel[i].firstChild, cl_del_zif);
+}else{
+class_remove(tdel[i].firstChild, cl_ins_zif);
+tdel[i].firstChild.textContent="";	
+}
+}
+
 }}	
 }
 
@@ -338,7 +358,12 @@ if(tdel[i].firstChild.textContent)class_adi(tdel[i].firstChild, cl_del_zif);
 
 function del_zif(index){
 if(tdel[index] && tdel[index].firstChild){
+if(is_transform()){
 class_adi(tdel[index].firstChild, cl_del_zif);
+}else{
+class_remove(tdel[index].firstChild, cl_ins_zif);
+tdel[index].firstChild.textContent="";	
+}
 }	
 }
 
@@ -431,6 +456,80 @@ function class_remove(node,clas){
 if(!node){alert("wrong node el in class_remove()?");console.error("wrong node el?");return;}
 if(!node.classList){console.error("no classList in el?");return;}
 node.classList.remove(clas);
+}
+function bibka(){
+try{
+var a=document.querySelector("#dropcheck:checked");
+alert(a);
+}catch(e){alert(e);}	
+}
+function check_transform(){
+//var sik=gid("tableBtcAmount");
+/*
+try{
+var erri=sik.style.transform;//must be undefined if no support
+alert("transform? => "+erri);
+var fucker=sik.style.webkitTransform;
+alert("webkitTransform? => "+ fucker);
+var fucker1=sik.style.msTransform;
+alert("msTransform? => "+fucker1);
+}catch(e){alert(e);}
+*/
+/*
+try{
+sik.style.msiTransform="translateY(-10px)";//-webkit-transform: translateY(-10px)	
+if(sik.style.msiTransform==="translateY(-10px)"){alert("Yes,support translateY(-10px)!!!! "+sik.style.msiTransform);}else{
+alert("translateY(-10px) does not support! "+sik.style.msTransform);}
+}catch(e){alert("eri: "+e);}
+*/
+var div=document.createElement("div");
+div.setAttribute("style","transform:translateY(-10px);");
+
+document.body.appendChild(div);
+var ws=!!(div.style["transform"]);
+alert(ws);
+div.parentNode.removeChild(div);
+div=null;
+}
+
+function is_transform(){
+return is_transformly;
+}
+
+function is_transi(){
+var div=document.createElement("div");
+div.setAttribute("style","transform:translateY(-10px);");
+document.body.appendChild(div);
+var ws=!!(div.style["transform"]);
+is_transformly=ws;
+div.parentNode.removeChild(div);
+div=null;
+}
+is_transi();
+
+function nu(el){
+//alert(el.value);
+outi.innerHTML+=el.checked+"<br>";
+console.log("checked ",el.checked);
+if(!el.checked){
+//el.checked=true;
+console.log(el.checked);
+dropBtc.style.display="none";	
+}else{
+	console.log(el.checked);
+//el.checked=false;
+//alert("no check");
+dropBtc.style.display="block";	
+}
+}
+function get_dialog(){
+figa.style.visibility="visible";
+figa.showModal();	
+}
+function closeg(){
+	//alert(1);
+gid("figa").close();
+gid("figa").style.display="hidden";	
 }
 </script>
 </body>
