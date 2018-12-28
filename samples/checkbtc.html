@@ -291,7 +291,9 @@ font-weight:600;font-size:23px;
 </div>
 <output id="outi"></output>
 <button onclick="get_dialog();">dialog</button>
-<dialog id="figa" style="visibility:hidden;"><h1>dialog</h1>
+<dialog id="figa" style="visibility:hidden;">
+<!-- in the old android browsers the inner html between dialog tags must to be hidden(and in IE?) -->
+<h1>dialog</h1>
 <button onclick="this.parentNode.close();">close</button>
 </dialog>
 <script>
