@@ -211,7 +211,7 @@ font-weight:bold;
 </head>
 <body>
 	<button onclick="bibka();">bibka</button> | <button onclick="check_transform();">check transform</button><br><br>
-<label for="dropcheck">menu</label><input id="dropcheck" type="checkbox" value="7"  onchange="nu(this);"/>
+<label for="dropcheck">keypad</label><input id="dropcheck" type="checkbox" value="7"  onchange="nu(this);"/>
 <table id="tableBtcAmount">
 <caption style="background:pink;">cap</caption>
 <td><div data-zid="1"></div></td>
@@ -224,7 +224,10 @@ font-weight:bold;
 <td><div data-zid="9"></div></td>
 <td><div data-zid="10"></div></td>
 <td><div data-zid="11"></div></td>
+
 <td><div data-zid="12"></div></td>
+<!-- <td><div data-zid="13"></div></td>
+<td><div data-zid="14"></div></td> -->
 <tfoot style="background:red;"><td colspan="10"><span id="spanout"></span></td></tfoot>
 </table>
 
@@ -305,16 +308,30 @@ var spanout=gid("spanout");
 var outi=gid("outi");
 var dropBtc=gid("dropBtc");
 var sik=gid("tableBtcAmount");
-var is_max = false;
+//var is_max = false;
 var fake_max = 300;
 var fake_num = 300.0001;
+var btc_minimum=0.026002432;
 var tdel = eltag("td");
+var keypad_ev=false;
+var keypad_default_btcsum=0.05;
 
+
+function add_keypad_events(){
+if(keypad_ev)return;
 for(var i=0;i<tdel.length;i++){
 tdel[i].addEventListener('animationend', on_btc_ziffer, false);
 }
+keypad_ev=true;
+}
 
-
+function remove_keypad_events(){
+if(!keypad_ev)return;
+for(var i=0;i<tdel.length;i++){
+tdel[i].removeEventListener('animationend', on_btc_ziffer);	
+}	
+keypad_ev=false;
+}
 
 function on_btc_ziffer(ev){
 if(!ev.animationName){alert("ev.animationName [animationend] doesn't work in this browser?");return;}
@@ -370,15 +387,65 @@ tdel[index].firstChild.textContent="";
 }
 
 spanout.textContent="";
-var t=0;
+var t_pointsign=0;
+var keypad_max=false;
+var keypad_min=false;
+var current_number;
 function show_z(el){
 if(el.textContent=="."){
-t+=1;
+t_pointsign+=1;
 //if(t>=2)return;
-if(is_max)return;
+//console.log("is max");
+if(keypad_max)return;
 }
+if(el.textContent=="0" && spanout.textContent.length==1){
+console.log("viel zu viel nulls");
+//return;	
+}
+if(keypad_max)return;
+
 var lenis=spanout.textContent.length;
-if(lenis >= max_cells){alert("kuda?");return;}
+
+if(lenis >=max_cells-1){
+if(current_number<btc_minimum){
+console.log("in cells less then btc minimum. Show default value");//0.05 BTC??	
+spanout.textContent=keypad_default_btcsum;
+//del_all_zif();
+//t_pointsign=0;
+
+var sisi_g=keypad_default_btcsum.toString();
+for(var i=0;i<sisi_g.length;i++){
+tdel[i].firstChild.textContent=sisi_g[i];
+}
+for(var i=sisi_g.length;i<max_cells;i++){
+tdel[i].firstChild.textContent="";	
+}
+return;
+}
+//return;
+}
+
+if(lenis >= max_cells){
+alert("kuda?");
+if(current_number==0){console.log("all cells are null, show default value");}	
+/*
+if(current_number<btc_minimum){
+console.log("in cells less then btc minimum. Show default value");//0.05 BTC??	
+spanout.textContent=keypad_default_btcsum;
+//del_all_zif();
+//t_pointsign=0;
+
+var sisi_g=keypad_default_btcsum.toString();
+for(var i=0;i<sisi_g.length;i++){
+tdel[i].firstChild.textContent=sisi_g[i];
+}
+for(var i=sisi_g.length;i<max_cells;i++){
+tdel[i].firstChild.textContent="";	
+}
+
+} */
+return;
+}
 
 spanout.textContent+=el.textContent;
 //ins_zif(el.textContent,spanout.textContent.length-1);
@@ -386,15 +453,15 @@ spanout.textContent+=el.textContent;
 
 var num=fetch_number(spanout.textContent);
 console.log('num: ',num);
-
+current_number=num;
 if(isNaN(num)){
 spanout.textContent="";
 del_all_zif();
-t=0;
+t_pointsign=0;
 return;	
 }
 if(num > fake_max){
-is_max=true;
+keypad_max=true;
 spanout.textContent=fake_max;
 }
 ins_zif(el.textContent,spanout.textContent.length-1);
@@ -403,22 +470,23 @@ var nh=fake_max.toString();
 for(var i=0;i<nh.length;i++){
 tdel[i].firstChild.textContent=nh[i];	
 }
-}
 
+}
+if(num < btc_minimum){console.warn("btc_minimum");}
 }
 function show_b(el){
 var a=spanout.textContent;
 var b=a.slice(0,-1);
 spanout.textContent=b;
 del_zif(a.length-1);
-is_max=false;
+keypad_max=false;
 }
 function show_reset(el){
 if(!spanout.textContent){alert("Nothing to reset!");return;}
 spanout.textContent="";	
 del_all_zif();
-t=false;
-is_max=false;
+t_pointsign=false;
+keypad_max=false;
 }
 
 function check(){
@@ -466,24 +534,6 @@ alert(a);
 }catch(e){alert(e);}	
 }
 function check_transform(){
-//var sik=gid("tableBtcAmount");
-/*
-try{
-var erri=sik.style.transform;//must be undefined if no support
-alert("transform? => "+erri);
-var fucker=sik.style.webkitTransform;
-alert("webkitTransform? => "+ fucker);
-var fucker1=sik.style.msTransform;
-alert("msTransform? => "+fucker1);
-}catch(e){alert(e);}
-*/
-/*
-try{
-sik.style.msiTransform="translateY(-10px)";//-webkit-transform: translateY(-10px)	
-if(sik.style.msiTransform==="translateY(-10px)"){alert("Yes,support translateY(-10px)!!!! "+sik.style.msiTransform);}else{
-alert("translateY(-10px) does not support! "+sik.style.msTransform);}
-}catch(e){alert("eri: "+e);}
-*/
 var div=document.createElement("div");
 div.setAttribute("style","transform:translateY(-10px);");
 
@@ -516,12 +566,15 @@ console.log("checked ",el.checked);
 if(!el.checked){
 //el.checked=true;
 console.log(el.checked);
+remove_keypad_events();
 dropBtc.style.display="none";	
 }else{
 	console.log(el.checked);
 //el.checked=false;
 //alert("no check");
-dropBtc.style.display="block";	
+
+dropBtc.style.display="block";
+add_keypad_events();	
 }
 }
 function get_dialog(){
