@@ -4,24 +4,34 @@
 <title>checked btc input</title>
 <style>
 *{box-sizing:border-box;}
-body{}
+body{pag:0;}
 
-		
+/* #spanout{display:none;}	*/
+
+#tableBtcAmount{/*color:blue;*/}
+
 #dropBtc{
 position:absolute;
 background:silver;
-display:none;
+display:block;
 z-index:1;
 margin-top:3px;
-height:auto;width:50%;	
+height:auto;width:25%;	
 border:2px solid brown;
 }
 
-#dropcheck:checked ~ #dropBtc{display:block;z-index:1;}
-.btclab{display:block;position:relative;border:2px solid black;margin-top:3px;text-align:center;}
 
+.btclab{
+display:block;
+position:relative;
+border:2px solid black;
+margin-top:3px;
+text-align:center;
+color:green;
+}
 
-.bla{color:red;
+.keypad-lbl{
+/*color:red;*/
 border:0.1em solid black;
 display:inline-block;
 width:52px;height:56px;	
@@ -33,7 +43,7 @@ vertical-align:middle;
 font-size:20px;
 cursor:pointer;
 }
-#dropBtc::selection,.bla::selection,#spanout::selection,label[for=dropcheck]::selection, 
+#dropBtc::selection,.keypad-lbl::selection,#spanout::selection,label[for=dropcheck]::selection, 
 .blaReset::selection, .blaBackspace::selection, .btclab::selection, button::selection{background:none;}
 table{
 border:1px solid green;
@@ -55,7 +65,8 @@ hr{height:6px;background:black;}
 td div{
 display:block;
 /*background:lightblue;*/
-width:28px;height:28px;
+width:28px;
+height:28px;
 /*transform:translateY(13px)	rotate(45deg) scale(2,1.1);*/
 transform:translateY(29px);
 transition:translate 4s;
@@ -104,8 +115,9 @@ animation-duration-count:1;
 animation-fill-mode:backwards;
 }
 
+/*
 .me{display:inline-block;background:pink;border:2px solid yellow; width:50%;height:50px;}
-
+*/
 .treg{
 display:block;
 position:relative;
@@ -140,7 +152,7 @@ height:110px;
 display:block;
 position:absolute;
 text-align:center;
-adding:2px 4px 8px 20px;	
+
 height:auto;
 vertical-align:bottom;
 font-size:20px;
@@ -184,6 +196,7 @@ border:4px solid green;
 ransform:rotate(1deg);
 margin:16px auto;
 }
+
 .resi:before{
 content:"";
 position:absolute;
@@ -207,73 +220,73 @@ font-size:1.em;
 letter-spacing:0.1em;
 font-weight:bold;	
 }*/
+
+@media screen and (max-width:690px){
+body{background:lightgray;}
+#dropBtc{
+width:97.5%;
+width:calc(100% - 16px);
+}
+.keypad-lbl{
+width:85px;height:75px;
+padding:20px;
+font-size:24px;
+}
+.blaReset,.blaBackspace{
+font-size:24px;
+/*line-height:1.2;*/
+/*padding:18px 18px 18px 18px;*/
+padding:20px;
+margin:15px 20px 0 20px;
+/* top right bottom left*/	
+}
+
+}
 </style>
 </head>
 <body>
-	<button onclick="bibka();">bibka</button> | <button onclick="check_transform();">check transform</button><br><br>
+<button onclick="bibka();">bibka</button> | <button onclick="check_transform();">check transform</button><br><br>
+<b>btc_minimum=0.0263;</b>&nbsp;&nbsp;<b>btc_maximum=300;</b><br><br>
 <label for="dropcheck">keypad</label><input id="dropcheck" type="checkbox" value="7"  onchange="nu(this);"/>
 <table id="tableBtcAmount">
+	
 <caption style="background:pink;">cap</caption>
-<td><div data-zid="1"></div></td>
-<td><div data-zid="2"></div></td>
-<td><div data-zid="3"></div></td>
-<td><div data-zid="4"></div></td>
-<td><div data-zid="5"></div></td>
-<td><div data-zid="6"></div></td>
-<td><div data-zid="7"></div></td>
-<td><div data-zid="9"></div></td>
-<td><div data-zid="10"></div></td>
-<td><div data-zid="11"></div></td>
-
-<td><div data-zid="12"></div></td>
-<!-- <td><div data-zid="13"></div></td>
-<td><div data-zid="14"></div></td> -->
-<tfoot style="background:red;"><td colspan="10"><span id="spanout"></span></td></tfoot>
+<!-- [1 - 8] -->
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<!-- data-typ = [init, back, ins, reset, extrem]-->
+<tfoot style="background:red;"><td colspan="10"><span id="spanout" data-typ="init"></span></td></tfoot>
 </table>
 
-<div id="dropBtc">
+<section id="dropBtc">
+<!-- position: absolute -->
 <div class="btclab">
-<label class="bla" onclick="show_z(this);">0</label>
-<label class="bla" onclick="show_z(this);">1</label>
-<label class="bla" onclick="show_z(this);">2</label>
-<label class="bla" onclick="show_z(this);">3</label>
-<label class="bla" onclick="show_z(this);">4</label>
-<label class="bla" onclick="show_z(this);">5</label>
-<label class="bla" onclick="show_z(this);">6</label>
-<label class="bla" onclick="show_z(this);">7</label>
-<label class="bla" onclick="show_z(this);">8</label>
-<label class="bla" onclick="show_z(this);">9</label>
-<label class="bla" onclick="show_z(this);">.</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);">0</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);">1</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);">2</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);">3</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);">4</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);">5</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);">6</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);">7</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);">8</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);">9</label>
+<label class="keypad-lbl" onclick="transfer_zif(this);" style="font-size:26px;">.</label>
 </div>
 
 <div class="resetting">
-<label class="blaReset" title="reset" onclick="show_reset(this);">clear</label>
-<!-- <label class="blaMiddle">middle</label> -->
-<label class="blaBackspace" title="backspace" onclick="show_b(this);">back</label>
+<label class="blaReset" title="reset" onclick="transfer_reset(this);">clear</label>
+<label class="blaBackspace" title="backspace" onclick="transfer_back(this);">back</label>
 </div>
+</section> 
 
-<!--
-<table><td><div data-id="suka" class="">1</div></td><td><div>2</div></td><td><div>3</div></td><td><div>4</div></td><td><div>5</div></td><td><div>6</div></td><td><div>7</div></td><td><div>8</div></td></table>
--->
-<!--
-<button onclick="check();">is number?</button><button onclick="boo();">boo</button>
-<button onclick="booreset();">boo reset</button> -->
-</div> 
-<div>noch div</div>
-<!-- <table><td><div data-id="suka">1</div></td><td><div>2</div>
-</td><td><div>3</div></td><td><div>4</div></td><td><div>5</div></td><td>
-<div>6</div></td><td><div>7</div></td><td><div>8</div></td></table> -->
-
-<button onclick="gimme();">gimme</button>
-<button onclick="putme();">putme</button>
-<button onclick="clearme();">clearme</button>
-<hr>
-<button onclick="A(this);" value="a">a</button>
-<button onclick="A(this);" value="ab">ab</button>
-<button onclick="A(this);" value="abc">abc</button>
-<button onclick="A(this);" value="abcd">abcd</button>
-<button onclick="boo();">boo</button>
-<button onclick="booreset();">boo reset</button>
+<div>a dummy div</div>
 
 <style>
 #conti{border:1px solid green;display:block;position:relative;height:auto;margin-top:5px;}
@@ -303,62 +316,78 @@ font-weight:600;font-size:23px;
 var is_transformly=false;
 var cl_del_zif = "pissoff";
 var cl_ins_zif = "boo";
-var max_cells = 11;
+var max_cells = 8;//11;
 var spanout=gid("spanout");
+spanout.textContent="";
 var outi=gid("outi");
 var dropBtc=gid("dropBtc");
 var sik=gid("tableBtcAmount");
-//var is_max = false;
-var fake_max = 300;
-var fake_num = 300.0001;
-var btc_minimum=0.026002432;
+
+var btc_maximum = 300;
+var btc_minimum=0.0263;
 var tdel = eltag("td");
+var tdel2=eltag_to_arr(tdel);
 var keypad_ev=false;
 var keypad_default_btcsum=0.05;
+
+var t_pointsign=0;
+var keypad_max=false;
+var keypad_min=false;
+var current_number;
+
+var back_str = "back";
+var reset_str = "reset";
+var ins_str = "ins";
+var extrem_str = "extrem";
+
+var awevent=new CustomEvent('forinput',
+ {bubbles:true, detail:{text:function(es){return es.target.textContent;},
+typ:function(es){return es.target.getAttribute("data-typ");}}});
 
 
 function add_keypad_events(){
 if(keypad_ev)return;
-for(var i=0;i<tdel.length;i++){
+for(var i = 0; i < tdel.length; i++){
 tdel[i].addEventListener('animationend', on_btc_ziffer, false);
 }
+spanout.addEventListener('forinput', on_forinput, false);
 keypad_ev=true;
 }
 
 function remove_keypad_events(){
 if(!keypad_ev)return;
-for(var i=0;i<tdel.length;i++){
+for(var i = 0; i < tdel.length; i++){
 tdel[i].removeEventListener('animationend', on_btc_ziffer);	
 }	
+spanout.removeEventListener('forinput', on_forinput);
 keypad_ev=false;
 }
 
 function on_btc_ziffer(ev){
 if(!ev.animationName){alert("ev.animationName [animationend] doesn't work in this browser?");return;}
-if(ev.animationName=="example2"){
-ev.target.textContent="";
+if(ev.animationName == "example2"){
+ev.target.textContent = "";
 class_remove(ev.target, cl_del_zif);
 class_remove(ev.target, cl_ins_zif);
 }
 }
-function booreset(){
-for(var i=0;i<tdel.length;i++){
-if(tdel[i] && tdel[i].firstChild){
-class_adi(tdel[i].firstChild, cl_del_zif);
-}
-}
-}
 
 
-function ins_zif(s,i){
+function ins_zif(text, i){
 if(tdel[i] && tdel[i].firstChild){
 class_adi(tdel[i].firstChild, cl_ins_zif);
-tdel[i].firstChild.textContent=s;
+tdel[i].firstChild.textContent = text;
+}
+}
+
+function change_zif(new_content, index){
+if(tdel[index] && tdel[index].firstChild){
+tdel[index].firstChild.textContent = new_content;
 }
 }
 
 function del_all_zif(){
-for(var i=0;i<tdel.length;i++){
+for(var i = 0; i < tdel.length; i++){
 if(tdel[i] && tdel[i].firstChild){
 
 if(tdel[i].firstChild.textContent){
@@ -366,7 +395,7 @@ if(is_transform()){
 class_adi(tdel[i].firstChild, cl_del_zif);
 }else{
 class_remove(tdel[i].firstChild, cl_ins_zif);
-tdel[i].firstChild.textContent="";	
+tdel[i].firstChild.textContent = "";	
 }
 }
 
@@ -381,112 +410,142 @@ if(is_transform()){
 class_adi(tdel[index].firstChild, cl_del_zif);
 }else{
 class_remove(tdel[index].firstChild, cl_ins_zif);
-tdel[index].firstChild.textContent="";	
+tdel[index].firstChild.textContent = "";	
 }
 }	
 }
 
-spanout.textContent="";
-var t_pointsign=0;
-var keypad_max=false;
-var keypad_min=false;
-var current_number;
-function show_z(el){
+
+
+//spanout.addEventListener('forinput', on_forinput, false);
+
+
+
+
+function on_forinput(ev){
+console.warn("forinput: ", ev.detail.text(ev));
+var word = ev.detail.text(ev);
+var leni = word.length;
+console.log("leni: ", leni);
+var typ=ev.detail.typ(ev);
+if(typ == ins_str){
+for(var i = 0; i < leni; i++){
+ins_zif(word[i], i);
+}
+}else if(typ == back_str){
+//console.log("backspace type 'del'", leni);
+del_zif(leni);
+}else if(typ == extrem_str){
+console.warn("typ: ", typ);
+var cells_txt_len = get_cells_leni();
+console.log("length cells: ", cells_txt_len);
+for(var i = 0; i < leni; i++){
+change_zif(word[i], i);
+}
+var len_step = cells_txt_len - leni;
+var fact_len = leni+ len_step;
+for(var i = leni; i < fact_len; i++){
+//console.warn("there is");
+if(tdel[i].firstChild.textContent) del_zif(i);
+}	
+}else if(typ == reset_str){
+del_all_zif();
+}else{
+console.warn("unknown type: ", typ);	
+}
+}
+
+
+
+
+
+
+
+
+function get_cells_leni(){
+var sc=0;
+for(var i=0;i<max_cells;i++){
+if(tdel[i] && tdel[i].firstChild){
+if(tdel[i].firstChild.textContent){
+sc++;	
+}	
+}	
+}
+return sc;	
+}
+
+
+
+
+function transfer_zif(el){
 if(el.textContent=="."){
 t_pointsign+=1;
-//if(t>=2)return;
-//console.log("is max");
 if(keypad_max)return;
 }
-if(el.textContent=="0" && spanout.textContent.length==1){
-console.log("viel zu viel nulls");
-//return;	
+if(spanout.textContent == btc_maximum.toString()){
+console.warn("already maximum btc");
+sik.style.color="red";
+return;	
 }
-if(keypad_max)return;
-
+if(keypad_max || keypad_min)return;
 var lenis=spanout.textContent.length;
 
-if(lenis >=max_cells-1){
-if(current_number<btc_minimum){
-console.log("in cells less then btc minimum. Show default value");//0.05 BTC??	
-spanout.textContent=keypad_default_btcsum;
-//del_all_zif();
-//t_pointsign=0;
-
-var sisi_g=keypad_default_btcsum.toString();
-for(var i=0;i<sisi_g.length;i++){
-tdel[i].firstChild.textContent=sisi_g[i];
-}
-for(var i=sisi_g.length;i<max_cells;i++){
-tdel[i].firstChild.textContent="";	
-}
+if(lenis >= max_cells-1){
+if(current_number < btc_minimum){
+console.log("in cells less then btc minimum. Show min val");//0.05 BTC??	
+set_text(spanout, btc_minimum , extrem_str);
+sik.style.color = "green";
 return;
 }
-//return;
 }
 
 if(lenis >= max_cells){
-alert("kuda?");
-if(current_number==0){console.log("all cells are null, show default value");}	
-/*
-if(current_number<btc_minimum){
-console.log("in cells less then btc minimum. Show default value");//0.05 BTC??	
-spanout.textContent=keypad_default_btcsum;
-//del_all_zif();
-//t_pointsign=0;
-
-var sisi_g=keypad_default_btcsum.toString();
-for(var i=0;i<sisi_g.length;i++){
-tdel[i].firstChild.textContent=sisi_g[i];
-}
-for(var i=sisi_g.length;i<max_cells;i++){
-tdel[i].firstChild.textContent="";	
-}
-
-} */
+//alert("kuda?");
+console.log("kuda?");
+var fixed_num = current_number.toFixed(4);
+console.log("toFixed=> ", fixed_num);
+set_text(spanout, fixed_num, extrem_str);
+sik.style.color="green";
 return;
 }
-
-spanout.textContent+=el.textContent;
-//ins_zif(el.textContent,spanout.textContent.length-1);
-//if(spanout.textContent.length>0){
+set_text(spanout, spanout.textContent+el.textContent, ins_str);
+sik.style.color = "blue";
 
 var num=fetch_number(spanout.textContent);
 console.log('num: ',num);
-current_number=num;
+current_number = num;
 if(isNaN(num)){
-spanout.textContent="";
-del_all_zif();
-t_pointsign=0;
+set_text(spanout, "", reset_str);
+t_pointsign = 0;
 return;	
 }
-if(num > fake_max){
-keypad_max=true;
-spanout.textContent=fake_max;
+if(num > btc_maximum){
+keypad_max = true;
+set_text(spanout, btc_maximum, extrem_str);
+sik.style.color = "green";
 }
-ins_zif(el.textContent,spanout.textContent.length-1);
-if(num>fake_max){
-var nh=fake_max.toString();
-for(var i=0;i<nh.length;i++){
-tdel[i].firstChild.textContent=nh[i];	
+if(num < btc_minimum){
+console.warn("btc_minimum");
+sik.style.color = "orange";
+}
 }
 
-}
-if(num < btc_minimum){console.warn("btc_minimum");}
-}
-function show_b(el){
+
+function transfer_back(el){
 var a=spanout.textContent;
+if(!a){console.warn("nothing to be backspaced!");alert("nothing to be backspaced!");return;}
 var b=a.slice(0,-1);
-spanout.textContent=b;
-del_zif(a.length-1);
+set_text(spanout, b, back_str);
 keypad_max=false;
+keypad_min=false;
 }
-function show_reset(el){
-if(!spanout.textContent){alert("Nothing to reset!");return;}
-spanout.textContent="";	
-del_all_zif();
+
+function transfer_reset(el){
+if(!spanout.textContent){alert("Nothing to reset!");return;}	
+set_text(spanout, "", reset_str);
 t_pointsign=false;
 keypad_max=false;
+keypad_min=false;
 }
 
 function check(){
@@ -558,21 +617,15 @@ div.parentNode.removeChild(div);
 div=null;
 }
 is_transi();
-
+function el_query(n){}
 function nu(el){
-//alert(el.value);
-outi.innerHTML+=el.checked+"<br>";
 console.log("checked ",el.checked);
 if(!el.checked){
-//el.checked=true;
 console.log(el.checked);
 remove_keypad_events();
 dropBtc.style.display="none";	
 }else{
-	console.log(el.checked);
-//el.checked=false;
-//alert("no check");
-
+console.log(el.checked);
 dropBtc.style.display="block";
 add_keypad_events();	
 }
@@ -585,6 +638,16 @@ function closeg(){
 	//alert(1);
 gid("figa").close();
 gid("figa").style.display="hidden";	
+}
+function eltag_to_arr(n_td){
+var n_td_arr=Array.prototype.slice.apply(n_td);
+return n_td_arr;	
+}
+function set_text(el,content, typ){
+el.setAttribute("data-typ", typ);
+//alert(el.getAttribute("data-typ"));
+el.textContent=content;	
+el.dispatchEvent(awevent);
 }
 </script>
 </body>
