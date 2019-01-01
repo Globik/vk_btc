@@ -13,7 +13,7 @@ body{pag:0;}
 #dropBtc{
 position:absolute;
 background:silver;
-display:block;
+display:none;
 z-index:1;
 margin-top:3px;
 height:auto;width:25%;	
@@ -43,6 +43,13 @@ vertical-align:middle;
 font-size:20px;
 cursor:pointer;
 }
+
+.keypad-lbl.act-key{
+color:brown;
+background:red;
+}
+
+
 #dropBtc::selection,.keypad-lbl::selection,#spanout::selection,label[for=dropcheck]::selection, 
 .blaReset::selection, .blaBackspace::selection, .btclab::selection, button::selection{background:none;}
 table{
@@ -267,17 +274,17 @@ margin:15px 20px 0 20px;
 <section id="dropBtc">
 <!-- position: absolute -->
 <div class="btclab">
-<label class="keypad-lbl" onclick="transfer_zif(this);">0</label>
-<label class="keypad-lbl" onclick="transfer_zif(this);">1</label>
-<label class="keypad-lbl" onclick="transfer_zif(this);">2</label>
-<label class="keypad-lbl" onclick="transfer_zif(this);">3</label>
-<label class="keypad-lbl" onclick="transfer_zif(this);">4</label>
-<label class="keypad-lbl" onclick="transfer_zif(this);">5</label>
-<label class="keypad-lbl" onclick="transfer_zif(this);">6</label>
-<label class="keypad-lbl" onclick="transfer_zif(this);">7</label>
-<label class="keypad-lbl" onclick="transfer_zif(this);">8</label>
-<label class="keypad-lbl" onclick="transfer_zif(this);">9</label>
-<label class="keypad-lbl" onclick="transfer_zif(this);" style="font-size:26px;">.</label>
+<label class="keypad-lbl" data-zif="0" onclick="transfer_zif(0);">0</label>
+<label class="keypad-lbl" data-zif="1" onclick="transfer_zif(1);">1</label>
+<label class="keypad-lbl" data-zif="2" onclick="transfer_zif(2);">2</label>
+<label class="keypad-lbl" data-zif="3" onclick="transfer_zif(3);">3</label>
+<label class="keypad-lbl" data-zif="4" onclick="transfer_zif(4);">4</label>
+<label class="keypad-lbl" data-zif="5" onclick="transfer_zif(5);">5</label>
+<label class="keypad-lbl" data-zif="6" onclick="transfer_zif(6);">6</label>
+<label class="keypad-lbl" data-zif="7" onclick="transfer_zif(7);">7</label>
+<label class="keypad-lbl" data-zif="8" onclick="transfer_zif(8);">8</label>
+<label class="keypad-lbl" data-zif="9" onclick="transfer_zif(9);">9</label>
+<label class="keypad-lbl" data-zif="." onclick="transfer_zif('.');">.</label>
 </div>
 
 <div class="resetting">
@@ -316,6 +323,7 @@ font-weight:600;font-size:23px;
 var is_transformly=false;
 var cl_del_zif = "pissoff";
 var cl_ins_zif = "boo";
+var cl_act_key ="act-key";
 var max_cells = 8;//11;
 var spanout=gid("spanout");
 spanout.textContent="";
@@ -340,6 +348,63 @@ var reset_str = "reset";
 var ins_str = "ins";
 var extrem_str = "extrem";
 
+
+(function(){
+if(typeof window.CustomEvent==="function")return false;
+function CustomEvent(event,p){
+var evt;
+var pr=p || {bubbles:false,cancelable:false,detail:undefined};
+evt=document.createEvent("CustomEvent");
+evt.initCustomEvent(event,pr.bubbles,pr.cancelable,pr.detail);
+return evt;	
+}
+CustomEvent.prototype=window.Event.prototype;
+window.CustomEvent=CustomEvent;	
+})();
+
+
+
+function on_btc_keyboard(event){
+var keyname=event.key;
+if(keyname=='Control'){
+console.log("Control");
+return;	
+}
+if(event.ctrlKey){
+//console.log('combination of ctrlKey ',keyname);	
+}else{
+//console.log("key pressed ", keyname);
+//console.log("code: ", JSON.stringify(event));	
+if(keyname==0 || keyname==1 || keyname==2
+|| keyname==3 || keyname==4 || keyname==5
+|| keyname==6 || keyname==7 || keyname==8
+|| keyname==9 || keyname=='.'){
+//nett_zif(keyname);
+transfer_zif(keyname);	
+//nett_zif(keyname);
+}else if(keyname=='Backspace'){
+transfer_back(keyname);
+}else{console.log("What the fuck?",keyname);}
+}	
+}
+
+
+function nett_zif(n){
+var eli=el_query('[data-zif="'+n+'"]');
+if(eli){
+//eli.style.color="brown";	
+class_adi(eli, cl_act_key);
+}
+}
+
+//document.addEventListener('keydown', on_btc_keyboard,false);
+
+function ad_event(obj,name,funci){
+obj.addEventListener(name,funci,false);
+}
+function rem_event(obj,name,funci){obj.removeEventListener(name,funci);}
+
+
 var awevent=new CustomEvent('forinput',
  {bubbles:true, detail:{text:function(es){return es.target.textContent;},
 typ:function(es){return es.target.getAttribute("data-typ");}}});
@@ -351,6 +416,7 @@ for(var i = 0; i < tdel.length; i++){
 tdel[i].addEventListener('animationend', on_btc_ziffer, false);
 }
 spanout.addEventListener('forinput', on_forinput, false);
+ad_event(document, "keydown", on_btc_keyboard);
 keypad_ev=true;
 }
 
@@ -360,6 +426,7 @@ for(var i = 0; i < tdel.length; i++){
 tdel[i].removeEventListener('animationend', on_btc_ziffer);	
 }	
 spanout.removeEventListener('forinput', on_forinput);
+rem_event(document, "keydown", on_btc_keyboard);
 keypad_ev=false;
 }
 
@@ -369,7 +436,12 @@ if(ev.animationName == "example2"){
 ev.target.textContent = "";
 class_remove(ev.target, cl_del_zif);
 class_remove(ev.target, cl_ins_zif);
+}else if(ev.animationName == "example"){
+var el4=el_query('[data-zif="'+ev.target.textContent+'"]');
+if(el4){
+class_remove(el4, cl_act_key);	
 }
+}else{}
 }
 
 
@@ -474,17 +546,40 @@ sc++;
 return sc;	
 }
 
-
+function clear_act_key(){
+	console.error("clear_act_key() occured!");
+	//.keypad-lbl.act-key
+	/*
+var eli2=document.querySelectorAll(".keypad-lbl."+cl_act_key);
+for(var i=0;i<eli2.length;i++){
+if(eli2[i]){
+if(eli2[i].classList.contains(cl_act_key))class_remove(eli2[i], cl_act_key);	
+}	
+}	*/
+var eli2=el_query(".keypad-lbl."+cl_act_key);
+if(eli2){
+class_remove(eli2, cl_act_key);	
+}
+}
 
 
 function transfer_zif(el){
-if(el.textContent=="."){
+//console.log("here is "+el);
+
+nett_zif(el);
+if(el =="."){
 t_pointsign+=1;
-if(keypad_max)return;
+if(keypad_max){
+//clear_act_key();	
+return;
+}
 }
 if(spanout.textContent == btc_maximum.toString()){
 console.warn("already maximum btc");
+//if(!keypad_max){
+clear_act_key(el);
 sik.style.color="red";
+//}
 return;	
 }
 if(keypad_max || keypad_min)return;
@@ -494,6 +589,7 @@ if(lenis >= max_cells-1){
 if(current_number < btc_minimum){
 console.log("in cells less then btc minimum. Show min val");//0.05 BTC??	
 set_text(spanout, btc_minimum , extrem_str);
+clear_act_key(el);
 sik.style.color = "green";
 return;
 }
@@ -505,23 +601,27 @@ console.log("kuda?");
 var fixed_num = current_number.toFixed(4);
 console.log("toFixed=> ", fixed_num);
 set_text(spanout, fixed_num, extrem_str);
+clear_act_key(el);
 sik.style.color="green";
 return;
 }
-set_text(spanout, spanout.textContent+el.textContent, ins_str);
+set_text(spanout, spanout.textContent+el/*.textContent*/, ins_str);
 sik.style.color = "blue";
 
 var num=fetch_number(spanout.textContent);
 console.log('num: ',num);
 current_number = num;
 if(isNaN(num)){
+clear_act_key(el);
 set_text(spanout, "", reset_str);
+
 t_pointsign = 0;
 return;	
 }
 if(num > btc_maximum){
 keypad_max = true;
 set_text(spanout, btc_maximum, extrem_str);
+clear_act_key(el);
 sik.style.color = "green";
 }
 if(num < btc_minimum){
@@ -617,7 +717,9 @@ div.parentNode.removeChild(div);
 div=null;
 }
 is_transi();
-function el_query(n){}
+function el_query(n){
+return document.querySelector(n);	
+}
 function nu(el){
 console.log("checked ",el.checked);
 if(!el.checked){
