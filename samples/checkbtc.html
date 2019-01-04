@@ -8,8 +8,25 @@ body{pag:0;}
 
 /* #spanout{display:none;}	*/
 
-#tableBtcAmount{/*color:blue;*/}
+#tableBtcAmount{
+/*color:blue;*/
+ackground:red;
+/*box-shadow:0 0 0 3px lime;*/
+/*border-bottom:4px solid green;*/
+order-top:none;
+order-left:none;
+border-collapse:collapse;
+idth:50%;
+}
+#wraptable{
+width:50%;	
+}
 
+/*
+#tableBtcAmount td{
+border:1px solid brown;	
+}
+*/
 #dropBtc{
 position:absolute;
 background:silver;
@@ -18,6 +35,10 @@ z-index:1;
 margin-top:3px;
 height:auto;width:25%;	
 border:2px solid brown;
+}
+
+#wraptable{
+transition:border-color 1s;	
 }
 
 
@@ -46,34 +67,47 @@ cursor:pointer;
 
 .keypad-lbl.act-key{
 color:brown;
-background:red;
+border-color:yellow;
 }
 
 
 #dropBtc::selection,.keypad-lbl::selection,#spanout::selection,label[for=dropcheck]::selection, 
 .blaReset::selection, .blaBackspace::selection, .btclab::selection, button::selection{background:none;}
-table{
-border:1px solid green;
-}
-td{
-border:1px solid black;
-width:30px;
-max-width:30px;
-min-height:30px;
+
+#tableBtcAmount td{
+border-bottom:1px solid red;
+
+border-top:none;
+border-left:none;
+border-right:none;
 overflow:hidden;
-height:30px;
+hight:25px;
 font-size:21px;
 text-align:center;
-font-weight:bold;
+ont-weight:bold;
+margin:0;
+padding:0;
+}
+
+label[for="dropcheck"]{
+color:red;
+cursor:pointer;
+ackground:pink;
+order:1px solid brown;
+idth:100%;
+height:auto;
 }
 
 hr{height:6px;background:black;}
 
 td div{
 display:block;
-/*background:lightblue;*/
-width:28px;
+background:lightblue;
+/*width:28px;
 height:28px;
+*/
+width:12px;
+height:24px;
 /*transform:translateY(13px)	rotate(45deg) scale(2,1.1);*/
 transform:translateY(29px);
 transition:translate 4s;
@@ -83,7 +117,7 @@ td div.boo{
 
 
 animation-name:example;
-animation-duration:0.4s;
+animation-duration:0.1s;
 animation-duration-count:1;
 animation-fill-mode:both;	
 }
@@ -117,7 +151,7 @@ to{transform:translateY(-12px);}
 td div.boo.pissoff{
 color:red;
 animation-name:example2;
-animation-duration:0.2s;
+animation-duration:0.1s;
 animation-duration-count:1;
 animation-fill-mode:backwards;
 }
@@ -159,9 +193,9 @@ height:110px;
 display:block;
 position:absolute;
 text-align:center;
-
+cursor:pointer;
 height:auto;
-vertical-align:bottom;
+/*vertical-align:bottom;*/
 font-size:20px;
 line-height:1.2;
 padding:6px 9px 9px 9px;
@@ -176,9 +210,18 @@ border:1px solid red;
 .blaBackspace{
 top:0;
 right:0;
-border:1px solid orange;	
-}
+border:1px solid orange;
 
+}
+.blaBackspace.act{
+color:orange;
+border-color:blue;	
+box-shadow:0 0 0 3px lime;	
+}
+.blaReset.act{
+color:blue;
+border-color:blue;	
+}
 /*
 .treg:before{
 position:absolute;
@@ -226,9 +269,11 @@ color:black;
 font-size:1.em;
 letter-spacing:0.1em;
 font-weight:bold;	
-}*/
+}
+690px
+*/
 
-@media screen and (max-width:690px){
+@media screen and (max-width:890px){
 body{background:lightgray;}
 #dropBtc{
 width:97.5%;
@@ -254,11 +299,15 @@ margin:15px 20px 0 20px;
 <body>
 <button onclick="bibka();">bibka</button> | <button onclick="check_transform();">check transform</button><br><br>
 <b>btc_minimum=0.0263;</b>&nbsp;&nbsp;<b>btc_maximum=300;</b><br><br>
-<label for="dropcheck">keypad</label><input id="dropcheck" type="checkbox" value="7"  onchange="nu(this);"/>
+<label for="dropcheck"><input id="dropcheck" type="checkbox" hidden value="7"  onchange="nu(this);"/><span><b>your btc amount:</b></span>
+<!-- <p style="background:green;border:1px solid brown;height:auto;">pizda -->
+<div id="wraptable" style="background:green;border:1px solid transparent;display:block;height:50px;position:relative;display:block;">
 <table id="tableBtcAmount">
 	
-<caption style="background:pink;">cap</caption>
+<caption style="background:pink;margin-bottom: 1px;">btc amount</caption> 
 <!-- [1 - 8] -->
+<!-- <thead><tr><th colspan="8" style="text-align:left;background:pink;">btc</th></tr></thead> -->
+<tbody>
 <td><div></div></td>
 <td><div></div></td>
 <td><div></div></td>
@@ -267,9 +316,12 @@ margin:15px 20px 0 20px;
 <td><div></div></td>
 <td><div></div></td>
 <td><div></div></td>
+</tbody>
 <!-- data-typ = [init, back, ins, reset, extrem]-->
-<tfoot style="background:red;"><td colspan="10"><span id="spanout" data-typ="init"></span></td></tfoot>
+<tfoot style="background:red;" hidden><td colspan="10"><span id="spanout" data-typ="init"></span></td></tfoot>
 </table>
+<!-- </p> --><div style="position:absolute;right:0;top:0;background:black;height:49px;">uu uu right div</div></div>
+</label>
 
 <section id="dropBtc">
 <!-- position: absolute -->
@@ -330,6 +382,9 @@ spanout.textContent="";
 var outi=gid("outi");
 var dropBtc=gid("dropBtc");
 var sik=gid("tableBtcAmount");
+var backSpace=el_query(".blaBackspace");
+
+var backReset=el_query(".blaReset");
 
 var btc_maximum = 300;
 var btc_minimum=0.0263;
@@ -436,6 +491,8 @@ if(ev.animationName == "example2"){
 ev.target.textContent = "";
 class_remove(ev.target, cl_del_zif);
 class_remove(ev.target, cl_ins_zif);
+class_remove(backSpace, "act");
+class_remove(backReset, "act");
 }else if(ev.animationName == "example"){
 var el4=el_query('[data-zif="'+ev.target.textContent+'"]');
 if(el4){
@@ -637,6 +694,9 @@ function transfer_back(el){
 var a=spanout.textContent;
 if(!a){console.warn("nothing to be backspaced!");alert("nothing to be backspaced!");return;}
 var b=a.slice(0,-1);
+if(is_transform()){
+class_adi(backSpace, "act");
+}
 set_text(spanout, b, back_str);
 keypad_max=false;
 keypad_min=false;
@@ -644,6 +704,7 @@ keypad_min=false;
 
 function transfer_reset(el){
 if(!spanout.textContent){alert("Nothing to reset!");return;}	
+if(is_transform()){class_adi(backReset,"act");}
 set_text(spanout, "", reset_str);
 t_pointsign=false;
 keypad_max=false;
@@ -728,9 +789,11 @@ if(!el.checked){
 console.log(el.checked);
 remove_keypad_events();
 dropBtc.style.display="none";	
+wraptable.style.borderColor="transparent";
 }else{
 console.log(el.checked);
 dropBtc.style.display="block";
+wraptable.style.borderColor="blue";
 add_keypad_events();	
 }
 }
