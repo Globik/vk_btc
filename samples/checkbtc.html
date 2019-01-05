@@ -19,27 +19,37 @@ border-collapse:collapse;
 idth:50%;
 }
 #wraptable{
-width:50%;	
+width:25%;	
+background:white;
+border:1px solid gray;
+display:block;
+height:50px;
+position:relative;
+/*  top bottom  right left
+box-shadow: 0 1px gray inset,0 -1px gray inset, -1px 0 gray inset, 1px 0 gray inset;
+*/
+transition:border-color 0.1s, box-shadow 3s;	
+
+}
+#wraptable.focus{
+/*box-shadow:0 0 0 3px lime;*/
+box-shadow: 0 1px lightblue inset,0 -1px lightblue inset, -1px 0 lightblue inset, 1px 0 lightblue inset;
+border-color:lightblue;
 }
 
-/*
-#tableBtcAmount td{
-border:1px solid brown;	
-}
-*/
 #dropBtc{
 position:absolute;
 background:silver;
 display:none;
 z-index:1;
 margin-top:3px;
-height:auto;width:25%;	
-border:2px solid brown;
+height:auto;
+width:24.6%;
+width:calc(25% - 4px);	
+border:1px solid brown;
 }
+#captEl{caption-side:bottom;}
 
-#wraptable{
-transition:border-color 1s;	
-}
 
 
 .btclab{
@@ -75,7 +85,7 @@ border-color:yellow;
 .blaReset::selection, .blaBackspace::selection, .btclab::selection, button::selection{background:none;}
 
 #tableBtcAmount td{
-border-bottom:1px solid red;
+order-right:1px solid transparent;
 
 border-top:none;
 border-left:none;
@@ -92,12 +102,37 @@ padding:0;
 label[for="dropcheck"]{
 color:red;
 cursor:pointer;
-ackground:pink;
+background:pink;
 order:1px solid brown;
-idth:100%;
 height:auto;
 }
+/*
+tbody::after{
+content:"";
+height:100%;
+width:1px;
+background:blue;
+position:absolute;
+top:0;	
+left:attr(data-buka px);
+}
+tbody.buka::after{}
+*/
 
+td::after{
+content:"";
+background:blue;
+psition:absolute;
+display:block;
+width:0%;height:1px;
+opacity:0.0;
+transition: width 0.8s, opacity 0.8s;	
+}
+
+td.wboo::after{
+width:100%;
+opacity:1.0;
+	}
 hr{height:6px;background:black;}
 
 td div{
@@ -110,7 +145,7 @@ width:12px;
 height:24px;
 /*transform:translateY(13px)	rotate(45deg) scale(2,1.1);*/
 transform:translateY(29px);
-transition:translate 4s;
+
 }
 td div.boo{
 /*transform:translateY(0);*/
@@ -122,16 +157,18 @@ animation-duration-count:1;
 animation-fill-mode:both;	
 }
 
+
+
 @keyframes example{
 	/*
 from{transform:translateY(29px);}
 to{transform:translateY(1px);}	
 */
 0%{transform:translateY(29px);}
-25%{transform:translateY(-20px);}
-50%{transform:translateY(20px);}
-75%{transform:translateY(-5px);}
-100%{transform:translateY(1px);}
+25%{transform:translateY(-29px);}
+50%{transform:translateY(10px);}
+75%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
 }
 
 
@@ -141,10 +178,10 @@ from{transform:translateY(1px);}
 to{transform:translateY(-12px);}	
 */
 
-0%{transform:translateY(1px);}
+0%{transform:translateY(0);}
 25%{transform:translateY(-4px);}
 50%{transform:translateY(8px);}
-75%{transform:translateY(6px);}
+75%{transform:translateY(4px);}
 100%{transform:translateY(-29px);}
 }
 
@@ -155,6 +192,40 @@ animation-duration:0.1s;
 animation-duration-count:1;
 animation-fill-mode:backwards;
 }
+
+
+@keyframes kursi{
+from{z-index:-10;}
+to{z-index:100;}
+}
+
+#cursi{
+position:absolute;
+display:none;
+top:4px;left:1px;
+background:green;
+border:1px solid transparent;
+border-radius:50%;
+width:0px;
+height:40px;
+animation-name:kursi;
+animation-duration:0.5s;
+animation-direction:alternate-reverse;
+animation-iteration-count:infinite;
+}
+#frsi{
+background:red;
+display:block;
+position:relative;
+width:100px;
+height:100px;
+animation-name:kursi;
+animation-duration:0.2s;
+
+animation-iteration-count:infinite;
+
+}
+
 
 /*
 .me{display:inline-block;background:pink;border:2px solid yellow; width:50%;height:50px;}
@@ -172,8 +243,8 @@ border-bottom:10px solid transparent;
 }
 
 .treg:after{
-content:"";
-position:absolute;
+content:".";
+psition:absolute;
 height:8px;
 width:14px;
 top:-4px;
@@ -275,6 +346,7 @@ font-weight:bold;
 
 @media screen and (max-width:890px){
 body{background:lightgray;}
+#wraptable{width:100%;}
 #dropBtc{
 width:97.5%;
 width:calc(100% - 16px);
@@ -298,16 +370,17 @@ margin:15px 20px 0 20px;
 </head>
 <body>
 <button onclick="bibka();">bibka</button> | <button onclick="check_transform();">check transform</button><br><br>
-<b>btc_minimum=0.0263;</b>&nbsp;&nbsp;<b>btc_maximum=300;</b><br><br>
+<b>btc_minimum = 0.0263</b>&nbsp;&nbsp;<b>btc_maximum = 300</b><br><br>
 <label for="dropcheck"><input id="dropcheck" type="checkbox" hidden value="7"  onchange="nu(this);"/><span><b>your btc amount:</b></span>
 <!-- <p style="background:green;border:1px solid brown;height:auto;">pizda -->
-<div id="wraptable" style="background:green;border:1px solid transparent;display:block;height:50px;position:relative;display:block;">
-<table id="tableBtcAmount">
+<div id="wraptable" style="">
+<div id="cursi" style=""></div>
+<table id="tableBtcAmount" style="ackground:brown;margin-top:12px;margin-left:0px;">
 	
-<caption style="background:pink;margin-bottom: 1px;">btc amount</caption> 
+<!-- <caption id="captEl" style="background:pink;margin-bottom: 1px;">0.05</caption> -->
 <!-- [1 - 8] -->
 <!-- <thead><tr><th colspan="8" style="text-align:left;background:pink;">btc</th></tr></thead> -->
-<tbody>
+<tbody style="">
 <td><div></div></td>
 <td><div></div></td>
 <td><div></div></td>
@@ -316,11 +389,12 @@ margin:15px 20px 0 20px;
 <td><div></div></td>
 <td><div></div></td>
 <td><div></div></td>
+<!-- <td style="padding-left:5px;">BTC</td> -->
 </tbody>
 <!-- data-typ = [init, back, ins, reset, extrem]-->
-<tfoot style="background:red;" hidden><td colspan="10"><span id="spanout" data-typ="init"></span></td></tfoot>
+ <tfoot style="background:red;display:none;"><td colspan="10"><span id="spanout" data-typ="init"></span></td></tfoot> 
 </table>
-<!-- </p> --><div style="position:absolute;right:0;top:0;background:black;height:49px;">uu uu right div</div></div>
+<!-- </p> --><div style="position:absolute;right:1px;top:1px;background:rgba(0,0,0,0.2);height:47px;padding:1px;">uu uu right div</div></div>
 </label>
 
 <section id="dropBtc">
@@ -346,7 +420,8 @@ margin:15px 20px 0 20px;
 </section> 
 
 <div>a dummy div</div>
-
+<input type="text" placeholder="new fucker"/>
+<div id="fursi">suka</div>
 <style>
 #conti{border:1px solid green;display:block;position:relative;height:auto;margin-top:5px;}
 .cziff{display:inline-block;border:1px solid red;position:relative;height:30px;width:30px;margin:2px;
@@ -403,7 +478,8 @@ var reset_str = "reset";
 var ins_str = "ins";
 var extrem_str = "extrem";
 
-
+//var was=document.querySelector("tbody:after");
+//alert(was);
 (function(){
 if(typeof window.CustomEvent==="function")return false;
 function CustomEvent(event,p){
@@ -416,7 +492,6 @@ return evt;
 CustomEvent.prototype=window.Event.prototype;
 window.CustomEvent=CustomEvent;	
 })();
-
 
 
 function on_btc_keyboard(event){
@@ -500,13 +575,20 @@ class_remove(el4, cl_act_key);
 }
 }else{}
 }
-
+var x_d=0;
 
 function ins_zif(text, i){
+	x_d+=12;
 if(tdel[i] && tdel[i].firstChild){
+	
+//alert(x_d);
+tdel[i].className="wboo";
 class_adi(tdel[i].firstChild, cl_ins_zif);
 tdel[i].firstChild.textContent = text;
+//cursi.style.left=x_d+"px";
+//x_d=12;
 }
+//x_d-=12;
 }
 
 function change_zif(new_content, index){
@@ -520,6 +602,7 @@ for(var i = 0; i < tdel.length; i++){
 if(tdel[i] && tdel[i].firstChild){
 
 if(tdel[i].firstChild.textContent){
+tdel[i].className="";
 if(is_transform()){
 class_adi(tdel[i].firstChild, cl_del_zif);
 }else{
@@ -529,12 +612,14 @@ tdel[i].firstChild.textContent = "";
 }
 
 }}	
+//captEl.style.display="initial";
 }
 
 
 
 function del_zif(index){
 if(tdel[index] && tdel[index].firstChild){
+	tdel[index].className="";
 if(is_transform()){
 class_adi(tdel[index].firstChild, cl_del_zif);
 }else{
@@ -550,7 +635,7 @@ tdel[index].firstChild.textContent = "";
 
 
 
-
+var s_d=0;
 function on_forinput(ev){
 console.warn("forinput: ", ev.detail.text(ev));
 var word = ev.detail.text(ev);
@@ -561,9 +646,15 @@ if(typ == ins_str){
 for(var i = 0; i < leni; i++){
 ins_zif(word[i], i);
 }
+s_d+=12;
+cursi.style.left=s_d+"px";
 }else if(typ == back_str){
 //console.log("backspace type 'del'", leni);
 del_zif(leni);
+
+s_d=s_d-12;
+//alert(s_d);
+cursi.style.left=s_d+"px";
 }else if(typ == extrem_str){
 console.warn("typ: ", typ);
 var cells_txt_len = get_cells_leni();
@@ -574,11 +665,18 @@ change_zif(word[i], i);
 var len_step = cells_txt_len - leni;
 var fact_len = leni+ len_step;
 for(var i = leni; i < fact_len; i++){
-//console.warn("there is");
+console.warn("there is", leni," cursi: ",s_d);
 if(tdel[i].firstChild.textContent) del_zif(i);
-}	
+}
+if(leni==3){	
+//cursi.style.left=12*3+"px";
+}
+s_d=12*leni;
+cursi.style.left=s_d+"px";
 }else if(typ == reset_str){
 del_all_zif();
+s_d=1;
+cursi.style.left=s_d+"px";
 }else{
 console.warn("unknown type: ", typ);	
 }
@@ -587,7 +685,8 @@ console.warn("unknown type: ", typ);
 
 
 
-
+//alert(48/3);//16-3
+//alert(61/4);
 
 
 
@@ -625,6 +724,7 @@ class_remove(eli2, cl_act_key);
 function transfer_zif(el){
 //console.log("here is "+el);
 
+//ev.stopPropagation();
 if(is_transform())nett_zif(el);
 if(el =="."){
 t_pointsign+=1;
@@ -783,20 +883,43 @@ is_transi();
 function el_query(n){
 return document.querySelector(n);	
 }
+
+var super_check=false;
+
 function nu(el){
 console.log("checked ",el.checked);
+//alert(1);
 if(!el.checked){
 console.log(el.checked);
 remove_keypad_events();
 dropBtc.style.display="none";	
-wraptable.style.borderColor="transparent";
+//captEl.style.captionSide="top";
+//wraptable.style.borderColor="green";
+wraptable.className="";
+cursi.style.display="none";
+//super_check=false;
 }else{
 console.log(el.checked);
 dropBtc.style.display="block";
-wraptable.style.borderColor="blue";
+//wraptable.style.borderColor="blue";
+wraptable.className="focus";
+cursi.style.display="block";
+//captEl.style.captionSide="bottom";
+//captEl.style.display="none";
 add_keypad_events();	
+super_check=true;
+//document.body.onclick=duri;
 }
 }
+
+function duri(){
+if(super_check){
+	alert(1);
+//dropcheck.checked=false;	
+
+}	
+}
+
 function get_dialog(){
 figa.style.visibility="visible";
 figa.showModal();	
@@ -813,6 +936,10 @@ return n_td_arr;
 function set_text(el,content, typ){
 el.setAttribute("data-typ", typ);
 //alert(el.getAttribute("data-typ"));
+if(el.textContent==""){
+//alert("what?");
+//captEl.style.display="none";
+}
 el.textContent=content;	
 el.dispatchEvent(awevent);
 }
