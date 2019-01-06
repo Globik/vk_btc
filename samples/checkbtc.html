@@ -213,6 +213,16 @@ animation-duration:0.5s;
 animation-direction:alternate-reverse;
 animation-iteration-count:infinite;
 }
+
+#placeholdi{
+position:absolute;
+display:block;
+top:15px;left:3px;
+background:violet;	
+}
+#placeholdi.empty{
+display:none;	
+}
 #frsi{
 background:red;
 display:block;
@@ -370,12 +380,14 @@ margin:15px 20px 0 20px;
 </head>
 <body>
 <button onclick="bibka();">bibka</button> | <button onclick="check_transform();">check transform</button><br><br>
+<form id="foget" action="/foo" method="get" name="dooo">
 <b>btc_minimum = 0.0263</b>&nbsp;&nbsp;<b>btc_maximum = 300</b><br><br>
 <label for="dropcheck"><input id="dropcheck" type="checkbox" hidden value="7"  onchange="nu(this);"/><span><b>your btc amount:</b></span>
 <!-- <p style="background:green;border:1px solid brown;height:auto;">pizda -->
 <div id="wraptable" style="">
 <div id="cursi" style=""></div>
-<table id="tableBtcAmount" style="ackground:brown;margin-top:12px;margin-left:0px;">
+<div id="placeholdi">0.05</div>
+<table id="tableBtcAmount" style="ackground:brown;margin-top:12px;margin-left:0px;" name="suka" value="fffidi">
 	
 <!-- <caption id="captEl" style="background:pink;margin-bottom: 1px;">0.05</caption> -->
 <!-- [1 - 8] -->
@@ -392,7 +404,11 @@ margin:15px 20px 0 20px;
 <!-- <td style="padding-left:5px;">BTC</td> -->
 </tbody>
 <!-- data-typ = [init, back, ins, reset, extrem]-->
- <tfoot style="background:red;display:none;"><td colspan="10"><span id="spanout" data-typ="init"></span></td></tfoot> 
+ <tfoot style="background:pink;display:none;"><td colspan="8">
+<!-- <span id="spanout" data-typ="init"></span> -->
+<input type="text" id="spanout" name="btc" value="" data-typ="init"/> 
+</td>
+</tfoot> 
 </table>
 <!-- </p> --><div style="position:absolute;right:1px;top:1px;background:rgba(0,0,0,0.2);height:47px;padding:1px;">uu uu right div</div></div>
 </label>
@@ -418,9 +434,10 @@ margin:15px 20px 0 20px;
 <label class="blaBackspace" title="backspace" onclick="transfer_back(this);">back</label>
 </div>
 </section> 
-
+<input type="submit" value="ok"/>
+</form>
 <div>a dummy div</div>
-<input type="text" placeholder="new fucker"/>
+<input type="text" placeholder="new fucker" id="muck" oninput="alert('fuckme');"/>
 <div id="fursi">suka</div>
 <style>
 #conti{border:1px solid green;display:block;position:relative;height:auto;margin-top:5px;}
@@ -536,7 +553,7 @@ function rem_event(obj,name,funci){obj.removeEventListener(name,funci);}
 
 
 var awevent=new CustomEvent('forinput',
- {bubbles:true, detail:{text:function(es){return es.target.textContent;},
+ {bubbles:true, detail:{text:function(es){return es.target.value/*textContent*/;},
 typ:function(es){return es.target.getAttribute("data-typ");}}});
 
 
@@ -575,10 +592,10 @@ class_remove(el4, cl_act_key);
 }
 }else{}
 }
-var x_d=0;
+//var x_d=0;
 
 function ins_zif(text, i){
-	x_d+=12;
+	//x_d+=12;
 if(tdel[i] && tdel[i].firstChild){
 	
 //alert(x_d);
@@ -641,8 +658,11 @@ console.warn("forinput: ", ev.detail.text(ev));
 var word = ev.detail.text(ev);
 var leni = word.length;
 console.log("leni: ", leni);
+
 var typ=ev.detail.typ(ev);
+console.log("type data: ",typ);
 if(typ == ins_str){
+if(leni==1){placeholdi.className="empty";}else if(leni==0){placeholdi.className="";}else{}
 for(var i = 0; i < leni; i++){
 ins_zif(word[i], i);
 }
@@ -651,7 +671,7 @@ cursi.style.left=s_d+"px";
 }else if(typ == back_str){
 //console.log("backspace type 'del'", leni);
 del_zif(leni);
-
+if(leni==0){placeholdi.className="";}
 s_d=s_d-12;
 //alert(s_d);
 cursi.style.left=s_d+"px";
@@ -675,6 +695,7 @@ s_d=12*leni;
 cursi.style.left=s_d+"px";
 }else if(typ == reset_str){
 del_all_zif();
+if(leni==0)placeholdi.className="";
 s_d=1;
 cursi.style.left=s_d+"px";
 }else{
@@ -733,7 +754,8 @@ if(keypad_max){
 return;
 }
 }
-if(spanout.textContent == btc_maximum.toString()){
+//if(spanout.textContent == btc_maximum.toString()){
+if(spanout.value==btc_maximum.toString()){
 console.warn("already maximum btc");
 //if(!keypad_max){
 clear_act_key(el);
@@ -742,7 +764,7 @@ sik.style.color="red";
 return;	
 }
 if(keypad_max || keypad_min)return;
-var lenis=spanout.textContent.length;
+var lenis=spanout.value.length;//textContent.length;
 
 if(lenis >= max_cells-1){
 if(current_number < btc_minimum){
@@ -764,10 +786,10 @@ clear_act_key(el);
 sik.style.color="green";
 return;
 }
-set_text(spanout, spanout.textContent+el/*.textContent*/, ins_str);
+set_text(spanout, spanout.value /*textContent*/+el/*.textContent*/, ins_str);
 sik.style.color = "blue";
 
-var num=fetch_number(spanout.textContent);
+var num=fetch_number(spanout.value/*textContent*/);
 console.log('num: ',num);
 current_number = num;
 if(isNaN(num)){
@@ -791,7 +813,7 @@ sik.style.color = "orange";
 
 
 function transfer_back(el){
-var a=spanout.textContent;
+var a=spanout.value;//textContent;
 if(!a){console.warn("nothing to be backspaced!");alert("nothing to be backspaced!");return;}
 var b=a.slice(0,-1);
 if(is_transform()){
@@ -803,7 +825,7 @@ keypad_min=false;
 }
 
 function transfer_reset(el){
-if(!spanout.textContent){alert("Nothing to reset!");return;}	
+if(!spanout.value/*textContent*/){alert("Nothing to reset!");return;}	
 if(is_transform()){class_adi(backReset,"act");}
 set_text(spanout, "", reset_str);
 t_pointsign=false;
@@ -936,11 +958,12 @@ return n_td_arr;
 function set_text(el,content, typ){
 el.setAttribute("data-typ", typ);
 //alert(el.getAttribute("data-typ"));
-if(el.textContent==""){
+//if(el.textContent==""){
 //alert("what?");
 //captEl.style.display="none";
-}
-el.textContent=content;	
+//}
+//el.textContent=content;	
+el.value=content;
 el.dispatchEvent(awevent);
 }
 </script>
