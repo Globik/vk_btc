@@ -106,25 +106,15 @@ background:pink;
 order:1px solid brown;
 height:auto;
 }
-/*
-tbody::after{
-content:"";
-height:100%;
-width:1px;
-background:blue;
-position:absolute;
-top:0;	
-left:attr(data-buka px);
-}
-tbody.buka::after{}
-*/
+
 
 td::after{
 content:"";
 background:blue;
 psition:absolute;
 display:block;
-width:0%;height:1px;
+width:0%;
+height:1px;
 opacity:0.0;
 transition: width 0.8s, opacity 0.8s;	
 }
@@ -236,24 +226,43 @@ animation-iteration-count:infinite;
 
 }
 
-
-/*
-.me{display:inline-block;background:pink;border:2px solid yellow; width:50%;height:50px;}
-*/
 .treg{
 display:block;
 position:relative;
 width:22px;
 /*margin:0 auto;*/
 height:0;
-border-top:10px solid transparent;
+border-top:10px solid red;
 border-right:15px solid rgba(122,2,122,0.4);
-border-bottom:10px solid transparent;
+border-bottom:10px solid blue;
 
 }
 
-.treg:after{
-content:".";
+.treg-down{
+display:block;
+position:relative;
+width:0;
+height:0;
+top:12px;
+
+border-left:20px solid transparent;
+border-right:20px solid transparent;
+border-top:20px solid blue;
+transition: all .09s;
+}
+
+.treg-down.act{
+transform: rotate(180deg);
+transform-origin:50% 44%;
+/*
+border-bottom:20px solid blue;
+border-top:0 solid transparent;
+ransition:all 2s;
+*/
+}
+
+.treg5:after{
+content:"";
 psition:absolute;
 height:8px;
 width:14px;
@@ -303,8 +312,8 @@ box-shadow:0 0 0 3px lime;
 color:blue;
 border-color:blue;	
 }
-/*
-.treg:before{
+
+.treguuu2:before{
 position:absolute;
 top:13px;
 left:2px;
@@ -313,7 +322,7 @@ content:"backspace";
 font-weight:bold;
 font-size:0.7em;	
 letter-spacing:0.1em;
-}*/
+}
 
 
 .resi{
@@ -410,7 +419,10 @@ margin:15px 20px 0 20px;
 </td>
 </tfoot> 
 </table>
-<!-- </p> --><div style="position:absolute;right:1px;top:1px;background:rgba(0,0,0,0.2);height:47px;padding:1px;">uu uu right div</div></div>
+<!-- </p> -->
+<div style="position:absolute;right:1px;top:1px;background:rgba(0,0,0,0.2);height:47px;padding:1px;">
+<div id="tregDown" class="treg-down"></div></div>
+</div>
 </label>
 
 <section id="dropBtc">
@@ -463,6 +475,8 @@ font-weight:600;font-size:23px;
 <h1>dialog</h1>
 <button onclick="this.parentNode.close();">close</button>
 </dialog>
+<div class="treg"></div>
+<div class="treg-down"></div>
 <script>
 var is_transformly=false;
 var cl_del_zif = "pissoff";
@@ -919,6 +933,7 @@ dropBtc.style.display="none";
 //wraptable.style.borderColor="green";
 wraptable.className="";
 cursi.style.display="none";
+class_remove(tregDown, "act");
 //super_check=false;
 }else{
 console.log(el.checked);
@@ -929,6 +944,7 @@ cursi.style.display="block";
 //captEl.style.captionSide="bottom";
 //captEl.style.display="none";
 add_keypad_events();	
+class_adi(tregDown,"act");
 super_check=true;
 //document.body.onclick=duri;
 }
