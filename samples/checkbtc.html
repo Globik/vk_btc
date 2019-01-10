@@ -4,23 +4,18 @@
 <title>checked btc input</title>
 <style>
 *{box-sizing:border-box;}
-body{pag:0;}
-
-/* #spanout{display:none;}	*/
+body{}
 
 #tableBtcAmount{
 /*color:blue;*/
 ackground:red;
 /*box-shadow:0 0 0 3px lime;*/
 /*border-bottom:4px solid green;*/
-order-top:none;
-order-left:none;
 border-collapse:collapse;
-idth:50%;
 }
 #wraptable{
 width:25%;	
-background:white;
+ackground:red;
 border:1px solid gray;
 display:block;
 height:50px;
@@ -39,40 +34,52 @@ border-color:lightblue;
 
 #dropBtc{
 position:absolute;
-background:silver;
-display:none;
+background:transparent;
+display: none;
 z-index:1;
 margin-top:3px;
 height:auto;
 width:24.6%;
-width:calc(25% - 4px);	
-border:1px solid brown;
+width:calc(25% - 13px);	
+border:1px solid transparent;
 }
-#captEl{caption-side:bottom;}
-
-
 
 .btclab{
 display:block;
 position:relative;
-border:2px solid black;
+/*border:2px solid black;*/
 margin-top:3px;
 text-align:center;
 color:green;
 }
 
-.keypad-lbl{
-/*color:red;*/
-border:0.1em solid black;
+.keypad-lbl, .keypadBackspace, .keypadReset{
 display:inline-block;
-width:52px;height:56px;	
-text-align:center;
-margin-top:3px;
-margin-bottom:3px;
-padding-top:13px;
-vertical-align:middle;
+border:1px solid black;	
+height:56px;
 font-size:20px;
+margin-top:2px;
+margin-bottom:2px;
+padding-top:13px;
 cursor:pointer;
+}
+
+.keypad-lbl{
+width:52px;
+}
+.keypadReset,.keypadBackspace{
+width:108px;
+}
+
+
+.keypadBackspace.act{
+color:orange;
+border-color:blue;	
+box-shadow:0 0 0 3px lime;	
+}
+.keypadReset.act{
+color:blue;
+border-color:blue;	
 }
 
 .keypad-lbl.act-key{
@@ -82,10 +89,9 @@ border-color:yellow;
 
 
 #dropBtc::selection,.keypad-lbl::selection,#spanout::selection,label[for=dropcheck]::selection, 
-.blaReset::selection, .blaBackspace::selection, .btclab::selection, button::selection{background:none;}
+.keypadReset::selection, .keypadBackspace::selection, .btclab::selection, button::selection{background:none;}
 
 #tableBtcAmount td{
-order-right:1px solid transparent;
 
 border-top:none;
 border-left:none;
@@ -94,15 +100,15 @@ overflow:hidden;
 hight:25px;
 font-size:21px;
 text-align:center;
-ont-weight:bold;
+font-weight:bold;
 margin:0;
 padding:0;
 }
 
 label[for="dropcheck"]{
-color:red;
+olor:red;
 cursor:pointer;
-background:pink;
+ackground:pink;
 order:1px solid brown;
 height:auto;
 }
@@ -110,8 +116,8 @@ height:auto;
 
 td::after{
 content:"";
-background:blue;
-psition:absolute;
+background:rgba(0,190,0,0.4);
+
 display:block;
 width:0%;
 height:1px;
@@ -122,25 +128,17 @@ transition: width 0.8s, opacity 0.8s;
 td.wboo::after{
 width:100%;
 opacity:1.0;
-	}
-hr{height:6px;background:black;}
+}
+
 
 td div{
 display:block;
-background:lightblue;
-/*width:28px;
-height:28px;
-*/
+ackground:lightblue;
 width:12px;
 height:24px;
-/*transform:translateY(13px)	rotate(45deg) scale(2,1.1);*/
 transform:translateY(29px);
-
 }
 td div.boo{
-/*transform:translateY(0);*/
-
-
 animation-name:example;
 animation-duration:0.1s;
 animation-duration-count:1;
@@ -150,10 +148,6 @@ animation-fill-mode:both;
 
 
 @keyframes example{
-	/*
-from{transform:translateY(29px);}
-to{transform:translateY(1px);}	
-*/
 0%{transform:translateY(29px);}
 25%{transform:translateY(-29px);}
 50%{transform:translateY(10px);}
@@ -163,10 +157,6 @@ to{transform:translateY(1px);}
 
 
 @keyframes example2{
-/*
-from{transform:translateY(1px);}
-to{transform:translateY(-12px);}	
-*/
 
 0%{transform:translateY(0);}
 25%{transform:translateY(-4px);}
@@ -185,22 +175,28 @@ animation-fill-mode:backwards;
 
 
 @keyframes kursi{
-from{z-index:-10;}
-to{z-index:100;}
+
+
+
+from{opacity:1;}
+to{opacity:0;}
+
 }
 
 #cursi{
 position:absolute;
-display:none;
-top:4px;left:1px;
+display: none;
+top:4px;
+left:0px;
+visibility:visible;
 background:green;
 border:1px solid transparent;
 border-radius:50%;
 width:0px;
 height:40px;
 animation-name:kursi;
-animation-duration:0.5s;
-animation-direction:alternate-reverse;
+animation-duration:1s;
+/*animation-direction:alternate-reverse;*/
 animation-iteration-count:infinite;
 }
 
@@ -208,180 +204,50 @@ animation-iteration-count:infinite;
 position:absolute;
 display:block;
 top:15px;left:3px;
-background:violet;	
+ackground:violet;	
+color:rgba(10,10,15,0.6);
 }
 #placeholdi.empty{
 display:none;	
 }
-#frsi{
-background:red;
-display:block;
-position:relative;
-width:100px;
-height:100px;
-animation-name:kursi;
-animation-duration:0.2s;
-
-animation-iteration-count:infinite;
-
-}
-
-.treg{
-display:block;
-position:relative;
-width:22px;
-/*margin:0 auto;*/
-height:0;
-border-top:10px solid red;
-border-right:15px solid rgba(122,2,122,0.4);
-border-bottom:10px solid blue;
-
-}
 
 .treg-down{
 display:block;
-position:relative;
+position:absolute;
 width:0;
 height:0;
-top:12px;
+right:20px;
+top:18px;
 
-border-left:20px solid transparent;
-border-right:20px solid transparent;
-border-top:20px solid blue;
-transition: all .09s;
+border-left:18px solid transparent;
+border-right:18px solid transparent;
+border-top:18px solid rgba(100,100,12,1.0);
+transition: all .9s;
 }
 
 .treg-down.act{
-transform: rotate(180deg);
-transform-origin:50% 44%;
-/*
-border-bottom:20px solid blue;
-border-top:0 solid transparent;
-ransition:all 2s;
+/*transform: rotate(180deg);
+transform-origin:50% 50%;
 */
 }
-
-.treg5:after{
-content:"";
-psition:absolute;
-height:8px;
-width:14px;
-top:-4px;
-left:22px;
-background:rgba(122,2,122,0.4);	
-
-}
-.resetting{
-display:block;
-position:relative;
-margin-top:3px;
-border:2px solid green;
-height:110px;
-}
-
-.blaReset,.blaBackspace{
-display:block;
-position:absolute;
-text-align:center;
-cursor:pointer;
-height:auto;
-/*vertical-align:bottom;*/
-font-size:20px;
-line-height:1.2;
-padding:6px 9px 9px 9px;
-margin:6px 5px 0 5px;
-/* top right bottom left*/
-}
-.blaReset{
-top:0;
-left:0;
-border:1px solid red;	
-}
-.blaBackspace{
-top:0;
-right:0;
-border:1px solid orange;
-
-}
-.blaBackspace.act{
-color:orange;
-border-color:blue;	
-box-shadow:0 0 0 3px lime;	
-}
-.blaReset.act{
-color:blue;
-border-color:blue;	
-}
-
-.treguuu2:before{
-position:absolute;
-top:13px;
-left:2px;
-color:black;
-content:"backspace";
-font-weight:bold;
-font-size:0.7em;	
-letter-spacing:0.1em;
-}
+.keypadInfo{background:pink;}
 
 
-.resi{
-display:block;
-
-position:relative;
-width:40px;
-height:40px;
-border-radius:50%;
-border:4px solid green;	
-ransform:rotate(1deg);
-margin:16px auto;
-}
-
-.resi:before{
-content:"";
-position:absolute;
-top:-11px;
-left:10px;
-/*left:0.231em;*/
-width:4px;
-height:26px;
-background:green;
-border-left:0.25em solid silver;
-border-right:0.25em solid silver;	
-}
-/*
-.resi:after{
-content:"reset";
-position:absolute;
-top:36px;
-right:-6px;
-color:black;
-font-size:1.em;
-letter-spacing:0.1em;
-font-weight:bold;	
-}
-690px
-*/
 
 @media screen and (max-width:890px){
-body{background:lightgray;}
+body{background:inherit;}
 #wraptable{width:100%;}
 #dropBtc{
 width:97.5%;
-width:calc(100% - 16px);
+width:calc(100% - 48px);
 }
-.keypad-lbl{
+.keypad-lbl,.keypadReset,.keypadBackspace{
 width:85px;height:75px;
 padding:20px;
 font-size:24px;
 }
-.blaReset,.blaBackspace{
-font-size:24px;
-/*line-height:1.2;*/
-/*padding:18px 18px 18px 18px;*/
-padding:20px;
-margin:15px 20px 0 20px;
-/* top right bottom left*/	
+.keypadReset,.keypadBackspace{
+width:130px;
 }
 
 }
@@ -390,12 +256,12 @@ margin:15px 20px 0 20px;
 <body>
 <button onclick="bibka();">bibka</button> | <button onclick="check_transform();">check transform</button><br><br>
 <form id="foget" action="/foo" method="get" name="dooo">
+<fieldset><legend>choose</legend>
 <b>btc_minimum = 0.0263</b>&nbsp;&nbsp;<b>btc_maximum = 300</b><br><br>
 <label for="dropcheck"><input id="dropcheck" type="checkbox" hidden value="7"  onchange="nu(this);"/><span><b>your btc amount:</b></span>
-<!-- <p style="background:green;border:1px solid brown;height:auto;">pizda -->
 <div id="wraptable" style="">
 <div id="cursi" style=""></div>
-<div id="placeholdi">0.05</div>
+<div id="placeholdi">0.05 (BTC)</div>
 <table id="tableBtcAmount" style="ackground:brown;margin-top:12px;margin-left:0px;" name="suka" value="fffidi">
 	
 <!-- <caption id="captEl" style="background:pink;margin-bottom: 1px;">0.05</caption> -->
@@ -410,24 +276,23 @@ margin:15px 20px 0 20px;
 <td><div></div></td>
 <td><div></div></td>
 <td><div></div></td>
-<!-- <td style="padding-left:5px;">BTC</td> -->
 </tbody>
 <!-- data-typ = [init, back, ins, reset, extrem]-->
- <tfoot style="background:pink;display:none;"><td colspan="8">
-<!-- <span id="spanout" data-typ="init"></span> -->
+<tfoot style="background:pink;display:none;"><td colspan="8">
 <input type="text" id="spanout" name="btc" value="" data-typ="init"/> 
 </td>
 </tfoot> 
 </table>
-<!-- </p> -->
-<div style="position:absolute;right:1px;top:1px;background:rgba(0,0,0,0.2);height:47px;padding:1px;">
-<div id="tregDown" class="treg-down"></div></div>
+<div style="position:absolute;right:0px;top:0px;ackground:rgba(200,0,0,0.2);width:44px;height:47px;adding:1px;">
+<div id="tregDown" class="treg-down"></div>
+</div>
 </div>
 </label>
 
 <section id="dropBtc">
 <!-- position: absolute -->
-<div class="btclab">
+<section class="keypadInfo">info box</section>
+<section class="btclab">
 <label class="keypad-lbl" data-zif="0" onclick="transfer_zif(0);">0</label>
 <label class="keypad-lbl" data-zif="1" onclick="transfer_zif(1);">1</label>
 <label class="keypad-lbl" data-zif="2" onclick="transfer_zif(2);">2</label>
@@ -438,36 +303,17 @@ margin:15px 20px 0 20px;
 <label class="keypad-lbl" data-zif="7" onclick="transfer_zif(7);">7</label>
 <label class="keypad-lbl" data-zif="8" onclick="transfer_zif(8);">8</label>
 <label class="keypad-lbl" data-zif="9" onclick="transfer_zif(9);">9</label>
-<label class="keypad-lbl" data-zif="." onclick="transfer_zif('.');">.</label>
-</div>
-
-<div class="resetting">
-<label class="blaReset" title="reset" onclick="transfer_reset(this);">clear</label>
-<label class="blaBackspace" title="backspace" onclick="transfer_back(this);">back</label>
-</div>
+<label class="keypadReset" title="reset" onclick="transfer_reset(this);">clear</label>
+<label class="keypad-lbl" title="point" data-zif="." onclick="transfer_zif('.');">.</label>
+<label class="keypadBackspace" title="backspace" onclick="transfer_back(this);">back</label>
+</section>
 </section> 
+</fieldset>
 <input type="submit" value="ok"/>
 </form>
 <div>a dummy div</div>
-<input type="text" placeholder="new fucker" id="muck" oninput="alert('fuckme');"/>
-<div id="fursi">suka</div>
-<style>
-#conti{border:1px solid green;display:block;position:relative;height:auto;margin-top:5px;}
-.cziff{display:inline-block;border:1px solid red;position:relative;height:30px;width:30px;margin:2px;
-	text-align:center;
-	vertical-align:bottom;
-	overflow:hidden;
-	}
-.ziff{
-display:block;border:1px solid blue;position:absolute;top:0px;left:-1px;width:30px;
 
-font-weight:600;font-size:23px;
-}
-.ziff span{vertical-align:middle;}
-</style>
-<div id="conti"><div class="cziff">
-<div class="ziff">0</div></div><div class="cziff"><div class="ziff">1</div></div>
-</div>
+
 <output id="outi"></output>
 <button onclick="get_dialog();">dialog</button>
 <dialog id="figa" style="visibility:hidden;">
@@ -475,22 +321,21 @@ font-weight:600;font-size:23px;
 <h1>dialog</h1>
 <button onclick="this.parentNode.close();">close</button>
 </dialog>
-<div class="treg"></div>
-<div class="treg-down"></div>
+
 <script>
 var is_transformly=false;
 var cl_del_zif = "pissoff";
 var cl_ins_zif = "boo";
 var cl_act_key ="act-key";
-var max_cells = 8;//11;
+var max_cells = 8;
 var spanout=gid("spanout");
 spanout.textContent="";
 var outi=gid("outi");
 var dropBtc=gid("dropBtc");
 var sik=gid("tableBtcAmount");
-var backSpace=el_query(".blaBackspace");
+var backSpace=el_query(".keypadBackspace");
 
-var backReset=el_query(".blaReset");
+var backReset=el_query(".keypadReset");
 
 var btc_maximum = 300;
 var btc_minimum=0.0263;
@@ -509,8 +354,6 @@ var reset_str = "reset";
 var ins_str = "ins";
 var extrem_str = "extrem";
 
-//var was=document.querySelector("tbody:after");
-//alert(was);
 (function(){
 if(typeof window.CustomEvent==="function")return false;
 function CustomEvent(event,p){
@@ -534,15 +377,11 @@ return;
 if(event.ctrlKey){
 //console.log('combination of ctrlKey ',keyname);	
 }else{
-//console.log("key pressed ", keyname);
-//console.log("code: ", JSON.stringify(event));	
 if(keyname==0 || keyname==1 || keyname==2
 || keyname==3 || keyname==4 || keyname==5
 || keyname==6 || keyname==7 || keyname==8
 || keyname==9 || keyname=='.'){
-//nett_zif(keyname);
-transfer_zif(keyname);	
-//nett_zif(keyname);
+transfer_zif(keyname);
 }else if(keyname=='Backspace'){
 transfer_back(keyname);
 }else{console.log("What the fuck?",keyname);}
@@ -553,7 +392,6 @@ transfer_back(keyname);
 function nett_zif(n){
 var eli=el_query('[data-zif="'+n+'"]');
 if(eli){
-//eli.style.color="brown";	
 class_adi(eli, cl_act_key);
 }
 }
@@ -606,20 +444,13 @@ class_remove(el4, cl_act_key);
 }
 }else{}
 }
-//var x_d=0;
 
 function ins_zif(text, i){
-	//x_d+=12;
 if(tdel[i] && tdel[i].firstChild){
-	
-//alert(x_d);
 tdel[i].className="wboo";
 class_adi(tdel[i].firstChild, cl_ins_zif);
 tdel[i].firstChild.textContent = text;
-//cursi.style.left=x_d+"px";
-//x_d=12;
 }
-//x_d-=12;
 }
 
 function change_zif(new_content, index){
@@ -667,6 +498,7 @@ tdel[index].firstChild.textContent = "";
 
 
 var s_d=0;
+
 function on_forinput(ev){
 console.warn("forinput: ", ev.detail.text(ev));
 var word = ev.detail.text(ev);
@@ -702,9 +534,7 @@ for(var i = leni; i < fact_len; i++){
 console.warn("there is", leni," cursi: ",s_d);
 if(tdel[i].firstChild.textContent) del_zif(i);
 }
-if(leni==3){	
-//cursi.style.left=12*3+"px";
-}
+
 s_d=12*leni;
 cursi.style.left=s_d+"px";
 }else if(typ == reset_str){
@@ -716,14 +546,6 @@ cursi.style.left=s_d+"px";
 console.warn("unknown type: ", typ);	
 }
 }
-
-
-
-
-//alert(48/3);//16-3
-//alert(61/4);
-
-
 
 function get_cells_leni(){
 var sc=0;
@@ -768,7 +590,7 @@ if(keypad_max){
 return;
 }
 }
-//if(spanout.textContent == btc_maximum.toString()){
+
 if(spanout.value==btc_maximum.toString()){
 console.warn("already maximum btc");
 //if(!keypad_max){
@@ -778,7 +600,7 @@ sik.style.color="red";
 return;	
 }
 if(keypad_max || keypad_min)return;
-var lenis=spanout.value.length;//textContent.length;
+var lenis=spanout.value.length;
 
 if(lenis >= max_cells-1){
 if(current_number < btc_minimum){
@@ -800,10 +622,10 @@ clear_act_key(el);
 sik.style.color="green";
 return;
 }
-set_text(spanout, spanout.value /*textContent*/+el/*.textContent*/, ins_str);
-sik.style.color = "blue";
+set_text(spanout, spanout.value + el, ins_str);
+sik.style.color = "black";
 
-var num=fetch_number(spanout.value/*textContent*/);
+var num=fetch_number(spanout.value);
 console.log('num: ',num);
 current_number = num;
 if(isNaN(num)){
@@ -827,7 +649,7 @@ sik.style.color = "orange";
 
 
 function transfer_back(el){
-var a=spanout.value;//textContent;
+var a=spanout.value;
 if(!a){console.warn("nothing to be backspaced!");alert("nothing to be backspaced!");return;}
 var b=a.slice(0,-1);
 if(is_transform()){
@@ -839,7 +661,7 @@ keypad_min=false;
 }
 
 function transfer_reset(el){
-if(!spanout.value/*textContent*/){alert("Nothing to reset!");return;}	
+if(!spanout.value){alert("Nothing to reset!");return;}	
 if(is_transform()){class_adi(backReset,"act");}
 set_text(spanout, "", reset_str);
 t_pointsign=false;
@@ -941,6 +763,7 @@ dropBtc.style.display="block";
 //wraptable.style.borderColor="blue";
 wraptable.className="focus";
 cursi.style.display="block";
+//alert(2);
 //captEl.style.captionSide="bottom";
 //captEl.style.display="none";
 add_keypad_events();	
