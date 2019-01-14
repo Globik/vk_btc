@@ -287,11 +287,10 @@ width:130px;
 </style>
 </head>
 <body>
-<button onclick="bibka();">bibka</button> | <button onclick="check_transform();">check transform</button><br><br>
 <form id="foget" action="/foo" method="get" name="dooo">
 <fieldset><legend>choose</legend><b>Bitcoin</b>
 <b><span class="span-btc-min"> minimum 0.0263</span></b>&nbsp;&nbsp;<b><span class="span-btc-max">maximum 300</span></b><br><br>
-<label for="dropcheck"><input id="dropcheck" type="checkbox" hidden value="7"  onchange="nu(this);"/><span><b>your btc amount:</b></span>
+<label for="dropcheck"><input id="dropcheck" type="checkbox" hidden value="7"/><span><b>your btc amount:</b></span>
 <div id="wraptable" style="">
 <div id="cursi" style=""></div>
 <div id="placeholdi">0.05 (BTC)</div>
@@ -326,19 +325,19 @@ width:130px;
 <!-- position: relative is besser -->
 <section class="keypadInfo"><small id="padinfo">keypad</small></section>
 <section class="btclab">
-<label class="keypad-lbl" data-zif="0" onclick="transfer_zif(0);">0</label>
-<label class="keypad-lbl" data-zif="1" onclick="transfer_zif(1);">1</label>
-<label class="keypad-lbl" data-zif="2" onclick="transfer_zif(2);">2</label>
-<label class="keypad-lbl" data-zif="3" onclick="transfer_zif(3);">3</label>
-<label class="keypad-lbl" data-zif="4" onclick="transfer_zif(4);">4</label>
-<label class="keypad-lbl" data-zif="5" onclick="transfer_zif(5);">5</label>
-<label class="keypad-lbl" data-zif="6" onclick="transfer_zif(6);">6</label>
-<label class="keypad-lbl" data-zif="7" onclick="transfer_zif(7);">7</label>
-<label class="keypad-lbl" data-zif="8" onclick="transfer_zif(8);">8</label>
-<label class="keypad-lbl" data-zif="9" onclick="transfer_zif(9);">9</label>
-<label class="keypadReset" title="reset" onclick="transfer_reset(this);">clear</label>
-<label class="keypad-lbl" title="point" data-zif="." onclick="transfer_zif('.');">.</label>
-<label class="keypadBackspace" title="backspace" onclick="transfer_back(this);">back</label>
+<label class="keypad-lbl" data-zif="0">0</label>
+<label class="keypad-lbl" data-zif="1">1</label>
+<label class="keypad-lbl" data-zif="2">2</label>
+<label class="keypad-lbl" data-zif="3">3</label>
+<label class="keypad-lbl" data-zif="4">4</label>
+<label class="keypad-lbl" data-zif="5">5</label>
+<label class="keypad-lbl" data-zif="6">6</label>
+<label class="keypad-lbl" data-zif="7">7</label>
+<label class="keypad-lbl" data-zif="8">8</label>
+<label class="keypad-lbl" data-zif="9">9</label>
+<label class="keypadReset" title="reset">clear</label>
+<label class="keypad-lbl" title="point" data-zif=".">.</label>
+<label class="keypadBackspace" title="backspace">back</label>
 </section>
 </section> 
 </fieldset>
@@ -356,6 +355,7 @@ width:130px;
 </dialog>
 
 <script>
+var l_debug=1;//0 if a need to debug
 var is_transformly=false;
 var cl_del_zif = "pissoff";
 var cl_ins_zif = "boo";
@@ -365,12 +365,15 @@ var spanout=gid("spanout");
 spanout.textContent="";
 var outi=gid("outi");
 var dropBtc=gid("dropBtc");
+var dropcheck=gid("dropcheck");
 var sik=gid("tableBtcAmount");
 var t_tbody=el_query('tbody');
-var backSpace=el_query(".keypadBackspace");
+var backSpace=el_queryd(dropBtc,".keypadBackspace");
 var span_btc_min=el_query(".span-btc-min");
 var span_btc_max=el_query(".span-btc-max");
 var padinfo=gid("padinfo");
+var keypad_lbl=elclass(dropBtc, 'keypad-lbl');
+
 
 var backReset=el_query(".keypadReset");
 
@@ -404,15 +407,19 @@ CustomEvent.prototype=window.Event.prototype;
 window.CustomEvent=CustomEvent;	
 })();
 
-
+function clog(n){
+if(l_debug==0){
+console.log(n);	
+}	
+}
 function on_btc_keyboard(event){
 var keyname=event.key;
 if(keyname=='Control'){
-console.log("Control");
+clog("Control");
 return;	
 }
 if(event.ctrlKey){
-//console.log('combination of ctrlKey ',keyname);	
+clog('combination of ctrlKey '+keyname);	
 }else{
 if(keyname==0 || keyname==1 || keyname==2
 || keyname==3 || keyname==4 || keyname==5
@@ -421,19 +428,17 @@ if(keyname==0 || keyname==1 || keyname==2
 transfer_zif(keyname);
 }else if(keyname=='Backspace'){
 transfer_back(keyname);
-}else{console.log("What the fuck?",keyname);}
+}else{clog("What the fuck?"+keyname);}
 }	
 }
 
 
 function nett_zif(n){
-var eli=el_query('[data-zif="'+n+'"]');
+var eli=el_queryd(dropBtc,'[data-zif="'+n+'"]');
 if(eli){
 class_adi(eli, cl_act_key);
 }
 }
-
-//document.addEventListener('keydown', on_btc_keyboard,false);
 
 function ad_event(obj,name,funci){
 obj.addEventListener(name,funci,false);
@@ -442,15 +447,23 @@ function rem_event(obj,name,funci){obj.removeEventListener(name,funci);}
 
 
 var awevent=new CustomEvent('forinput',
- {bubbles:true, detail:{text:function(es){return es.target.value/*textContent*/;},
+ {bubbles:true, detail:{text:function(es){return es.target.value;},
 typ:function(es){return es.target.getAttribute("data-typ");}}});
 
+dropcheck.addEventListener('change', on_drop_btc,false);
 
 function add_keypad_events(){
 if(keypad_ev)return;
 for(var i = 0; i < tdel.length; i++){
-tdel[i].addEventListener('animationend', on_btc_ziffer, false);
+if(tdel[i])ad_event(tdel[i],'animationend',on_btc_ziffer);
 }
+for(var i = 0; i < keypad_lbl.length;i++){
+if(keypad_lbl[i]){
+ad_event(keypad_lbl[i],'click',transfer_zif);	
+}	
+}
+if(backSpace)ad_event(backSpace,'click',transfer_back);
+if(backReset)ad_event(backReset,'click',transfer_reset);
 spanout.addEventListener('forinput', on_forinput, false);
 ad_event(document, "keydown", on_btc_keyboard);
 ad_event(dropBtc, "animationend", on_drop_red_btc);
@@ -460,16 +473,24 @@ keypad_ev=true;
 function remove_keypad_events(){
 if(!keypad_ev)return;
 for(var i = 0; i < tdel.length; i++){
-tdel[i].removeEventListener('animationend', on_btc_ziffer);	
+if(tdel[i])rem_event(tdel[i],'animationend', on_btc_ziffer);
 }	
+for(var i=0;i<keypad_lbl.length;i++){
+if(keypad_lbl[i]){
+rem_event(keypad_lbl[i],'click', transfer_zif);	
+}	
+}
 spanout.removeEventListener('forinput', on_forinput);
 rem_event(document, "keydown", on_btc_keyboard);
-rem_event(dropBtc, on_drop_red_btc);
+rem_event(dropBtc, 'animationend', on_drop_red_btc);
+if(backSpace)rem_event(backSpace,'click', transfer_back);
+if(backReset)rem_event(backReset,'click', transfer_reset);
 keypad_ev=false;
 }
+
 function on_drop_red_btc(ev){
 if(ev.animationName=="dropRed"){
-console.warn("dropRed end!");
+clog("dropRed end!");
 ev.target.className="";
 }	
 }
@@ -518,8 +539,7 @@ tdel[i].firstChild.textContent = "";
 }
 }
 
-}}	
-//captEl.style.display="initial";
+}}
 }
 
 
@@ -536,22 +556,16 @@ tdel[index].firstChild.textContent = "";
 }	
 }
 
-
-
-//spanout.addEventListener('forinput', on_forinput, false);
-
-
-
 var s_d=0;
 
 function on_forinput(ev){
-console.warn("forinput: ", ev.detail.text(ev));
+clog("forinput: "+ev.detail.text(ev));
 var word = ev.detail.text(ev);
 var leni = word.length;
-console.log("leni: ", leni);
+clog("leni: "+leni);
 
 var typ=ev.detail.typ(ev);
-console.log("type data: ",typ);
+clog("type data: "+typ);
 if(typ == ins_str){
 if(leni==1){placeholdi.className="empty";}else if(leni==0){placeholdi.className="";}else{}
 for(var i = 0; i < leni; i++){
@@ -560,23 +574,20 @@ ins_zif(word[i], i);
 s_d+=12;
 cursi.style.left=s_d+"px";
 }else if(typ == back_str){
-//console.log("backspace type 'del'", leni);
 del_zif(leni);
 if(leni==0){placeholdi.className="";}
 s_d=s_d-12;
-//alert(s_d);
 cursi.style.left=s_d+"px";
 }else if(typ == extrem_str){
-console.warn("typ: ", typ);
 var cells_txt_len = get_cells_leni();
-console.log("length cells: ", cells_txt_len);
+clog("length cells: "+ cells_txt_len);
 for(var i = 0; i < leni; i++){
 change_zif(word[i], i);
 }
 var len_step = cells_txt_len - leni;
-var fact_len = leni+ len_step;
+var fact_len = leni + len_step;
 for(var i = leni; i < fact_len; i++){
-console.warn("there is", leni," cursi: ",s_d);
+clog("there is"+ leni+" cursi: "+s_d);
 if(tdel[i].firstChild.textContent) del_zif(i);
 }
 
@@ -588,7 +599,7 @@ if(leni==0)placeholdi.className="";
 s_d=1;
 cursi.style.left=s_d+"px";
 }else{
-console.warn("unknown type: ", typ);	
+clog("unknown type: "+typ);	
 }
 }
 
@@ -605,28 +616,26 @@ return sc;
 }
 
 function clear_act_key(){
-	//console.error("clear_act_key() occured!");
-	//.keypad-lbl.act-key
-	/*
-var eli2=document.querySelectorAll(".keypad-lbl."+cl_act_key);
-for(var i=0;i<eli2.length;i++){
-if(eli2[i]){
-if(eli2[i].classList.contains(cl_act_key))class_remove(eli2[i], cl_act_key);	
-}	
-}	*/
 if(is_transform()){
-var eli2=el_query(".keypad-lbl."+cl_act_key);
+var eli2=el_queryd(dropBtc, ".keypad-lbl."+cl_act_key);
 if(eli2){
 class_remove(eli2, cl_act_key);	
 }
 }
 }
 
-
+//document.body.onclick=function(){alert("document click!");}
 function transfer_zif(el){
-//console.log("here is "+el);
-
-//ev.stopPropagation();
+var sa;
+if(el.target){
+sa=el.target.getAttribute("data-zif");
+if(!sa)return;
+el.stopPropagation();
+}else{
+sa=el;
+if(!sa)return;	
+}
+var el=sa;
 if(is_transform())nett_zif(el);
 if(el =="."){
 t_pointsign+=1;
@@ -637,7 +646,7 @@ return;
 }
 
 if(spanout.value==btc_maximum.toString()){
-console.warn("already maximum btc");
+clog("already maximum btc");
 clear_act_key(el);
 t_tbody.className="red";
 class_adi(span_btc_max,"max");
@@ -652,12 +661,10 @@ var lenis=spanout.value.length;
 
 if(lenis >= max_cells-1){
 if(current_number < btc_minimum){
-console.log("in cells less then btc minimum. Show min val");//0.05 BTC??	
+clog("in cells less then btc minimum. Show min val");//0.05 BTC??	
 set_text(spanout, btc_minimum , extrem_str);
 padinfo.textContent="It's a minimum!";
-//padinfo.textContent="Fixed to 4";
 clear_act_key(el);
-//sik.style.color = "green";
 t_tbody.className= "green";
 class_adi(span_btc_min, "min");
 class_remove(span_btc_max, "max");
@@ -666,14 +673,11 @@ return;
 }
 
 if(lenis >= max_cells){
-//alert("kuda?");
-console.log("kuda?");
 var fixed_num = current_number.toFixed(4);
-console.log("toFixed=> ", fixed_num);
+clog("toFixed=> "+ fixed_num);
 set_text(spanout, fixed_num, extrem_str);
 padinfo.textContent="Fixed to "+ fixed_num + " bitcoins.";
 clear_act_key(el);
-//sik.style.color="green";
 t_tbody.className="green";
 class_remove(span_btc_min, "min");
 class_remove(span_btc_max, "max");
@@ -682,11 +686,8 @@ return;
 padinfo.textContent="...";
 set_text(spanout, spanout.value + el, ins_str);
 
-//sik.style.color = "red";
-//t_tbody.style.color="yellow";
-
 var num=fetch_number(spanout.value);
-console.log('num: ',num);
+clog('num: '+num);
 current_number = num;
 if(isNaN(num)){
 clear_act_key(el);
@@ -701,24 +702,24 @@ if(num > btc_maximum){
 keypad_max = true;
 set_text(spanout, btc_maximum, extrem_str);
 clear_act_key(el);
-sik.style.color = "green";
 }
 if(num < btc_minimum){
-console.warn("btc_minimum");
-//sik.style.color = "orange";
+clog("btc_minimum");
 t_tbody.className="orange";
 }
 }
 
-
-function transfer_back(el){
-var a=spanout.value;
-if(!a){
-console.warn("nothing to be backspaced!");
-//alert("nothing to be backspaced!");
+function inform_padinfo(n){
 dropBtc.className="red";
 padinfo.className="orange";
-padinfo.textContent="Nothing to be backspaced."
+padinfo.textContent=n;	
+}
+
+function transfer_back(el){
+if(el.target){el.stopPropagation();}
+var a=spanout.value;
+if(!a){
+inform_padinfo("Nothing to be backspaced.");
 return;
 }
 var b=a.slice(0,-1);
@@ -726,34 +727,31 @@ if(is_transform()){
 class_adi(backSpace, "act");
 }
 set_text(spanout, b, back_str);
+clear_padinfo("...");
+}
+
+function clear_padinfo(n){
 class_remove(span_btc_min, "min");
 class_remove(span_btc_max, "max");
-
-padinfo.className="";
-padinfo.textContent="...";
 t_tbody.className="";
+padinfo.textContent=n;
+padinfo.className="";
+t_pointsign=false;
 keypad_max=false;
-keypad_min=false;
+keypad_min=false;	
 }
 
 function transfer_reset(el){
+if(el.target){
+el.stopPropagation();	
+}
 if(!spanout.value){
-//alert("Nothing to reset!");
-dropBtc.className="red";
-padinfo.className="orange";
-padinfo.textContent="Nothing to clear.";
+inform_padinfo("Nothing to clear.");
 return;
 }	
 if(is_transform()){class_adi(backReset,"act");}
 set_text(spanout, "", reset_str);
-class_remove(span_btc_min, "min");
-class_remove(span_btc_max, "max");
-padinfo.textContent="";
-padinfo.className="";
-
-t_pointsign=false;
-keypad_max=false;
-keypad_min=false;
+clear_padinfo("keypad");
 }
 
 function check(){
@@ -777,6 +775,9 @@ function eltagi(str){
 return document.getElementsByTagName(str);	
 }
 
+function elclass(elid, n){
+return elid.getElementsByClassName(n);	
+}
 function dom_tagi(id,s){
 var el_n=gid(id);
 if(!el_n)return null;
@@ -794,22 +795,6 @@ if(!node){alert("wrong node el in class_remove()?");console.error("wrong node el
 if(!node.classList){console.error("no classList in el?");return;}
 node.classList.remove(clas);
 }
-function bibka(){
-try{
-var a=document.querySelector("#dropcheck:checked");
-alert(a);
-}catch(e){alert(e);}	
-}
-function check_transform(){
-var div=document.createElement("div");
-div.setAttribute("style","transform:translateY(-10px);");
-
-document.body.appendChild(div);
-var ws=!!(div.style["transform"]);
-alert(ws);
-div.parentNode.removeChild(div);
-div=null;
-}
 
 function is_transform(){
 return is_transformly;
@@ -825,55 +810,39 @@ div.parentNode.removeChild(div);
 div=null;
 }
 is_transi();
+
 function el_query(n){
 return document.querySelector(n);	
 }
+function el_queryd(elid, n){
+return elid.querySelector(n);	
+}
 
-var super_check=false;
-
-function nu(el){
-console.log("checked ",el.checked);
-//alert(1);
-if(!el.checked){
-console.log(el.checked);
+function on_drop_btc(el){
+clog("checked ", el.target.checked);
+if(!el.target.checked){
 remove_keypad_events();
 dropBtc.style.display="none";	
-//captEl.style.captionSide="top";
-//wraptable.style.borderColor="green";
 wraptable.className="";
 cursi.style.display="none";
 class_remove(tregDown, "act");
-//super_check=false;
 }else{
-console.log(el.checked);
 dropBtc.style.display="block";
-//wraptable.style.borderColor="blue";
 wraptable.className="focus";
 cursi.style.display="block";
-//alert(2);
-//captEl.style.captionSide="bottom";
-//captEl.style.display="none";
 add_keypad_events();	
 class_adi(tregDown,"act");
-super_check=true;
-//document.body.onclick=duri;
 }
+el.stopPropagation();
 }
 
-function duri(){
-if(super_check){
-	alert(1);
-//dropcheck.checked=false;	
 
-}	
-}
 
 function get_dialog(){
 figa.style.visibility="visible";
 figa.showModal();	
 }
 function closeg(){
-	//alert(1);
 gid("figa").close();
 gid("figa").style.display="hidden";	
 }
@@ -882,13 +851,7 @@ var n_td_arr=Array.prototype.slice.apply(n_td);
 return n_td_arr;	
 }
 function set_text(el,content, typ){
-el.setAttribute("data-typ", typ);
-//alert(el.getAttribute("data-typ"));
-//if(el.textContent==""){
-//alert("what?");
-//captEl.style.display="none";
-//}
-//el.textContent=content;	
+el.setAttribute("data-typ", typ);	
 el.value=content;
 el.dispatchEvent(awevent);
 }
