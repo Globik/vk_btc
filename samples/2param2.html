@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">	
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="apple-mobile-web-app-capable" content="yes">
+<title>two param2</title>
+<!-- <link rel="shortcut icon" type="image/ico" href="/images/w4.png"> -->
+<link rel="stylesheet" href="admin_gear.css">
+<script src="global_vk_btc.js"></script>
+</head>
+<body onload="on_body_onload();">
+<main id="maini">
+<nav style="background:brown;">home | payment | admin <span id="med">@</span></nav>
+<section id="main2">
+<form id="formAdmin" data-typ="owner" name="twoparam" method="" action="/me" enctype="">
+<nav><span class="tabi active" data-typ="owner">Owner</span>|<span class="tabi" data-typ="partner">Partnership</span></nav>
+<article id="articleOwner" class="tab-contenti active">
+<fieldset name="fuck"><legend>Hазвание проекта</legend>
+<small style="">Должно быть простым, запоминающимся и отражать <ins>суть</ins> вашего проекта.</small>
+<textarea name="gesamtziel" placeholder="for what?" required>Учебник русскага языка для иносранцев "Новый Сувенир 3"</textarea>
+</fieldset>
+
+
+<fieldset><legend>Продолжительность проекта</legend>
+<label class="cntlb">3 месяца<input type="radio" checked name="dauern" value="1"/><span class="mark"></span></label>
+<label class= "cntlb">6 месяцев<input type="radio" name="dauern" value="2"/><span class="mark"></span></label>
+<label class="cntlb">Бессрочно<input type="radio" name="dauern" value="3"/><span class="mark"></span></label>
+</fieldset>
+<fieldset><legend>BTC amount</legend>
+<!-- custom btc input -->
+<b id="homo" style="">Bitcoin </b><span class="span-btc-min">minimum 0.0263</span>
+<span class="span-btc-max">maximum 300</span><br>
+<label for="dropcheck"><input id="dropcheck" type="checkbox" hidden value="7"/><span><b>your btc amount:</b></span>
+<div id="wraptable" style="">
+<div id="cursi" style=""></div>
+<div id="placeholdi">0.05 (BTC)</div>
+<table id="tableBtcAmount">
+<tbody style="">
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+<td><div></div></td>
+</tbody>
+<!-- data-typ = [init, back, ins, reset, extrem]-->
+<tfoot style="display:none;"><td colspan="8">
+<input type="text" id="spanout" name="btc" value="" data-typ="init"/> 
+</td>
+</tfoot> 
+</table>
+<div id="tregDown" class="treg-down"></div>
+</div>
+</label>
+
+<section id="dropBtc">
+<!-- position: relative is besser -->
+<section class="keypadInfo"><small id="padinfo">keypad</small></section>
+<div class="btclab">
+<label class="keypad-lbl" data-zif="0">0</label>
+<label class="keypad-lbl" data-zif="1">1</label>
+<label class="keypad-lbl" data-zif="2">2</label>
+<label class="keypad-lbl" data-zif="3">3</label>
+<label class="keypad-lbl" data-zif="4">4</label>
+<label class="keypad-lbl" data-zif="5">5</label>
+<label class="keypad-lbl" data-zif="6">6</label>
+<label class="keypad-lbl" data-zif="7">7</label>
+<label class="keypad-lbl" data-zif="8">8</label>
+<label class="keypad-lbl" data-zif="9">9</label>
+<label class="keypad-lbl" title="point" data-zif=".">.</label>
+<label class="keypadReset" title="reset">clear</label>
+<label class="keypadBackspace" title="backspace">back</label>
+</div>
+</section> 
+<!-- end custom btc input -->
+</fieldset>
+<!--
+<p><label><b>Необходимая сумма</b><br>
+ <small>Укажите минимальную сумму в <ins>биткоинах</ins>(<abbr>BTC</abbr>), необходимую на реализацию проекта.</small><br>
+ <input type="number" name="goalbtc" min="" max="" placeholder="0.0055" step="0.0006"/><span onclick="dup(this);">+</span>
+ <span id="numerr"></span></label></p> -->
+ <fieldset><legend>Ваш Биткоин адрес</legend>
+<small>Адрес, куды перечислять биткоины апосля подтверждения платежа сетью. Это может быть <ins>личный кошелек</ins>, <ins>хранилище</ins> 
+или <ins>адрес биржи</ins> для последующего обмена в физическую валюту. <ins>Вы имеете право изменить свой адрес в любой момент</ins>.</small><br>
+<input type="text" name="yourbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></label></p>
+ 
+ 
+ </fieldset></article>
+ <article id="articlePartner" class="tab-contenti">
+ <!-- in partnership with -->
+ 
+ <fieldset name="crowd" disabled><legend><b>In Partnership with</b></legend>
+ <p>
+ <label>procent for your btc address:<br>
+ <input id="part" type="number" name="yrpr" value="2" min="1" max="45" size="3"/></label>
+ <meter id="yormet" min="1"  high="19" low="9" value="1" max="100">%</meter>
+ <input type="number" name="hspr" value="93" min="1" max="45" size="3" readonly/>
+ <meter id="hismet" min="1" value="99" max="100">%</meter>
+ </p>
+ <p><label>companion's btc address:</label><br>
+ <input type="text" name="hisbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></p>
+ <p>
+</p>
+
+<p><label>name of comp:</label><br><input type="text" name="pname" value="boris"/></p>
+<p><input type="reset" name="crowdreset"/><input type="submit" value="save"/></p>
+<p>
+<label class="cntlb2">thing<input type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>
+<label class="cntlb">single<input type="radio" checked name="rol" value="single" checked/><span class="mark"></span></label>
+<label class= "cntlb" for="cr">partnership<input id="cr" type="radio" name="rol" value="crowd"/><span class="mark"></span></label>
+</p>
+</fieldset>
+
+</article>
+<div id="savity"><input type="reset" name="firstreset" value="Сбросить"/><input type="submit" value="Сохранить"/></div>
+</form>
+</section>
+</main>
+</body>
+<script>function on_body_onload(){is_transi();}</script>
+<script src="admin_gear.js"></script>
+</html>

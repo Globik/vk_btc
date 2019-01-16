@@ -22,7 +22,7 @@ background: linear-gradient(rgba(200,220,255,0.2),rgba(202,223,253,0.3));
 height:20px;
 }
 
-.span-btc-min,.span-btc-max{border:1px solid green;padding:6px 8px 6px 8px;line-height:2.5;}
+.span-btc-min,.span-btc-max{border:1px solid transparent;padding:6px 8px 6px 8px;line-height:2.5;}
 
 
 .span-btc-min.min{border-color:#1b6314;color:#1b6314;}
@@ -60,7 +60,7 @@ margin-bottom: 2px;
 padding-bottom:2px;
 height:auto;
 width: 330px;
-border:1px solid rgba(15,152,234,.75);
+border:1px solid rgba(6,39,2,0.9);	/*rgba(15,152,234,.75);*/
 }
 @keyframes dropRed{
 0%{border-color: inherit;}
@@ -88,7 +88,7 @@ color:green;
 
 .keypad-lbl, .keypadBackspace, .keypadReset{
 display:inline-block;
-border:1px solid rgba(0,0,0,0.9);	
+border:1px solid rgba(6,39,2,0.9);	
 height:54px;
 font-size:20px;
 margin-top:2px;
@@ -96,13 +96,13 @@ margin-bottom:2px;
 padding-top:14px;
 border-radius:1px;
 cursor:pointer;
-font-family:"Roboto",sans-serif;
+font-family:"Roboto",Sans-Serif;
 /*ackground:rgba(0,0,0,1.0);
 ackground:linear-gradient(silver,gray);
 */
 color: rgba(6,39,2,0.9);
 
-text-shadow:-0.01em -1px 0px #0f13c1c7;
+text-shadow:-0.01em -1px 0px gray;
 }
 
 .keypad-lbl:hover, .keypadBackspace:hover, .keypadReset:hover{
@@ -154,7 +154,7 @@ transition: width 0.8s, opacity 0.8s;
 
 td.wboo::after{
 width:100%;
-opacity:0.4;
+opacity:0.1;
 }
 
 #tableBtcAmount td{
@@ -246,16 +246,7 @@ color:rgba(10,10,15,0.6);
 #placeholdi.empty{
 display:none;	
 }
-/*
-.treg-down-container{
-position:absolute;
-right:0;
-top:0;
-width:44px;
-height:47px;
-background:red;
-}
-*/
+
 .treg-down{
 display:block;
 position:absolute;
@@ -313,7 +304,6 @@ body{}
 content:"max-width:320px";	
 }
 .keypad-lbl,.keypadReset,.keypadBackspace{width:48%;}
-/*.keypad-lbl[title="point"]{width:204px;}*/
 
 #homo{font-size:10px;}
 .span-btc-min,.span-btc-max{font-size:10px;letter-spacing:1px;}
@@ -326,7 +316,9 @@ content:"max-width:320px";
 <body>
 <div id="med">@</div>
 <form id="foget" action="/foo" method="get" name="dooo">
-<fieldset><legend>choose</legend><b id="homo" style="">Bitcoin </b><span class="span-btc-min">minimum 0.0263</span>
+<fieldset><legend>choose</legend>
+<!-- custom btc input -->
+<b id="homo" style="">Bitcoin </b><span class="span-btc-min">minimum 0.0263</span>
 <span class="span-btc-max">maximum 300</span><br>
 <!-- <div style="background-color:red; color:red;width:330px;text-align:left;height:1px;"></div> -->
 <label for="dropcheck"><input id="dropcheck" type="checkbox" hidden value="7"/><span><b>your btc amount:</b></span>
@@ -379,6 +371,7 @@ content:"max-width:320px";
 <label class="keypadBackspace" title="backspace">back</label>
 </section>
 </section> 
+<!-- end custom btc input -->
 </fieldset>
 <input type="submit" value="ok"/>
 </form>
@@ -691,7 +684,7 @@ t_tbody.className="red";
 class_adi(span_btc_max,"max");
 class_remove(span_btc_min, "min");
 padinfo.className="red";
-padinfo.textContent="Oops. It's a maximum.";
+padinfo.textContent="Oops. It's a maximum!";
 dropBtc.className="red";
 return;	
 }
@@ -724,6 +717,7 @@ class_remove(span_btc_max, "max");
 return;
 }
 padinfo.textContent="...";
+padinfo.className="";
 set_text(spanout, spanout.value + el, ins_str);
 
 var num=fetch_number(spanout.value);

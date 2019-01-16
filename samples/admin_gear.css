@@ -1,0 +1,449 @@
+*{box-sizing:border-box;-webkit-box-sizing:boreder-box;-moz-box-sizing:border-box;}
+body{margin:0;padding:0;}
+#maini {display:block;position:relative;}
+#main2{display:block;position:relative;}
+nav{background:violet;}
+#articleOwner,#articlePartner{background:silver;padding:1px 8px 8px 8px;}
+.tabi.active{background:green;}
+.tab-contenti{display:none;}
+.tab-contenti.active{display:block;}
+#savity{padding-left:9px;margin-left:10px;}
+fieldset{background:rgb(250,255,223);margin-top:2px;}
+form{width:70%;background:initial;border:1px solid black;}
+input[type=text]{height:40px;width:50%;}
+input[type=text],input[type=number],textarea,select{margin-top:3px;}
+textarea{width:100%;height:50px;}
+input[type=number]{width:50%;height:40px;}
+
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{
+	-webkit-appearance:none;
+	height:40px;width:40px;
+	border-radius:0;
+	padding:6px;
+	-moz-appearance:textfield;
+	}
+	input[type=number]{-moz-appearance:textfield;}
+	
+input[type=reset],input[type=submit]{width:30%;height:40px;font-weight:bold;}
+meter{width:50%;height:40px;
+	/*-webkit-appearance:none;*/
+	border:1px solid green;}
+	meter::-webkit-meter-bar{border:1px solid red;}
+
+
+
+select{width:50%;height:40px;font-weight:bold;/*-webkit-appearance:none;*/}
+select > option{font-size:22px;}
+
+.cntlb{
+position:relative;
+padding-left:35px;
+
+padding-top:3px;
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;	
+font-size:18px;
+
+line-height:0;
+background:pink;
+}
+p.cntlb{vertical-align:middle;}
+.cntlb input{
+position:absolute;
+opacity:0;
+cursor:pointer;	
+height:0;
+width:0;
+}
+.mark{
+position:absolute;
+top:0;
+left:0;
+height:25px;
+width:25px;
+background-color:red /*#eee*/;
+border-radius:50%;
+}
+.cntlb:hover input ~ .mark{background-color:#ccc;}
+.cntlb input:checked ~ .mark{background-color:#2196F3;}
+.mark:after{content:"";
+	position:absolute;display:none;}
+.cntlb input:checked ~ .mark:after{display:block;;
+	top:9px;
+	left:9px;
+	width:8px;
+	height:8px;
+	border-radius:50%;
+	background:white;
+	}
+	
+	
+	
+	
+	
+.cntlb2{
+position:relative;
+padding-left:35px;
+margin-bottom:12px;
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+cursor:pointer;
+user-select:none;	
+font-size:22px;
+}
+.cntlb2 input{
+position:absolute;
+opacity:0;
+cursor:pointer;	
+height:0;
+width:0;
+}
+.mark2{
+position:absolute;
+top:0;
+left:0;
+height:25px;
+width:25px;
+background-color:#eee;
+/*border-radius:50%;*/
+}
+.cntlb2:hover input ~ .mark2{background-color:#ccc;}
+.cntlb2 input:checked ~ .mark2{background-color:#2196F3;}
+.mark2:after{content:"";
+	position:absolute;display:none;}
+.cntlb2 input:checked ~ .mark2:after{display:block;
+	top:5px;
+	left:9px;
+	width:5px;
+	height:10px;
+	border:solid white;
+	border-width: 0 3px 3px 0;
+	-webkit-transform:rotate(45deg);
+	-ms-transform:rotate(45deg);
+	transform:rotate(45deg);
+	/*
+	border-radius:50%;
+	background:white;
+	*/
+	}
+
+
+/* CUSTOM BTC INPUT */
+#tableBtcAmount{
+border-collapse:collapse;
+margin-top:12px;
+}
+#tableBtcAmount tbody{color: rgba(6,39,2,0.9);}
+#tableBtcAmount tbody.red{color:rgba(236,13,53,1);}
+#tableBtcAmount tbody.green{color:/*green*/#1b6314;}
+#tableBtcAmount tbody.orange{color:orange;}
+
+.keypadInfo{
+/* background:rgba(200,220,255,0.1);
+background: linear-gradient(rgba(200,220,255,0.2),rgba(202,223,253,0.3));
+*/
+height:20px;
+}
+
+.span-btc-min,.span-btc-max{border:1px solid transparent;padding:6px 8px 6px 8px;line-height:2.5;}
+
+
+.span-btc-min.min{border-color:#1b6314;color:#1b6314;}
+.span-btc-max.max{border-color:rgba(236,13,53,1);color:rgba(236,13,53,1);}
+#padinfo{
+padding-left:9px;
+
+color:rgb(23,10,23);
+}
+small{font-family:monospace;letter-spacing:1px;font-size:13px;}
+#padinfo.red{color:rgba(236,13,53,1);}
+#padinfo.green{color:#1b6314;}
+#padinfo.orange{
+/*color: rgb(254,255,255);*/
+color:rgba(236,13,53,1);
+}
+#wraptable{
+width:330px;
+border:1px solid gray;
+display:block;
+height:50px;
+position:relative;
+margin-top:3px;
+}
+#wraptable.focus{
+border-color:rgba(15,152,234,.75);
+}
+
+#dropBtc{
+position:relative;
+background:rgba(228,218,218,0.6);
+display: none;
+margin-top:0.06em;
+margin-bottom: 2px;
+padding-bottom:2px;
+height:auto;
+width: 330px;
+border:1px solid rgba(6,39,2,0.9);	/*rgba(15,152,234,.75);*/
+}
+@keyframes dropRed{
+0%{border-color: inherit;}
+25%{border-color: rgba(236,13,53,1);}
+50%{border-color: inherit;}
+75%{border-color: rgba(236,13,53,1);}
+100%{border-color: inherit;}
+}
+
+#dropBtc.red{
+animation-name: dropRed;	
+animation-duration: 0.4s;
+animation-duration-count:1;
+/*nimation-fill-mode:backwards;*/
+}
+
+.btclab{
+display:block;
+position:relative;
+/*border:2px solid black;*/
+margin-top:3px;
+text-align:center;
+color:green;
+}
+
+.keypad-lbl, .keypadBackspace, .keypadReset{
+display:inline-block;
+border:1px solid rgba(6,39,2,0.9);	
+height:54px;
+font-size:20px;
+margin-top:2px;
+margin-bottom:2px;
+padding-top:14px;
+border-radius:1px;
+cursor:pointer;
+font-family:"Roboto",Sans-Serif;
+/*ackground:rgba(0,0,0,1.0);
+ackground:linear-gradient(silver,gray);
+*/
+color: rgba(6,39,2,0.9);
+
+text-shadow:-0.01em -1px 0px gray;
+}
+
+.keypad-lbl:hover, .keypadBackspace:hover, .keypadReset:hover{
+background:linear-gradient(gray,silver);
+}
+
+
+.keypad-lbl{
+width:52px;
+}
+.keypadReset,.keypadBackspace{
+width:108px;
+}
+
+
+.keypadBackspace.act,.keypadReset.act,.keypad-lbl.act-key{
+box-shadow:0 0 1px 2px white;	
+background:linear-gradient(gray,silver);
+border-color: black;/*#490e0e;*/
+color:silver;
+}
+
+
+
+
+#dropBtc::selection,.keypad-lbl::selection,#spanout::selection,label[for=dropcheck]::selection, 
+.keypadReset::selection, .keypadBackspace::selection, .btclab::selection, button::selection, #padinfo::selection{background:none;}
+
+
+label[for="dropcheck"]{
+cursor:pointer;
+height:auto;
+display:block;
+margin-top:4px;
+/*background:red;*/
+}
+
+
+td::after{
+content:"";
+background:rgba(0,190,0,0.4);
+
+display:block;
+width:0%;
+height:1px;
+opacity:0.0;
+transition: width 0.8s, opacity 0.8s;	
+}
+
+td.wboo::after{
+width:100%;
+opacity:0.1;
+}
+
+#tableBtcAmount td{
+border-top:none;
+border-left:none;
+border-right:none;
+overflow:hidden;
+font-family:Sans-Serif;
+font-size:21px;
+
+margin:0;
+padding:0;
+}
+
+
+#tableBtcAmount td div{
+display:block;
+/*background:lightblue;*/
+
+width:13px;
+height:24px;
+transform:translateY(29px);
+}
+td div.boo{
+animation-name:example;
+animation-duration:0.1s;
+animation-duration-count:1;
+animation-fill-mode:both;	
+}
+
+
+
+@keyframes example{
+0%{transform:translateY(29px);}
+25%{transform:translateY(-29px);}
+50%{transform:translateY(10px);}
+75%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
+}
+
+
+@keyframes example2{
+
+0%{transform:translateY(0);}
+25%{transform:translateY(-4px);}
+50%{transform:translateY(8px);}
+75%{transform:translateY(4px);}
+100%{transform:translateY(-29px);}
+}
+
+td div.boo.pissoff{
+color:/*red*/rgba(236,13,53,1);
+animation-name:example2;
+animation-duration:0.1s;
+animation-duration-count:1;
+animation-fill-mode:backwards;
+}
+
+
+@keyframes kursi{
+from{opacity:1;}
+to{opacity:0;}
+}
+
+#cursi{
+position:absolute;
+display: none;
+top:4px;
+left:0px;
+visibility:visible;
+background:green;
+order:1px solid transparent;
+order-radius:50%;
+width:1px;
+height:40px;
+animation-name:kursi;
+animation-duration:1s;
+/*animation-direction:alternate-reverse;*/
+animation-iteration-count:infinite;
+}
+
+#placeholdi{
+position:absolute;
+display:block;
+top:15px;left:3px;
+ackground:violet;	
+color:rgba(10,10,15,0.6);
+}
+#placeholdi.empty{
+display:none;	
+}
+
+.treg-down{
+display:block;
+position:absolute;
+width:0;
+height:0;
+right:20px;
+top:18px;
+
+border-left:18px solid transparent;
+border-right:18px solid transparent;
+border-top:18px solid rgba(10,13,12,1.0);
+transition: all .4s;
+}
+
+.treg-down.act{
+border-top-color: #484444;
+}
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width:2000px){
+#med::after{
+content:"max-width: default? 2000px";	
+}	
+}
+
+
+@media screen and (max-width:1024px){
+#med::after{
+content:"max-width: 1024px";	
+}	
+form{width:100%;}
+#wraptable{width:100%;}
+#dropBtc{
+width: 100%;
+}
+.keypad-lbl,.keypadReset,.keypadBackspace{
+width:100px;height:100px;
+padding:36px;
+font-size:24px;
+}
+.keypadReset,.keypadBackspace{
+width:204px;
+}
+}
+
+@media screen and (max-width:480px){
+body{background:pink;}	
+#med::after{
+content:"max-width:480px";	
+}
+
+}
+
+@media screen and (max-width:320px){
+body{}
+#med::after{
+content:"max-width:320px";	
+}
+.keypad-lbl,.keypadReset,.keypadBackspace{width:48%;}
+
+#homo{font-size:10px;}
+.span-btc-min,.span-btc-max{font-size:10px;letter-spacing:1px;}
+#wraptable{}
+#dropBtc{}
+
+}
