@@ -1,4 +1,4 @@
-var gl_debug=1;//0 if a need to debug
+var gl_debug=0;// if a need to debug
 var is_transformly=false;
 (function(){if(typeof window.CustomEvent==="function")return false;
 function CustomEvent(event,p){

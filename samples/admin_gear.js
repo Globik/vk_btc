@@ -28,6 +28,9 @@ var back_str = "back";
 var reset_str = "reset";
 var ins_str = "ins";
 var extrem_str = "extrem";
+
+//partership
+var checkPartner=gid("checkPartner");
 /* CUSTOM BTC INPUT */
 function on_btc_keyboard(event){
 var keyname=event.key;
@@ -56,6 +59,7 @@ var awevent=new CustomEvent('forinput',{bubbles:true, detail:{text:function(es){
 typ:function(es){return es.target.getAttribute("data-typ");}}});
 
 dropcheck.addEventListener('change', on_drop_btc,false);
+checkPartner.addEventListener('change', on_checkPartner, false);
 
 function add_keypad_events(){
 if(keypad_ev)return;
@@ -390,6 +394,8 @@ el.dispatchEvent(awevent);
 var formAdmin=gid("formAdmin");
 var tabi=elclass(formAdmin, 'tabi');
 var tabContenti=elclass(formAdmin, 'tab-contenti');
+var vl=document.forms.twoparam;
+
 for(var i=0;i<tabi.length;i++){	
 if(tabi[i])ad_event(tabi[i],"click",on_tabi_click);
 }
@@ -399,12 +405,41 @@ var dataPartner=ev.target.getAttribute("data-typ");
 if(dataPartner=="partner"){
 class_remove(articleOwner,"active");
 class_adi(articlePartner,"active");
+console.log("partner");
 }else if(dataPartner=="owner"){
 class_remove(articlePartner,"active");
 class_adi(articleOwner,"active");
+//console.log("owner");
 }else{}
 for(var i=0;i<tabi.length;i++){	
 class_remove(tabi[i],"active");
 }
 if(!ev.target.classList.contains("active"))class_adi(ev.target,"active");
 }
+
+function on_checkPartner(ev){
+if(ev.target.checked){
+on_tabi_click(ev);
+class_adi(tabi[1],"active");
+if(vl.crowd.disabled)vl.crowd.disabled=false;
+}else{
+if(!vl.crowd.disabled)vl.crowd.disable=true;	
+}
+ev.stopPropagation();	
+}
+var t=0;var int;
+me.addEventListener('mousedown', function(ev){
+	t=1;
+//while(t==1){
+//part.stepUp();
+//if(part.value==45)break;
+//}
+//alert('click');
+console.log(ev.type);
+
+},false);
+me.addEventListener('mouseup',function(ev){
+	t=0;
+//alert('up');
+console.log(ev.type);
+},false);
