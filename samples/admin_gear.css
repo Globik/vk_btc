@@ -1,25 +1,33 @@
 *{box-sizing:border-box;-webkit-box-sizing:boreder-box;-moz-box-sizing:border-box;}
-body{margin:0;padding:0;}
+body{margin:0;padding:0;font-size:100%;}
 #maini {display:block;position:relative;}
 #main2{display:block;position:relative;}
-nav{background:silver;padding:4px;}
-#articleOwner,#articlePartner{background:white;padding:1px 8px 8px 8px;}
+nav{background:silver;padding:4px;font-family:sans-serif;font-weight:bold;}
+#me-status{position:absolute;background:yellow;right:0.1em;top:0.5em;display:inline-block;}
+#yrbtc-change{background:gray;display:inline-block;width:80px;text-align:center;border:1px solid gray;height:40px;
+vertical-align:bottom;}
+#yrbtc-change span{vertical-align:-0.7rem;font-family:sans-serif;font-weight:bold;}
+#articleOwner,#articlePartner{background:white;padding:1px 8px 1px 8px;position:relative;}
 .tabi{ackground:green;padding:4px;cursor:pointer;}
 .tabi.active{color:rgb(25,25,230);background:white;}
 .tab-contenti{display:none;}
 .tab-contenti.active{display:block;}
-#savity{padding-left:9px;margin-left:10px;}
-.span-beschreib{font-size:15px;font-size:0.9rem;}
-.div-dauern{margin-top:6px;}
-fieldset{background:rgb(250,255,223);margin-top:2px;}
+#savity{padding-left:9px;margin-left:1px;line-height:2.2;tet-align:center;}
+#savity.span-beschreib{text-alin:left;}
+.span-beschreib{font-size:15px;font-size:0.925rem;line-height:1.5;font-family:sans-serif;}
+.span-beschreib b{font-family:monospace;font-size:1.0625rem;}
+legend {font-family:sans-serif;}
+.div-dauern{margin-top:3px;margin-bottom:3px;border:2px solid green;font-family:sans-serif;
+display:inline-block;padding-top:5px;padding-bottom:5px;background:white;padding-left:0.05em;}
+fieldset{background:rgb(250,255,223);margin-top:2px;position:relative;}
 form{width:70%;background:initial;border:1px solid black;}
-input[type=text]{height:40px;width:50%;}
-input[type=text],input[type=number],textarea,select{margin-top:3px;}
-textarea{width:100%;height:50px;}
-input[name="yourbtcadr"]{width:330px;height:40px;}
+input[type=text]{height:40px;width:100%;font-size:1.2rem;}
+input[type=text],input[type=number],textarea,select{margin-top:0;font-family:monospace;}
+textarea{width:100%;height:25px;}
+input[name="yourbtcadr"]{width:340px;height:40px;}
 
 input[type=number]{width:80px;height:40px;font-size:140%;-moz-appearance:textfield;}
-
+input[type=submit]{}
 /*
 input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{
 	-wbkit-appearance:none;
@@ -42,17 +50,17 @@ select > option{font-size:22px;}
 */
 .cntlb{
 position:relative;
-padding-left:35px;
+padding-left:29px;
 padding-right:8px;
-padding-top:3px;
+
 -webkit-user-select:none;
 -moz-user-select:none;
 -ms-user-select:none;
 user-select:none;	
-font-size:18px;
+font-size:22px;
 cursor:pointer;
 }
-p.cntlb{vertical-align:middle;}
+/*p.cntlb{vertical-align:middle;}*/
 .cntlb input{
 position:absolute;
 opacity:0;
@@ -62,23 +70,26 @@ width:0;
 .mark{
 position:absolute;
 top:0;
-left:0;
+left:0.06em;
 height:25px;
 width:25px;
-background-color:#ccc;
+background-color:white;
+border:2px solid gray;
 border-radius:50%;
 }
 /*.cntlb:hover input ~ .mark{background-color:#ccc;}*/
-.cntlb input:checked ~ .mark{background-color:#2196F3;}
+.cntlb input:checked ~ .mark{background-color:/*#2196F3;*/rgba(0,0,0,0.25);}
 .mark:after{content:"";
 	position:absolute;display:none;}
-.cntlb input:checked ~ .mark:after{display:block;;
-	top:9px;
-	left:9px;
-	width:8px;
-	height:8px;
+.cntlb input:checked ~ .mark:after{
+display:block;
+	top:6px;
+	left:6px;
+	width:9px;
+	height:9px;
 	border-radius:50%;
-	background:white;
+	background: black;
+	box-shadow:1px 1px 2px white;
 	}
 	
 	
@@ -87,16 +98,29 @@ border-radius:50%;
 	
 .cntlb2{
 position:relative;
-padding-left:35px;
-margin-bottom:12px;
+display:inline-block;
+padding-left:42px;
+adding-bottom:0.5rem;
+padding-right: 10px;
+adding-top:0.5rem;
+margin-top:3px;
+margin-left:0;
+background:white;
+height:35px;
 -webkit-user-select:none;
 -moz-user-select:none;
 -ms-user-select:none;
 cursor:pointer;
 user-select:none;	
-font-size:22px;
+ont-size:22px;
+ont-size: 0.8em;
+font-weight:bold;
+border:2px solid green;
+font-family:sans-serif;
 }
+.cntlb2 span{vertical-align:-0.5rem;}
 .cntlb2 input{
+
 position:absolute;
 opacity:0;
 cursor:pointer;	
@@ -104,25 +128,34 @@ height:0;
 width:0;
 }
 .mark2{
+border:3px solid gray;
 position:absolute;
+argin-left:3px;
+argin-top:3px;
+margin-top:0.1rem;
+margin-left:0.1rem;
 top:0;
 left:0;
-height:25px;
-width:25px;
-background-color:#ccc;
+eight:36px;
+idth:35px;
+height:1.8rem;
+width:1.8rem;
+background-color: white;
 /*border-radius:50%;*/
 }
 /*.cntlb2:hover input ~ .mark2{background-color:#ccc;}*/
-.cntlb2 input:checked ~ .mark2{background-color:#2196F3;}
-.mark2:after{content:"";
-	position:absolute;display:none;}
+.cntlb2 input:checked ~ .mark2{background-color:/*#2196F3;*/white;}
+.mark2:after{
+content:"";
+position:absolute;display:none;}
 .cntlb2 input:checked ~ .mark2:after{display:block;
-	top:5px;
-	left:9px;
-	width:5px;
-	height:10px;
-	border:solid white;
-	border-width: 0 3px 3px 0;
+	top:0.05rem;
+	left:0.5rem;
+	width:0.2rem;
+	idth:1rem;
+	height:0.9rem;
+	border:solid black;
+	border-width: 0 4px 4px 0;
 	-webkit-transform:rotate(45deg);
 	-ms-transform:rotate(45deg);
 	transform:rotate(45deg);
@@ -131,7 +164,8 @@ background-color:#ccc;
 	background:white;
 	*/
 	}
-
+	span.for-checki,span.for-checki a{font-size:0.9rem;border:1px solid green;margin-right:2px;}
+.cntlb2.checki{border:none;height:0;width:0;vertical-align:1.2rem;top:0;margin-left:1px;}
 
 /* CUSTOM BTC INPUT */
 #tableBtcAmount{
@@ -168,12 +202,12 @@ small{font-family:monospace;letter-spacing:1px;font-size:13px;}
 color:rgba(236,13,53,1);
 }
 #wraptable{
-width:330px;
+width:340px;
 border:1px solid gray;
 display:block;
 height:50px;
 position:relative;
-margin-top:3px;
+background:white;
 }
 #wraptable.focus{
 border-color:rgba(15,152,234,.75);
@@ -187,7 +221,7 @@ margin-top:0.06em;
 margin-bottom: 2px;
 padding-bottom:2px;
 height:auto;
-width: 330px;
+width: 339px;
 border:1px solid rgba(6,39,2,0.9);	/*rgba(15,152,234,.75);*/
 }
 @keyframes dropRed{
@@ -239,10 +273,10 @@ background:linear-gradient(gray,silver);
 
 
 .keypad-lbl{
-width:52px;
+width:54px;
 }
 .keypadReset,.keypadBackspace{
-width:108px;
+width:112px;
 }
 
 
@@ -264,7 +298,7 @@ label[for="dropcheck"]{
 cursor:pointer;
 height:auto;
 display:block;
-margin-top:4px;
+mrgin-top:4px;
 /*background:red;*/
 }
 
@@ -419,9 +453,10 @@ form{width:100%;}
 width: 100%;
 }
 .keypad-lbl,.keypadReset,.keypadBackspace{
-width:100px;height:100px;
-padding:36px;
-font-size:24px;
+width:100px;height:30px;
+padding-top:10px;
+padding-bottom:30px;
+font-size:20px;
 }
 .keypadReset,.keypadBackspace{
 width:204px;
@@ -437,7 +472,7 @@ content:"max-width:480px";
 }
 
 @media screen and (max-width:320px){
-body{}
+body{font-size:80%;}
 #med::after{
 content:"max-width:320px";	
 }
@@ -447,5 +482,13 @@ content:"max-width:320px";
 .span-btc-min,.span-btc-max{font-size:10px;letter-spacing:1px;}
 #wraptable{}
 #dropBtc{}
-
+fieldset,article,main{padding:2px;}
+#me-status{display:block;position:relative;top:0;right:0;}
+.span-beschreib{font-size:80%;}
+.span-beschreib b{font-size:150%;}
+input[type="text"]{font-size:150%;width:100%;}
+.cntlb{display:block;width:100%;}
+	span.for-checki,span.for-checki a{font-size:0.7rem;}
+	input[type=submit],input[type=reset]{width:50%;}
+	#savity{margin:0;padding:0;}
 }

@@ -12,29 +12,28 @@
 <nav style="background:brown;">home payment admin <span id="med">@</span></nav>
 <section id="main2">
 <form id="formAdmin" data-typ="owner" name="twoparam" method="" action="/me" enctype="">
-<nav><span class="tabi active" data-typ="owner">Я Автор</span><span class="tabi" data-typ="partner">и Партнер</span></nav>
+<nav><span class="tabi active" data-typ="owner">Проект</span><span class="tabi" data-typ="partner">Партнер</span></nav>
 <article id="articleOwner" class="tab-contenti active">
-<fieldset><legend><b>Черновик проекта</b></legend>
-<p>
-<span class="span-beschreib">Должно быть простым, запоминающимся и отражать <ins>суть</ins> вашего проекта.</span>
-<textarea name="gesamtziel" placeholder="for what?" required>Учебник русскага языка для иносранцев "Новый Сувенир 3"</textarea>
-</p>
-<p>
-<span class="span-beschreib">Продолжительность проекта.</span>
+<fieldset><legend><b>Описание авторского проекта</b></legend>
+<div id="me-status"><span id="ms">статус: </span><span id="mcurr">начало</span></div>
+<span class="span-beschreib"><b>Название проекта</b></span><br>
+<input type="text" name="gesamtziel" placeholder="название проекта" required value="Игра  'За 80 дней  вокруг света'"/><br>
+
+<span class="span-beschreib"><b>Срок размещения проекта *</b></span><br>
 
 <div class="div-dauern">
-<label class="cntlb">3 месяца<input type="radio" checked name="dauern" value="1"/><span class="mark"></span></label>
-<label class= "cntlb">6 месяцев<input type="radio" name="dauern" value="2"/><span class="mark"></span></label>
-<label class="cntlb">Бессрочно<input type="radio" name="dauern" value="3"/><span class="mark"></span></label>
-</div>
-</p>
-<p>
-<span class="span-beschreib">Укажите минимальную сумму в <ins>биткоинах</ins> (<abbr><b>BTC</b></abbr>), необходимую на реализацию проекта.</span>
+<label class="cntlb">90 дней<input type="radio" checked name="dauern" value="1"/><span class="mark"></span></label>
+<label class= "cntlb">180 дней<input type="radio" name="dauern" value="2"/><span class="mark"></span></label>
+<label class="cntlb">Бессрочно **<input type="radio" name="dauern" value="3"/><span class="mark"></span></label>
+</div><br>
+
+
+<span class="span-beschreib"><b>Бюджет  проекта</b> в <ins>биткоинах</ins> (<abbr><b>BTC</b></abbr>)</span>
 <br> 
 <!-- custom btc input -->
-<span id="homo" class="span-beschreib">В пределах от </span><span class="span-btc-min">0.0263</span>
+<span class="span-beschreib">В пределах от </span><span class="span-btc-min">0.0263</span>
 <span class="span-beschreib">до&nbsp;</span><span class="span-btc-max">300</span><span class="span-beschreib"> <b>BTC</b></span>
-</p>
+
 <label for="dropcheck"><input id="dropcheck" type="checkbox" hidden/>
 <!-- <span class="span-label"><b>Сумма в биткоинах:</b></span> -->
 <div id="wraptable" style="">
@@ -76,28 +75,33 @@
 <label class="keypad-lbl" data-zif="8">8</label>
 <label class="keypad-lbl" data-zif="9">9</label>
 <label class="keypad-lbl" title="point" data-zif=".">.</label>
-<label class="keypadReset" title="reset">clear</label>
-<label class="keypadBackspace" title="backspace">back</label>
+<label class="keypadReset" title="reset">сброс<!--clear--></label>
+<label class="keypadBackspace" title="backspace">назад<!-- back--></label>
 </div>
 </section> 
-<!-- end custom btc input -->
+<!-- end of custom btc input -->
 
-<p>
-<span class="span-beschreib"><ins>Адрес</ins>, куда перечислять биткоины после подтверждения платежа сетью. Это может быть <ins>личный кошелек</ins>, <ins>хранилище</ins> 
-или <ins>адрес биржи</ins> для последующего обмена в физическую валюту. Вы можете изменить свой <ins>адрес</ins> в любое время.</span><br>
+<span class="span-beschreib"><b>Биткоин адрес</b></span><br>
+<span class="span-beschreib">Вы сможете получать средства на реализацию 
+проекта сразу, не дожидаясь срока его окончания, также вы сможете изменять свой BTC адрес в любое время. 
+Берем комиссию в размере 3% от каждого платежа.</span><br>
 <input type="text" name="yourbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
- value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></label>
- <div><span class="span-beschreib">Если ты не автор проекта, но желаешь помочь в его становлении и получать за это
-  свои комиссионные от поступлений на проект, то кликни на вкладку Партнер
-  и оформи в нем свой биткоин адрес и профиль автора проекта.</span>
-  <label class="cntlb2">thing<input id="checkPartner" data-typ="partner" type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></label><div id="yrbtc-change"><span>сменить</span></div>
+ <div><span class="span-beschreib"><b>Партнерство.</b> Если у Вас нет своей идеи, но Вы точно знаете, у кого она есть,
+ то Вы можете запустить кампанию по сбору средств от имени автора идеи и получать за это комиссионные вознаграждения.
+ </span><br>
+  <label class="cntlb2"><span>Стать партнером</span>
+  <input id="checkPartner" data-typ="partner" type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>
+<!-- <br> <label class="cntlb2">Принимаю <a href="/lo">условия пользования приложением</a>
+  <input id="checkPartner" data-typ="partner" type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>-->
  </div>
- </p>
+ 
 </fieldset></article>
  <article id="articlePartner" class="tab-contenti">
  <!-- in partnership with -->
  
  <fieldset name="crowd" disabled><legend><b>Я партнер и хочу иметь процент!</b></legend>
+ 
  <p><span class="span-beschreib">Биткоин адрес - куда процент начислять-то?</span><br>
  <input type="text" name="hisbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
  value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></p>
@@ -110,10 +114,13 @@
 </fieldset>
 
 </article>
-<footer id="savity"><div>some info from ajax reply</div><input type="reset" name="firstreset" value="Сбросить всё"/>
-<input type="submit" value="Начать проект"/></footer>
+<footer id="savity">
+<span class="for-checki">Я принимаю </span><a href="/lo">условия пользования сервисом</a><label class="cntlb2 checki">
+<input id="checkPartner" data-typ="partner" type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>
+<span class="span-beschreib">* после проверки, <b>**</b> благотворительность</span>
+<div style="margin-top:2px;margin-bottom:1px;"><input type="reset" name="firstreset" value="Сбросить всё"/><input type="submit" value="Запустить проект"/></div></footer>
 </form>
-</section>
+</section><input type="radio"/>
 </main>
 </body>
 <script>function on_body_onload(){is_transi();}</script>
