@@ -9,22 +9,22 @@
 </head>
 <body onload="on_body_onload();">
 <main id="maini">
-<nav style="background:brown;">home payment admin <span id="med">@</span></nav>
+<nav style="background:brown;">home payment создать проект <span id="med">@</span></nav>
 <section id="main2">
 <form id="formAdmin" data-typ="owner" name="twoparam" method="" action="/me" enctype="">
-<nav><span class="tabi active" data-typ="owner">Проект</span><span class="tabi" data-typ="partner">Партнер</span></nav>
-<article id="articleOwner" class="tab-contenti active">
-<fieldset><legend><b>Описание авторского проекта</b></legend>
+<!-- <nav><span class="tabi active" data-typ="owner">Проект</span><span class="tabi" data-typ="partner">Партнер</span></nav> -->
+<!-- <article id="articleOwner" class="tab-contenti active"> -->
+<fieldset name="project"><!-- <legend><b>Описание авторского проекта</b></legend> -->
 <div id="me-status"><span id="ms">статус: </span><span id="mcurr">начало</span></div>
 <span class="span-beschreib"><b>Название проекта</b></span><br>
-<input type="text" name="gesamtziel" placeholder="название проекта" required value="Игра  'За 80 дней  вокруг света'"/><br>
+<input type="text" class="gesamtziel" name="gesamtziel" placeholder="название проекта" required value="Игра  'За 80 дней  вокруг света'"/><br>
 
 <span class="span-beschreib"><b>Срок размещения проекта *</b></span><br>
 
 <div class="div-dauern">
 <label class="cntlb">90 дней<input type="radio" checked name="dauern" value="1"/><span class="mark"></span></label>
 <label class= "cntlb">180 дней<input type="radio" name="dauern" value="2"/><span class="mark"></span></label>
-<label class="cntlb">Бессрочно **<input type="radio" name="dauern" value="3"/><span class="mark"></span></label>
+<label class="cntlb">Бессрочно <span class="blago">**</span><input type="radio" name="dauern" value="3"/><span class="mark"></span></label>
 </div><br>
 
 
@@ -52,13 +52,13 @@
 </tbody>
 <!-- data-typ = [init, back, ins, reset, extrem]-->
 <tfoot style="display:none;"><td colspan="8">
-<input type="text" id="spanout" name="btc" value="" data-typ="init"/> 
+<input type="text" id="spanout" name="btc" value="" focusable="no" data-typ="init" required oninvalid="on_inv(this);"/> 
 </td>
 </tfoot> 
 </table>
 <div id="tregDown" class="treg-down"></div>
 </div>
-</label>
+</label><div data-typ="initInfo"></div>
 
 <section id="dropBtc">
 <!-- position: relative is besser -->
@@ -85,42 +85,50 @@
 <span class="span-beschreib">Вы сможете получать средства на реализацию 
 проекта сразу, не дожидаясь срока его окончания, также вы сможете изменять свой BTC адрес в любое время. 
 Берем комиссию в размере 3% от каждого платежа.</span><br>
-<input type="text" name="yourbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
- value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></label><div id="yrbtc-change"><span>сменить</span></div>
+<input class="btcadri" type="text" name="yourbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off"/><div class="btcadrchange"><span>сменить</span></div>
  <div><span class="span-beschreib"><b>Партнерство.</b> Если у Вас нет своей идеи, но Вы точно знаете, у кого она есть,
  то Вы можете запустить кампанию по сбору средств от имени автора идеи и получать за это комиссионные вознаграждения.
  </span><br>
   <label class="cntlb2"><span>Стать партнером</span>
-  <input id="checkPartner" data-typ="partner" type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>
-<!-- <br> <label class="cntlb2">Принимаю <a href="/lo">условия пользования приложением</a>
-  <input id="checkPartner" data-typ="partner" type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>-->
+  <input id="checkPartner" data-typ="partner" type="checkbox" name="partner" value=""/><span class="mark2"></span></label>
+
  </div>
  
-</fieldset></article>
- <article id="articlePartner" class="tab-contenti">
+</fieldset>
+<!-- </article> -->
+<!-- <article id="articlePartner" class="tab-contenti"> -->
  <!-- in partnership with -->
  
- <fieldset name="crowd" disabled><legend><b>Я партнер и хочу иметь процент!</b></legend>
- 
- <p><span class="span-beschreib">Биткоин адрес - куда процент начислять-то?</span><br>
- <input type="text" name="hisbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
- value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid=""/></p>
- <p>
- <span class="span-beschreib">Дык, а сколько отстегивать-то?</span><br>
+ <fieldset name="crowd" disabled><!-- <legend><b>Я партнер и хочу иметь процент!</b></legend> -->
+ <div>
+ <span class="span-beschreib">Биткоин адрес - куд процент отстёгивать-то?</span><br>
+ <input type="text" name="hisbtcadr" class="btcadri" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off"/><div class="btcadrchange"><span>сменить</span></div>
+ </div>
+ <div>
+ <span class="span-beschreib">Дык, а скольк? (Не больше 45%)</span><br>
  <input id="part" type="number" name="yrpr" value="2" min="1" max="45" size="3" placeholder="3 %"/><b>%</b></label>
- <!-- <meter id="yormet" min="1"  high="19" low="9" value="1" max="100">%</meter> --><span id="me">me</span>
- </p>
+ <!-- <meter id="yormet" min="1"  high="19" low="9" value="1" max="100">%</meter> --><!-- <span id="me">me</span> -->
+ </div>
 
 </fieldset>
 
-</article>
-<footer id="savity">
-<span class="for-checki">Я принимаю </span><a href="/lo">условия пользования сервисом</a><label class="cntlb2 checki">
-<input id="checkPartner" data-typ="partner" type="checkbox" name="thing" value="s"/><span class="mark2"></span></label>
-<span class="span-beschreib">* после проверки, <b>**</b> благотворительность</span>
-<div style="margin-top:2px;margin-bottom:1px;"><input type="reset" name="firstreset" value="Сбросить всё"/><input type="submit" value="Запустить проект"/></div></footer>
+<!--</article> -->
+<fieldset>
+<!--<span class="for-checki">Я принимаю </span><a href="/lo">условия пользования сервисом</a>
+-->
+<label class="cntlb2"><span>Условия пользования сервисом принимаю</span>
+<input id="bedienCheck" required oninvalid="on_inv(this);" onchange="on_change_bedien(this);" data-typ="bedien" type="checkbox" 
+name="bedien" value=""/><span class="mark2"></span></label><div data-typ="bedienInfo"></div>
+<a class="aftlbl" href="/bed">Условия</a>
+<div><span class="span-beschreib">* после проверки, <span class="blago"><b>**</b> благотворительность</span></span></div>
+<div id="ajxProject"></div>
+<div style="margin-top:2px;margin-bottom:1px;"><input type="reset" name="firstreset" value="Сбросить всё"/>
+<input type="submit" value="Запустить проект"/></div>
+</fieldset>
 </form>
-</section><input type="radio"/>
+</section>
 </main>
 </body>
 <script>function on_body_onload(){is_transi();}</script>
