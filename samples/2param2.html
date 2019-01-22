@@ -16,8 +16,9 @@
 <!-- <article id="articleOwner" class="tab-contenti active"> -->
 <fieldset name="project"><!-- <legend><b>Описание авторского проекта</b></legend> -->
 <div id="me-status"><span id="ms">статус: </span><span id="mcurr">начало</span></div>
-<span class="span-beschreib"><b>Название проекта</b></span><br>
-<input type="text" class="gesamtziel" name="gesamtziel" placeholder="название проекта" required value="Игра  'За 80 дней  вокруг света'"/><br>
+<span class="span-beschreib"><b>Название проекта</b></span>&nbsp;<span id="maxil">0/50</span><br>
+<input type="text" id="bziel"  name="gesamtziel" placeholder="название проекта" required oninvalid="on_inv(this);" onchange="on_blur_btc(this);"
+ value="Игра  'За 80 дней  вокруг света'" data-typ="prjname" maxlength="50" oninput="on_input(this);"/><div data-typ="prjnameInfo"></div><br>
 
 <span class="span-beschreib"><b>Срок размещения проекта *</b></span><br>
 
@@ -52,7 +53,7 @@
 </tbody>
 <!-- data-typ = [init, back, ins, reset, extrem]-->
 <tfoot style="display:none;"><td colspan="8">
-<input type="text" id="spanout" name="btc" value="" focusable="no" data-typ="init" required oninvalid="on_inv(this);"/> 
+<input type="text" id="spanout" name="btc" value="" data-typ="init"/> 
 </td>
 </tfoot> 
 </table>
@@ -85,8 +86,9 @@
 <span class="span-beschreib">Вы сможете получать средства на реализацию 
 проекта сразу, не дожидаясь срока его окончания, также вы сможете изменять свой BTC адрес в любое время. 
 Берем комиссию в размере 3% от каждого платежа.</span><br>
-<input class="btcadri" type="text" name="yourbtcadr" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
- value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off"/><div class="btcadrchange"><span>сменить</span></div>
+<input class="btcadri" type="text" name="yourbtcadr" data-typ="btcadr1" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" oninvalid="on_inv(this);" onchange="on_blur_btc(this);"/><div class="btcadrchange"><span>сменить</span></div>
+ <div data-typ="btcadr1Info"></div>
  <div><span class="span-beschreib"><b>Партнерство.</b> Если у Вас нет своей идеи, но Вы точно знаете, у кого она есть,
  то Вы можете запустить кампанию по сбору средств от имени автора идеи и получать за это комиссионные вознаграждения.
  </span><br>
@@ -104,12 +106,12 @@
  <div>
  <span class="span-beschreib">Биткоин адрес - куд процент отстёгивать-то?</span><br>
  <input type="text" name="hisbtcadr" class="btcadri" maxlength="34" size="34" spellcheck="false" placeholder="your btc address"
- value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off"/><div class="btcadrchange"><span>сменить</span></div>
- </div>
+ value="39cjjxHTu7344mXExKb5SoDzbAoDWBBpCj9" required autocomplete="off" data-typ="btcadr2" oninvalid="on_inv(this);" onchange="on_blur_btc(this);"/><div class="btcadrchange"><span>сменить</span></div>
+ <div data-typ="btcadr2Info"></div></div>
  <div>
- <span class="span-beschreib">Дык, а скольк? (Не больше 45%)</span><br>
- <input id="part" type="number" name="yrpr" value="2" min="1" max="45" size="3" placeholder="3 %"/><b>%</b></label>
- <!-- <meter id="yormet" min="1"  high="19" low="9" value="1" max="100">%</meter> --><!-- <span id="me">me</span> -->
+ <span class="span-beschreib">Дык, а скольк? <span id="prozmeri">(Не больше 45%)</span></span><br>
+ <input id="part" type="number" data-typ="btcprozi" name="yrpr" value="2" min="1" max="45" size="3" placeholder="3 %" required oninvalid="on_inv(this);" onchange="on_blur_btc(this);"/>&nbsp;<b>%</b></label>
+<div data-typ="btcproziInfo"></div> <!-- <meter id="yormet" min="1"  high="19" low="9" value="1" max="100">%</meter> --><!-- <span id="me">me</span> -->
  </div>
 
 </fieldset>
@@ -125,7 +127,7 @@ name="bedien" value=""/><span class="mark2"></span></label><div data-typ="bedien
 <div><span class="span-beschreib">* после проверки, <span class="blago"><b>**</b> благотворительность</span></span></div>
 <div id="ajxProject"></div>
 <div style="margin-top:2px;margin-bottom:1px;"><input type="reset" name="firstreset" value="Сбросить всё"/>
-<input type="submit" value="Запустить проект"/></div>
+<input type="submit" id="submitBtc" value="Запустить проект"/></div>
 </fieldset>
 </form>
 </section>

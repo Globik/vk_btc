@@ -439,7 +439,11 @@ vl.crowd.style.display="none";
 //ev.stopPropagation();	
 }
 function on_inv(el){
+try{
 var a=el.getAttribute("data-typ");
+console.log(a);
+submitBtc.className="invalid";
+//alert(a);
 //alert(el.nextSibling.className);
 if(a=="bedien"){
 //alert(el.parentNode.className);
@@ -447,14 +451,31 @@ class_adi(el.parentNode,"invalid");
 var sisi=el_query("[data-typ="+a+"Info]");
 sisi.innerHTML='<span class="red">Согласись с условиями-то.</span>';
 
-}else if(a=="init"){
-//alert('el.parendNode.className');	
-el.style.focusable=false;//??
-wraptable.className="invalid";
-var si=el_query("[data-typ="+a+"Info]");
-si.innerHTML='<span class="red">Укажи бюджет-то, ёпт!</span>';
+}else if(a=="prjname"){
+el.className="invalid";
+var sisi2=el_query("[data-typ="+a+"Info]");
+sisi2.innerHTML='<span class="red">Бля, без названия что ли?</span>';
+}else if(a=="btcadr1"){
+class_adi(el,"invalid");
+var sisi3=el_query("[data-typ="+a+"Info]");
+sisi3.innerHTML='<span class="red">Че, без адреса что ли?</span>';
+}else if(a=="btcadr2"){
+class_adi(el,"invalid");
+var sisi5=el_query("[data-typ="+a+"Info]");
+sisi5.innerHTML='<span class="red">Че, без адреса что ли?</span>';
+}else if(a=="btcprozi"){
+el.className="invalid";
+var sisi6=el_query("[data-typ="+a+"Info]");
+sisi6.innerHTML='<span class="red">Чё, блядь, без процента что ль?</span>';	
+if(Number(el.value)>45){
+sisi6.innerHTML='<span class="red">Уху ел??</span>';
+prozmeri.className="invalid";
 }
+}
+check_spanout_value();
 ajxProject.innerHTML='<span class="red">Заполни всё, что требуется.</span>';
+}catch(e){console.error(e);alert(e);}
+//return false;
 }
 function on_change_bedien(el){
 class_remove(el.parentNode,"invalid");
@@ -463,5 +484,79 @@ if(a=="bedien"){
 var si=el_query("[data-typ="+a+"Info]");
 si.innerHTML="";
 ajxProject.innerHTML="";
+submitBtc.className="";
 }
 }
+formAdmin.addEventListener('submit',on_submit,false);
+function on_submit(ev){
+try{
+ev.preventDefault();
+if(!check_spanout_value())return;
+
+}catch(e){alert(e);}
+
+}
+function check_spanout_value(){
+console.warn("check_spanout_value() occured.");
+
+if(!spanout.value){
+submitBtc.className="invalid";
+wraptable.className="invalid";
+var si=el_query("[data-typ="+"init"+"Info]");
+si.innerHTML='<span class="red">Укажи бюджет-то, ёпт!</span>';	
+ajxProject.innerHTML='<span class="red">Заполни всё, что требуется.</span>';
+return false;
+}
+return true;
+}
+
+function on_blur_btc(el){
+
+var a=el.getAttribute("data-typ");
+if(a=="prjname"){
+el.className="";
+var sisi2=el_query("[data-typ="+a+"Info]");
+sisi2.innerHTML='';
+}else if(a=="btcadr1"){
+var sisi3=el_query("[data-typ="+a+"Info]");
+sisi3.innerHTML='';
+class_remove(el,"invalid");
+}else if(a=="btcadr2"){
+var sisi4=el_query("[data-typ="+a+"Info]");
+sisi4.innerHTML='';
+class_remove(el,"invalid");
+}else if(a=="btcprozi"){
+var sisi5=el_query("[data-typ="+a+"Info]");
+sisi5.innerHTML='';
+el.className="";
+prozmeri.className="";
+}
+ajxProject.innerHTML="";
+submitBtc.className="";
+}
+function on_input(el){
+	//alert(bziel.getAttribute('maxlength'));
+var d=Number(el.getAttribute('maxlength'));	
+
+var su=Number(el.value.length);
+//var d2=d+su;
+//console.log("d2: ",d2);
+maxil.textContent=su+"/"+d;
+if(su>=d){
+bziel.className="invalid";
+var si=el_query('[data-typ=prjnameInfo]');
+si.innerHTML='<span class="red">Слишком длинное название.</span>'
+maxil.className="max";
+}else{
+if(su==d-1)	{bziel.className="";
+	maxil.className="";
+	var si=el_query('[data-typ=prjnameInfo]');
+	si.innerHTML="";
+	}
+}
+}
+function set_maxlen(){
+var d=bziel.getAttribute('maxlength');
+maxil.textContent=bziel.value.length+"/"+d;
+}
+set_maxlen();
