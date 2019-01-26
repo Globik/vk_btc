@@ -1,7 +1,8 @@
 var fucker=require('./moda.js');
 var figi=false;
 function doo(){return 3;}
-var sisi=`foo({maria:"Mirabella", is_word:figi})`;
+var sisi=`({istrue:true, is_word:figi})`;
+
 var reg=/{(.+?)}/;//looking for object
 var found=reg.exec(sisi);
 console.log('found: ',found);
@@ -22,19 +23,26 @@ var sa=fi.split(',');
 console.log("sa: ",sa);
 
 sa.forEach(function(el,i){
+//to check value
 let a=el.split("=");
 console.log('a: ',a);
 let b=a[1].startsWith('"');//startswidth endswith family must be here
 let bo=a[1].endsWith('"');
 console.log('is string?: ',b,bo);
 if(!b && !bo){
-let c=isbool(eval(a[1]));
-//console.log('a[1]: ',a[1]);
-console.log('is bool: ',c);	
+//value is boolean, standalone variable name,not a string.not a number
 let d=a[1].includes('(');
 let e=a[1].includes(')');
 console.log('is_func: ',d,e);
-}
+if(a[1]=='true' || a[1]=='false'){console.log("looks like boolean");}
+
+let f=a[1].endsWith(")");
+if(!f){console.log("Not a function");}else{console.log("it s a function");}
+let g=a[1].includes("[");
+let i=a[1].includes("]");
+if(!g && !i){console.log("not an array");}else{console.log("its array");}
+if(isNaN(Number(a[1]))){console.log('not a number');}else{console.log("its a number");}
+}else{console.log('its a string. do char');}
 })
 /*
 var wantw=fucker.fucker({istrue:figi});
@@ -59,7 +67,7 @@ let name=Symbol.for('suka');
 var li=Symbol.for('suka');
 //[name]="a";
 var fr={[name]:"a"}
-console.log('li: ',li,fr["suka"]);
+console.log('li: ',li,fr[name]);
 
 
 
