@@ -6,7 +6,7 @@ var vars=[];
 var structi=[];
 //var f=tos.match(/`([^`]+)`/);//fetch template literal
 //var reg=/[^sw](n.\w+[^\?])+\?[^\?]/g;//looking for object n.*?
-var reg=/[^sw](n\.\w+)\?/g;
+var reg=/[^sw]?(n\.\w+)\?/g;
 if(a && b){
 console.log("trenary ",a,b);
 let c=sisi.split(":");
@@ -15,7 +15,8 @@ let found2;var i=0;
 
 while(found2=reg.exec(sisi)){
 console.log("found2: ",found2);	
-if(i==2)break;
+if(found2[1].startsWith("n."))structi.push(found2[1].substr(2));
+//if(i==2)break;
 i++;
 }
 
@@ -30,18 +31,35 @@ structi.push(e.substr(0,2));
 }
 */ 
 }
+
+
 console.log("structi: ",structi);
+
+
+function to_struct(){
+let s='struct n{';
+structi.forEach(function(el,i){
+s+="char*"+el+";";	
+})	
+s+='};';
+return s;
+}
+
+
+
 function doo(n){
 return `Main. ${n&&n.du?"mi_du":n&&n.foo?ga():"li"}`;	
 }
 console.log(doo(/*{du:false,foo:false}*/));
 function ga(){return "what?";}
 function toc(l){
-return `struct n{char*nim;};
+return `${l.struct}
 struct kore_buf*func(struct n){
 struct kore_buf*b=kore_buf_alloc(128);
-kore_buf_appendf(b,"somthing: ${l.buki}",${arrijoin()});
+kore_buf_appendf(b,"something: {l.buki}",{arrijoin()});
 return b;
 }
 	`;
 }
+let data=toc({struct:to_struct()});
+console.log("data: ",data);
