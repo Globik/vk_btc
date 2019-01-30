@@ -1,12 +1,17 @@
-//var sisi=`n.nim?"da":"net"`;//2-1=1? && 1 entry
-var sisi=`n&&n.du?"mi_du":n&&n.foo?ga():"li"`;//3-1=2? && 2entry
+const seti=new Set();
+const sisi=`n.nim?"da":"net"`;//2-1=1? && 1 entry
+//const sisi=`n&&n.du?"mi_du":n&&n.foo?ga():"li"`;//3-1=2? && 2entry
+//const sisi=`n.same  <= 0.2222 ? "m" : n.same =="00.44"?"d" : "nd"`;
 var a=sisi.includes("?");
 var b=sisi.includes(":");
 var vars=[];
 var structi=[];
 //var f=tos.match(/`([^`]+)`/);//fetch template literal
 //var reg=/[^sw](n.\w+[^\?])+\?[^\?]/g;//looking for object n.*?
-var reg=/[^sw]?(n\.\w+)\?/g;
+//const reg=/[^sw]?(n\.\w+)\?/g;//1 && 2
+//const reg=/[^sw]?(n\.\w+)\s*?(==|>|>=|<=|<)?\s*.+?\?/g;
+const reg=/[^sw]?(n\.\w+)\s*[=><]?\s*.*?\?/g;//2 and 3 optimal for 3 types of sisi
+//const reg=/[^sw]?(n\.\w+)\s{0,4}?[<>=]?\s*(\S{0,9})?\s{0,3}?\?/g;//2 and 3 fuck
 if(a && b){
 console.log("trenary ",a,b);
 let c=sisi.split(":");
@@ -15,7 +20,7 @@ let found2;var i=0;
 
 while(found2=reg.exec(sisi)){
 console.log("found2: ",found2);	
-if(found2[1].startsWith("n."))structi.push(found2[1].substr(2));
+if(found2[1].startsWith("n.")){structi.push(found2[1].substr(2));seti.add(found2[1].substr(2));}
 //if(i==2)break;
 i++;
 }
@@ -38,7 +43,7 @@ console.log("structi: ",structi);
 
 function to_struct(){
 let s='struct n{';
-structi.forEach(function(el,i){
+seti.forEach(function(el,i){
 s+="char*"+el+";";	
 })	
 s+='};';
