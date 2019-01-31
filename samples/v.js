@@ -4,10 +4,11 @@
 const seti=new Set();
 const mapi=new Map();
 function piska(n){
-return `<h1>Hallo ${n.name}</h1>How are ${n.me} going? Trenary ${n.watch?n.watch:""} . Misha ${n.same=="mi"?"m":n.namewww=="d"?"d":"nd"}`;
+return `<h1>Hallo ${n.name}</h1>'How' "are" ${n.me} going? Trenary ${n.watch  ?  n.watch  : ""} . Misha ${n.same=="mi"?"m":n.namewww=="d"?"d":"nd"}`;
 }
 var obj={m:piska};
-function is_trenary(str){let a=str.includes(":"),b=str.includes("?");if(a&&b){return true;}return false;}
+//function is_trenary(str){let a=str.includes(":"),b=str.includes("?");if(a&&b){return true;}return false;}
+function is_trenary(str){return str.includes(":")&&str.includes("?")?true:false;}
 //console.log("FUNC: ",obj.m.toString().replace('function (n)','struct kore_buf*'+obj.m.name+'(struct n)'));
 //console.log(obj.m.name,obj.m.arguments);
 var tos=obj.m.toString();//fetch a string from function
@@ -16,7 +17,8 @@ var f=tos.match(/`([^`]+)`/);//fetch template literal
 //console.log("` ` matches: ",f[1]);
 var esc=/\${(.+?)}/g;
 //const trenary_reg=/[^sw]?(n\.\w+)\?/g;
-const trenary_reg=/[^sw]?(n\.\w+)\s*?[=><]?\s*.*?\?/g;//2 and 3
+//const trenary_reg=/[^sw]?(n\.\w+)\s*?[=><]?\s*.*?\?/g;//2 and 3
+const trenary_reg=/[^sw]?(n\.\w*)(?:!?==?=?|[<>]=?)?[-a-zA-Z0-9."'_]{0,10}\?/g;//optimal for n.obj dot notation
 var found2;
 var tmp_f=f[1];
 var dolls=[];
@@ -40,7 +42,8 @@ mapi.set(bi_step,f2[1]);
 }
 }else{
 console.log("*** TRENARY!!! ***",f2[1]);
-while(found2=trenary_reg.exec(f2[1])){
+var f3=f2[1].replace(/\s*/g,"");
+while(found2=trenary_reg.exec(/*f2[1]*/f3)){
 console.log("*** FOUND2 ***: ",found2);	
 if(found2[1].startsWith("n.")){
 console.log('*** STARTS! ***',found2[1]);
@@ -126,8 +129,12 @@ return b;
 }
 `;	
 }
-var dd=was({name:obj.m.name,struct:r4,buki:buki});
+var buki2=buki.replace(/["']/g,'\\"');
+var dd=was({name:obj.m.name,struct:r4,buki:buki2});
 console.log("data str: ",dd);
 function arrijoin(){return dolls.join(',');}
 function fuck(n){return n;}
 console.log('obj.m: ', obj.m({name:"Masha",watch:true,me:"you",same:"byyyy"}));
+var suzuki=`Mama geht ins "Kino"`;
+var suzuki2=suzuki.replace(/"/g,'\\"');
+console.log("suzuki2: ",suzuki2);

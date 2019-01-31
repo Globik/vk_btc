@@ -61,7 +61,7 @@ console.log('and symbol value: ',fucker[Symbol.for("sym")]);
 var q=Symbol('q');
 let user={name:"fucker",[q]:true}
 console.log('user: ',user[q]);
-
+/*
 
 let name=Symbol.for('suka');
 var li=Symbol.for('suka');
@@ -71,14 +71,12 @@ console.log('li: ',li,fr[name]);
 
 
 
+var pizda=fucker[Symbol.for("sym")];
+console.log('pizda: ',pizda,pizda.is_suka,pizda.istue);
 
+console.log(fucker.fucker.toString());
 
-
-
-
-
-
-
+*/
 
 
 

@@ -1,5 +1,6 @@
 
-var sisi=`foo({maria:"Mirabella",dj:"Bobo",suka:"FUCK",dima:"fuck"})`;
+const sisi=`foo.foo({maria:"Mirabella",dj:"Bobo",suka:"FUCK",dima:"fuck"})`;
+
 //foo((struct something){.maria="Mirabella",.dj="Bobo"}) - compound literals
 var a=sisi.includes('({');//nice markers for obj in args  if only one func's arg
 var b=sisi.includes('})');
@@ -30,3 +31,11 @@ var das=found.input.slice(0,found.index);
 console.log('das: ',das);
 var das1=das+struct+'{'+warr+'})';
 console.log('das1: ',das1);
+
+let sa=das.match(/\w+\.\w+\b/g);
+console.log("external module: ",sa);
+let sa1=sa[0].split('.');//if sa not null
+console.log('sa1: ',sa1);
+if(sa1.length==2){
+if(sa1[0]===sa1[1])console.log("yes, this is external module for inline function");	
+}
