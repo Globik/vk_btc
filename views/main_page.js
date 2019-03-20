@@ -10,7 +10,26 @@ return `<html><head><title>main page</title></head><body>
 <p><input type="text" name="password" value="pwd"/></p>
 <p><input type="submit" value="submit"></p>
 </form>
-<button onclick="alert(document.cookie);">cookies</button>
+<button onclick="alert(document.cookie);">cookies</button><br><br>
+<button onclick="ajax();">test ajax</button>
+<script>
+function ajax(){
+let xhr=new XMLHttpRequest();
+xhr.open("POST","/testi");
+xhr.setRequestHeader("Content-Type","application/json","utf-8");
+xhr.onload=function(s){
+if(xhr.status==200){
+console.log(this.response);	
+}else{console.log(this.response);}	
+}
+xhr.onerror=function(e){
+console.error(e);	
+}
+let b={};
+b.msg="hello";
+xhr.send(JSON.stringify(b));	
+}
+</script>
 <output>
 <h3>some data</h3>
 <p>

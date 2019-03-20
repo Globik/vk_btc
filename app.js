@@ -58,11 +58,17 @@ data_json=e;
 ctx.body=await ctx.render('main_page', {some_data: data_json});	
 })
 
+pub.post("/testi", async (ctx)=>{
+console.log("BODY: ",ctx.request.body);
+ctx.body={info:"OK"}	
+})
+
 pub.get('/lapi',doo,async ctx=>{
 //console.log("ctx.url: ", ctx.url);// ok, just like there, on frontend, all stuff in url, hashtag etc
 //console.log("ctx.query: ", ctx.query);//perfect! genau richtig what I need, there is a parsed object for you
 ctx.body=await ctx.render('main', {session:JSON.stringify(ctx.session)});	
 })
+
 
 pub.get('/page', async ctx=>{
 console.log("/page ctx.query: ", ctx.query,"ctx.url", ctx.url);//if no query, so simply {}
